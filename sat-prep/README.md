@@ -11,8 +11,9 @@ Next.js SAT prep platform with:
 ## Local development
 
 1. Copy `.env.example` to `.env`
-2. Set `DATABASE_URL` to a PostgreSQL connection string
-3. Run:
+2. Set `DATABASE_URL` to a pooled PostgreSQL connection string
+3. Set `DIRECT_URL` to the direct PostgreSQL connection string for Prisma migrations
+4. Run:
 
 ```bash
 npm install
@@ -30,10 +31,17 @@ npm run db:migrate:deploy
 
 This project is prepared for Vercel with PostgreSQL and Prisma migrations.
 
+Recommended provider:
+
+- Neon
+
 Important:
 
 - set the Vercel project `Root Directory` to `sat-prep`
 - add the environment variables from `.env.example`
+- for hosted Postgres providers that offer both pooled and direct connections:
+  - `DATABASE_URL` = pooled connection
+  - `DIRECT_URL` = direct connection
 - make sure `NEXTAUTH_URL` matches your Vercel production URL
 - add the same production URL to Google OAuth callbacks
 

@@ -10,12 +10,18 @@ Push the whole repository, but when creating the Vercel project set:
 
 Use a hosted PostgreSQL provider such as:
 
-- Prisma Postgres
 - Neon
 - Supabase
-- Vercel Postgres
+- Prisma Postgres
 
-Copy the PostgreSQL connection string into `DATABASE_URL`.
+Recommended choice for this project:
+
+- Neon
+
+Set:
+
+- `DATABASE_URL` to the pooled connection string
+- `DIRECT_URL` to the direct connection string
 
 ## 3. Add Vercel environment variables
 
@@ -23,6 +29,7 @@ Set these in Vercel Project Settings -> Environment Variables:
 
 ```env
 DATABASE_URL=
+DIRECT_URL=
 NEXTAUTH_URL=
 NEXTAUTH_SECRET=
 GOOGLE_CLIENT_ID=
@@ -35,6 +42,8 @@ Recommended values:
 - `NEXTAUTH_URL=https://your-project-name.vercel.app`
 - `NEXTAUTH_SECRET` should be a long random secret
 - `ADMIN_EMAILS` can be one email or a comma-separated list
+- `DATABASE_URL` should start with `postgresql://`
+- `DIRECT_URL` should also start with `postgresql://`
 
 ## 4. Configure Google OAuth
 
@@ -72,5 +81,6 @@ After the first deploy:
 ## Notes
 
 - This project is now prepared for PostgreSQL, not SQLite.
+- If you use Neon, copy both the pooled connection string and the direct connection string from the Neon dashboard.
 - Do not commit `.env`.
 - If you change the production URL, update both `NEXTAUTH_URL` and Google OAuth settings.

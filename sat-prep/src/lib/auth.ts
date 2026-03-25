@@ -5,13 +5,21 @@ import { compare } from "bcryptjs";
 
 import prisma from "@/lib/prisma";
 
+const googleClientId = process.env.GOOGLE_CLIENT_ID;
+const googleClientSecret = process.env.GOOGLE_CLIENT_SECRET;
+const googleProviderEnabled = Boolean(googleClientId && googleClientSecret);
+
 export const authOptions: NextAuthOptions = {
   session: { strategy: "jwt" },
   providers: [
-    GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID || "",
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET || "",
-    }),
+    ...(googleProviderEnabled
+      ? [
+          GoogleProvider({
+            clientId: googleClientId!,
+            clientSecret: googleClientSecret!,
+          }),
+        ]
+      : []),
     CredentialsProvider({
       name: "Credentials",
       credentials: {
