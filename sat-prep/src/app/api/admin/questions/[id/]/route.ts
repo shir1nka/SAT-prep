@@ -3,21 +3,12 @@ import { getToken } from "next-auth/jwt";
 
 import prisma from "@/lib/prisma";
 import { isAdminEmail } from "@/lib/admin";
+import { inferQuestionSection, normalizeSatSection, parseQuestionOptions } from "@/lib/sat";
 import {
   enforceRateLimit,
   ensureSameOrigin,
   jsonWithSecurityHeaders,
 } from "@/lib/security";
-
-function parseOptions(options: string) {
-  try {
-    const parsed = JSON.parse(options) as unknown;
-    if (!Array.isArray(parsed)) return [];
-    return parsed.filter((x) => typeof x === "string") as string[];
-  } catch {
-    return [];
-  }
-}
 
 export async function PATCH(
   req: NextRequest,
@@ -51,12 +42,14 @@ export async function PATCH(
   }
 
   const body = (await req.json()) as {
+    section?: string;
     questionText?: string;
     options?: string[] | string;
     correctAnswer?: string;
     explanation?: string;
   };
 
+  const section = normalizeSatSection(body.section);
   const questionText = body.questionText?.trim();
   const correctAnswer = body.correctAnswer?.trim();
   const explanation = body.explanation?.trim();
@@ -111,12 +104,14 @@ export async function PATCH(
     where: { id },
     data: {
       questionText,
+      section,
       options: JSON.stringify(options),
       correctAnswer,
       explanation,
     },
     select: {
       id: true,
+      section: true,
       questionText: true,
       options: true,
       correctAnswer: true,
@@ -126,8 +121,9 @@ export async function PATCH(
 
   return jsonWithSecurityHeaders({
     id: updated.id,
+    section: normalizeSatSection(updated.section ?? inferQuestionSection(updated.questionText)),
     questionText: updated.questionText,
-    options: parseOptions(updated.options),
+    options: parseQuestionOptions(updated.options),
     correctAnswer: updated.correctAnswer,
     explanation: updated.explanation,
   });

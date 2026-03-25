@@ -2,38 +2,46 @@ import type { NextRequest } from "next/server";
 import { getToken } from "next-auth/jwt";
 import prisma from '@/lib/prisma';
 import { isAdminEmail } from '@/lib/admin';
+import { buildExpansionQuestionPack } from "@/lib/question-generators";
 import {
   enforceRateLimit,
   ensureSameOrigin,
   jsonWithSecurityHeaders,
 } from "@/lib/security";
 
+const SEED_INSERT_CHUNK_SIZE = 100;
+
 const readingQuestions = [
   {
+    section: "reading-writing",
     questionText: "While the ancient library of Alexandria is renowned for its vast collection, its destruction was ________, likely occurring over centuries rather than in a single catastrophic fire.",
     options: JSON.stringify(["clandestine", "gradual", "fortuitous", "immediate"]),
     correctAnswer: "gradual",
     explanation: "The phrase 'occurring over centuries rather than in a single catastrophic fire' indicates a slow process, making 'gradual' the correct word."
   },
   {
+    section: "reading-writing",
     questionText: "Despite his reputation for being ________, the CEO occasionally surprised his employees with grand gestures of generosity.",
     options: JSON.stringify(["magnanimous", "frugal", "gregarious", "innovative"]),
     correctAnswer: "frugal",
     explanation: "The word 'Despite' introduces a contrast to 'generosity.' 'Frugal' (sparing or economical) provides the necessary contrast."
   },
   {
+    section: "reading-writing",
     questionText: "In the 1920s, the Harlem Renaissance produced a remarkable outpouring of African American literature and art. ________, it fostered intellectual discussions about civil rights.",
     options: JSON.stringify(["However", "For example", "Furthermore", "Instead"]),
     correctAnswer: "Furthermore",
     explanation: "The second sentence adds another positive outcome of the Harlem Renaissance (fostering discussions), so 'Furthermore' logically connects the ideas."
   },
   {
+    section: "reading-writing",
     questionText: "The function of the heart is to pump blood throughout the body. The blood ________ oxygen to the body's cells.",
     options: JSON.stringify(["carry", "carries", "carrying", "have carried"]),
     correctAnswer: "carries",
     explanation: "The subject 'blood' is singular, so the singular verb 'carries' is required."
   },
   {
+    section: "reading-writing",
     questionText: "Walking through the dense forest, the ancient ruins were finally discovered by the archaeologists.",
     options: JSON.stringify([
       "NO CHANGE", 
@@ -45,30 +53,35 @@ const readingQuestions = [
     explanation: "The introductory modifier 'Walking through the dense forest' must be followed immediately by the noun performing the action (the archaeologists)."
   },
   {
+    section: "reading-writing",
     questionText: "Dr. Smith, ________ discovered the new species of beetle, is speaking at the conference tomorrow.",
     options: JSON.stringify(["who", "whom", "which", "that"]),
     correctAnswer: "who",
     explanation: "'Who' is the correct relative pronoun for a person acting as the subject of the dependent clause."
   },
   {
+    section: "reading-writing",
     questionText: "If the project is not completed by Friday, the client ________ the contract.",
     options: JSON.stringify(["cancel", "cancelled", "will cancel", "canceling"]),
     correctAnswer: "will cancel",
     explanation: "This is a first conditional sentence. The 'if' clause is present tense, so the main clause needs the future tense 'will cancel'."
   },
   {
+    section: "reading-writing",
     questionText: "Neither the manager nor the employees ________ aware of the updated security protocols.",
     options: JSON.stringify(["was", "were", "is", "has been"]),
     correctAnswer: "were",
     explanation: "In a 'neither/nor' construction, the verb agrees with the closer noun. 'Employees' is plural, so 'were' is correct."
   },
   {
+    section: "reading-writing",
     questionText: "The new software is ________ than the previous version, allowing users to complete tasks in half the time.",
     options: JSON.stringify(["more efficient", "most efficient", "efficienter", "efficiently"]),
     correctAnswer: "more efficient",
     explanation: "When comparing two things (new version vs. previous version), the comparative form 'more efficient' is used for adjectives with three or more syllables."
   },
   {
+    section: "reading-writing",
     questionText: "She has been studying Spanish ________ three years.",
     options: JSON.stringify(["since", "for", "during", "in"]),
     correctAnswer: "for",
@@ -94,6 +107,7 @@ function generateLinearEquation() {
   const shuffledOptions = Array.from(options).sort(() => Math.random() - 0.5);
 
   return {
+    section: "math",
     questionText: `If ${a}x ${sign} ${displayB} = ${c}, what is the value of x?`,
     options: JSON.stringify(shuffledOptions),
     correctAnswer: ans,
@@ -119,6 +133,7 @@ function generateSystemOfEquations() {
   const finalOpts = Array.from(options).slice(0, 4).sort(() => Math.random() - 0.5);
 
   return {
+    section: "math",
     questionText: `Given the system of equations:\nx + y = ${a}\nx - y = ${b}\nWhat is the value of ${targetVar}?`,
     options: JSON.stringify(finalOpts),
     correctAnswer: ans.toString(),
@@ -144,6 +159,7 @@ function generateQuadraticEquation() {
   const finalOpts = Array.from(options).slice(0, 4).sort(() => Math.random() - 0.5);
 
   return {
+    section: "math",
     questionText: `What are the solutions to the equation x² ${bStr} ${cStr} = 0?`,
     options: JSON.stringify(finalOpts),
     correctAnswer: ans,
@@ -166,6 +182,7 @@ function generatePercentage() {
     options.add((percent / 2) + "%");
     const finalOpts = Array.from(options).slice(0, 4).sort(() => Math.random() - 0.5);
     return {
+      section: "math",
       questionText: `If ${part} is what percent of ${whole}?`,
       options: JSON.stringify(finalOpts),
       correctAnswer: ans,
@@ -184,6 +201,7 @@ function generatePercentage() {
     options.add((part - 10).toString());
     const finalOpts = Array.from(options).slice(0, 4).sort(() => Math.random() - 0.5);
     return {
+      section: "math",
       questionText: `What is ${percent}% of ${whole}?`,
       options: JSON.stringify(finalOpts),
       correctAnswer: ans,
@@ -217,18 +235,21 @@ export async function POST(req: NextRequest) {
   }
 
   try {
-    await prisma.question.deleteMany();
-    
     let allQuestions = [...readingQuestions];
     for(let i=0; i<40; i++) allQuestions.push(generateLinearEquation());
     for(let i=0; i<20; i++) allQuestions.push(generateSystemOfEquations());
     for(let i=0; i<20; i++) allQuestions.push(generateQuadraticEquation());
     for(let i=0; i<15; i++) allQuestions.push(generatePercentage());
-    
-    // Use transaction for better performance
-    await prisma.$transaction(
-      allQuestions.map(q => prisma.question.create({ data: q }))
-    );
+    allQuestions.push(...buildExpansionQuestionPack());
+
+    await prisma.question.deleteMany();
+
+    for (let i = 0; i < allQuestions.length; i += SEED_INSERT_CHUNK_SIZE) {
+      const chunk = allQuestions.slice(i, i + SEED_INSERT_CHUNK_SIZE);
+      await prisma.question.createMany({
+        data: chunk,
+      });
+    }
     
     return jsonWithSecurityHeaders({
       message: `Successfully seeded ${allQuestions.length} questions!`,

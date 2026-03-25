@@ -21,6 +21,7 @@ model User {
 
 model Question {
   id            String   @id @default(cuid())
+  section       String?
   questionText  String
   options       String   // JSON string array of options
   correctAnswer String
@@ -28,6 +29,8 @@ model Question {
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
   attempts      Attempt[]
+
+  @@index([section])
 }
 
 model Attempt {

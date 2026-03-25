@@ -11,6 +11,7 @@ import { isAdminEmail } from "@/lib/admin";
 
 type AdminQuestion = {
   id: string;
+  section: "reading-writing" | "math";
   questionText: string;
   options: string[];
   correctAnswer: string;
@@ -39,6 +40,7 @@ export default function AdminQuestionsPage() {
 
   const [editingId, setEditingId] = useState<string | null>(null);
 
+  const [section, setSection] = useState<"reading-writing" | "math">("reading-writing");
   const [questionText, setQuestionText] = useState("");
   const [optionsText, setOptionsText] = useState("");
   const [correctAnswer, setCorrectAnswer] = useState("");
@@ -87,6 +89,7 @@ export default function AdminQuestionsPage() {
 
   function startEdit(q: AdminQuestion) {
     setEditingId(q.id);
+    setSection(q.section);
     setQuestionText(q.questionText);
     setOptionsText(optionsToText(q.options));
     setCorrectAnswer(q.correctAnswer);
@@ -95,6 +98,7 @@ export default function AdminQuestionsPage() {
 
   function resetForm() {
     setEditingId(null);
+    setSection("reading-writing");
     setQuestionText("");
     setOptionsText("");
     setCorrectAnswer("");
@@ -106,6 +110,7 @@ export default function AdminQuestionsPage() {
     if (!canSubmit) return;
 
     const payload = {
+      section,
       questionText,
       options: textToOptions(optionsText),
       correctAnswer,
@@ -215,6 +220,22 @@ export default function AdminQuestionsPage() {
               <form className="mt-5 flex flex-col gap-4" onSubmit={onSubmit}>
                 <label className="flex flex-col gap-1">
                   <span className="text-sm font-medium text-zinc-700 dark:text-zinc-300">
+                    Section
+                  </span>
+                  <select
+                    className="h-10 rounded-lg border border-zinc-200 dark:border-zinc-800 px-3 bg-transparent"
+                    value={section}
+                    onChange={(e) =>
+                      setSection(e.target.value as "reading-writing" | "math")
+                    }
+                  >
+                    <option value="reading-writing">Reading & Writing</option>
+                    <option value="math">Math</option>
+                  </select>
+                </label>
+
+                <label className="flex flex-col gap-1">
+                  <span className="text-sm font-medium text-zinc-700 dark:text-zinc-300">
                     Question text
                   </span>
                   <textarea
@@ -322,7 +343,7 @@ export default function AdminQuestionsPage() {
                       <div className="flex items-start justify-between gap-3">
                         <div className="min-w-0">
                           <div className="text-sm text-zinc-600 dark:text-zinc-400">
-                            {q.options.length} options
+                            {q.section === "math" ? "Math" : "Reading & Writing"} · {q.options.length} options
                           </div>
                           <div className="mt-1 font-medium truncate">
                             {q.questionText}
@@ -365,4 +386,3 @@ export default function AdminQuestionsPage() {
     </div>
   );
 }
-

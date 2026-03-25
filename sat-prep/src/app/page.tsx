@@ -93,7 +93,7 @@ export default function Home() {
             "Сначала разберись в теме спокойно, а потом переходи к SAT под таймер.",
           adminTools: "Инструменты администратора",
           adminToolsDesc:
-            "Обнови банк заданий и заново загрузите более 100 SAT-вопросов.",
+            "Обнови банк заданий и заново загрузи примерно 200 SAT-вопросов.",
           syncing: "Синхронизация...",
           syncBank: "Обновить банк вопросов",
           note:
@@ -155,7 +155,7 @@ export default function Home() {
             "Learn calmly before you move into timed SAT sessions.",
           adminTools: "Admin Tools",
           adminToolsDesc:
-            "Re-populate your question bank with over 100+ fresh SAT questions.",
+            "Re-populate your question bank with roughly 200 SAT questions.",
           syncing: "Syncing...",
           syncBank: "Sync Question Bank",
           note:

@@ -1,4 +1,5 @@
 import { PrismaClient } from '@prisma/client'
+import { buildExpansionQuestionPack } from "../src/lib/question-generators";
 
 const prisma = new PrismaClient()
 
@@ -665,12 +666,28 @@ const wordProblems = [
   }
 ];
 
+function withSection(
+  section: "reading-writing" | "math",
+  questions: {
+    questionText: string;
+    options: string;
+    correctAnswer: string;
+    explanation: string;
+  }[]
+) {
+  return questions.map((question) => ({
+    ...question,
+    section,
+  }));
+}
+
 // Combined all questions
 const allQuestionsHardcoded = [
-  ...readingQuestions,
-  ...mathQuestions,
-  ...advancedMathQuestions,
-  ...wordProblems
+  ...withSection("reading-writing", readingQuestions),
+  ...withSection("math", mathQuestions),
+  ...withSection("math", advancedMathQuestions),
+  ...withSection("math", wordProblems),
+  ...buildExpansionQuestionPack(),
 ];
 
 async function main() {

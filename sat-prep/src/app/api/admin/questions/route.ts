@@ -2,22 +2,13 @@ import type { NextRequest } from "next/server";
 import { getToken } from "next-auth/jwt";
 
 import prisma from "@/lib/prisma";
+import { inferQuestionSection, normalizeSatSection, parseQuestionOptions } from "@/lib/sat";
 import { isAdminEmail } from "@/lib/admin";
 import {
   enforceRateLimit,
   ensureSameOrigin,
   jsonWithSecurityHeaders,
 } from "@/lib/security";
-
-function parseOptions(options: string) {
-  try {
-    const parsed = JSON.parse(options) as unknown;
-    if (!Array.isArray(parsed)) return [];
-    return parsed.filter((x) => typeof x === "string") as string[];
-  } catch {
-    return [];
-  }
-}
 
 export async function GET(req: NextRequest) {
   const token = await getToken({
@@ -33,6 +24,7 @@ export async function GET(req: NextRequest) {
   const questions = await prisma.question.findMany({
     select: {
       id: true,
+      section: true,
       questionText: true,
       options: true,
       correctAnswer: true,
@@ -45,8 +37,9 @@ export async function GET(req: NextRequest) {
   return jsonWithSecurityHeaders(
     questions.map((q) => ({
       id: q.id,
+      section: normalizeSatSection(q.section ?? inferQuestionSection(q.questionText)),
       questionText: q.questionText,
-      options: parseOptions(q.options),
+      options: parseQuestionOptions(q.options),
       correctAnswer: q.correctAnswer,
       explanation: q.explanation,
     }))
@@ -79,12 +72,14 @@ export async function POST(req: NextRequest) {
   }
 
   const body = (await req.json()) as {
+    section?: string;
     questionText?: string;
     options?: string[] | string;
     correctAnswer?: string;
     explanation?: string;
   };
 
+  const section = normalizeSatSection(body.section);
   const questionText = body.questionText?.trim();
   const correctAnswer = body.correctAnswer?.trim();
   const explanation = body.explanation?.trim();
@@ -135,12 +130,14 @@ export async function POST(req: NextRequest) {
   const created = await prisma.question.create({
     data: {
       questionText,
+      section,
       options: JSON.stringify(options),
       correctAnswer,
       explanation,
     },
     select: {
       id: true,
+      section: true,
       questionText: true,
       options: true,
       correctAnswer: true,
@@ -150,8 +147,9 @@ export async function POST(req: NextRequest) {
 
   return jsonWithSecurityHeaders({
     id: created.id,
+    section: normalizeSatSection(created.section ?? section),
     questionText: created.questionText,
-    options: parseOptions(created.options),
+    options: parseQuestionOptions(created.options),
     correctAnswer: created.correctAnswer,
     explanation: created.explanation,
   });

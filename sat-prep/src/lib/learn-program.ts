@@ -713,6 +713,550 @@ export const LEARN_PROGRAM: LearnGrade[] = [
   }
 ];
 
+const EXTRA_LEARN_MODULES: Record<string, LearnModule[]> = {
+  "grade-7": [
+    {
+      id: "grade-7-history",
+      title: "History Foundations",
+      tag: "Cause and Evidence",
+      summary:
+        "Learn how events connect, how timelines work, and how historians use evidence.",
+      theory:
+        "Early history study is really about structured explanation. Students learn to connect causes to outcomes, separate fact from interpretation, and notice that one event can lead to several consequences. This habit also strengthens reading and argument skills.",
+      outcomes: [
+        "Explain short cause-and-effect chains",
+        "Read a simple timeline accurately",
+        "Use one detail as evidence for a claim"
+      ],
+      checkpoints: [
+        "Can place events in order",
+        "Can explain why one event led to another",
+        "Can support an answer with a fact"
+      ],
+      quiz: [
+        {
+          id: "g7h-1",
+          prompt: "If a drought causes crops to fail, the crop failure is the:",
+          options: ["Cause", "Effect", "Title", "Opinion"],
+          correctIndex: 1,
+          explanation: "The drought is the cause. The failed crops are the effect."
+        },
+        {
+          id: "g7h-2",
+          prompt: "What does a timeline mainly help you understand?",
+          options: [
+            "The order of events",
+            "Only the opinions of writers",
+            "How to solve an equation",
+            "The weather forecast"
+          ],
+          correctIndex: 0,
+          explanation: "A timeline shows when events happened and in what order."
+        },
+        {
+          id: "g7h-3",
+          prompt: "Which statement uses evidence?",
+          options: [
+            "I feel this event was important.",
+            "The event happened in 1776, so it changed the political system after that year.",
+            "History is always easy.",
+            "The map looks interesting."
+          ],
+          correctIndex: 1,
+          explanation: "Evidence-based answers include a concrete detail that supports the point."
+        }
+      ]
+    },
+    {
+      id: "grade-7-arithmetic",
+      title: "Everyday Arithmetic",
+      tag: "Money, Time, and Measurement",
+      summary:
+        "Use school math in practical situations involving money, units, and daily decisions.",
+      theory:
+        "Many students can solve classroom exercises but freeze when the same idea appears in real life. This module slows the process down and shows how arithmetic works in shopping, schedules, unit conversion, and estimation. The goal is to make numbers feel useful and familiar, not abstract and distant.",
+      outcomes: [
+        "Calculate total cost and change",
+        "Convert between common units",
+        "Estimate whether an answer makes sense"
+      ],
+      checkpoints: [
+        "Can compare prices correctly",
+        "Can move between minutes and hours",
+        "Can use estimation before exact calculation"
+      ],
+      quiz: [
+        {
+          id: "g7a-1",
+          prompt: "If an item costs $18 and you pay with $20, how much change should you get?",
+          options: ["$1", "$2", "$3", "$4"],
+          correctIndex: 1,
+          explanation: "Subtract the cost from the amount paid: 20 - 18 = 2."
+        },
+        {
+          id: "g7a-2",
+          prompt: "How many minutes are in 2.5 hours?",
+          options: ["120", "150", "180", "210"],
+          correctIndex: 1,
+          explanation: "Each hour has 60 minutes, so 2.5 × 60 = 150."
+        },
+        {
+          id: "g7a-3",
+          prompt: "Which estimate is closest to 49 + 52?",
+          options: ["90", "100", "110", "120"],
+          correctIndex: 1,
+          explanation: "49 is close to 50 and 52 is close to 50, so the sum is about 100."
+        }
+      ]
+    }
+  ],
+  "grade-8": [
+    {
+      id: "grade-8-data",
+      title: "Data and Experiments",
+      tag: "Tables, Graphs, and Conclusions",
+      summary:
+        "Read charts, compare values, and write careful conclusions from evidence.",
+      theory:
+        "Students at this level often see graphs but do not always know how to read them precisely. This module trains careful habits: identify the variables, compare values, watch for overall trends, and avoid conclusions that the data does not support.",
+      outcomes: [
+        "Read values from a table or graph",
+        "Compare categories and trends",
+        "Write conclusions that match the data"
+      ],
+      checkpoints: [
+        "Can identify the highest and lowest value",
+        "Can describe an upward or downward trend",
+        "Can avoid overclaiming from limited data"
+      ],
+      quiz: [
+        {
+          id: "g8d-1",
+          prompt: "If a graph rises from left to right, the overall trend is:",
+          options: ["Decreasing", "Increasing", "Random", "Circular"],
+          correctIndex: 1,
+          explanation: "Rising from left to right shows an increasing trend."
+        },
+        {
+          id: "g8d-2",
+          prompt: "What should you check first when reading a graph?",
+          options: [
+            "Axis labels and units",
+            "The color only",
+            "The font size",
+            "The final answer key"
+          ],
+          correctIndex: 0,
+          explanation: "Axis labels and units tell you what the graph is measuring."
+        },
+        {
+          id: "g8d-3",
+          prompt: "A careful conclusion should be:",
+          options: [
+            "Bigger than the data supports",
+            "Based on the evidence shown",
+            "Completely unrelated to the graph",
+            "A random guess"
+          ],
+          correctIndex: 1,
+          explanation: "Good conclusions stay close to what the data actually shows."
+        }
+      ]
+    },
+    {
+      id: "grade-8-language",
+      title: "Reading and Grammar Growth",
+      tag: "Clarity and Revision",
+      summary:
+        "Strengthen sentence control, revision choices, and paragraph-level clarity.",
+      theory:
+        "At this stage, students begin revising not just for correctness but for clarity. Good writing becomes a matter of control: choosing the clearest sentence, removing repetition, and making sure each sentence supports the paragraph's purpose. These habits later transfer directly into SAT Reading and Writing.",
+      outcomes: [
+        "Choose clearer sentence revisions",
+        "Fix repetition and awkward wording",
+        "Keep paragraph focus consistent"
+      ],
+      checkpoints: [
+        "Can identify the clearest version of a sentence",
+        "Can remove unnecessary repetition",
+        "Can connect sentences smoothly"
+      ],
+      quiz: [
+        {
+          id: "g8l-1",
+          prompt: "Which revision is clearest: 'The student was tired because she stayed awake late at night.'",
+          options: [
+            "The student was tired because she stayed up late.",
+            "The student was tired because of tiredness.",
+            "The student was tired late awake at night.",
+            "The student because stayed awake tired."
+          ],
+          correctIndex: 0,
+          explanation: "The first option is shortest, clear, and avoids repetition."
+        },
+        {
+          id: "g8l-2",
+          prompt: "A strong paragraph should mostly stay focused on:",
+          options: [
+            "One main idea",
+            "As many unrelated ideas as possible",
+            "Only punctuation",
+            "The title alone"
+          ],
+          correctIndex: 0,
+          explanation: "A paragraph is strongest when its sentences support one central point."
+        },
+        {
+          id: "g8l-3",
+          prompt: "What is the best reason to revise a sentence?",
+          options: [
+            "To make it harder to understand",
+            "To improve clarity and meaning",
+            "To add random words",
+            "To remove all verbs"
+          ],
+          correctIndex: 1,
+          explanation: "Revision should make the sentence clearer and more effective."
+        }
+      ]
+    }
+  ],
+  "grade-9": [
+    {
+      id: "grade-9-geometry",
+      title: "Geometry Essentials",
+      tag: "Angles, Similarity, and Measurement",
+      summary:
+        "Strengthen angle rules, triangle similarity, and geometric reasoning.",
+      theory:
+        "Geometry becomes much easier when students stop memorizing isolated formulas and start seeing relationships. Angle facts, similar figures, and proportional reasoning help turn diagrams into solvable models.",
+      outcomes: [
+        "Use angle relationships in diagrams",
+        "Recognize similar triangles",
+        "Solve for unknown lengths with proportion"
+      ],
+      checkpoints: [
+        "Can use supplementary angles",
+        "Can explain why triangles are similar",
+        "Can set up a proportion from a diagram"
+      ],
+      quiz: [
+        {
+          id: "g9g-1",
+          prompt: "If two angles form a straight line, their measures add to:",
+          options: ["90", "120", "180", "360"],
+          correctIndex: 2,
+          explanation: "Angles on a straight line are supplementary, so they add to 180 degrees."
+        },
+        {
+          id: "g9g-2",
+          prompt: "Similar triangles must have:",
+          options: [
+            "The same shape",
+            "The same area only",
+            "All equal side lengths",
+            "No equal angles"
+          ],
+          correctIndex: 0,
+          explanation: "Similar triangles have the same shape, though not always the same size."
+        },
+        {
+          id: "g9g-3",
+          prompt: "If corresponding sides of similar triangles are proportional, you can use that fact to:",
+          options: [
+            "Find missing lengths",
+            "Ignore the diagram",
+            "Change the angle sum",
+            "Prove circles are squares"
+          ],
+          correctIndex: 0,
+          explanation: "Similarity lets you solve for missing lengths using proportions."
+        }
+      ]
+    },
+    {
+      id: "grade-9-literature",
+      title: "Literary Analysis",
+      tag: "Theme, Character, and Author Choice",
+      summary:
+        "Learn how stories create meaning through character decisions, conflict, and theme.",
+      theory:
+        "Literary analysis becomes easier when students stop treating stories like a list of events. What matters is how details work together: how a character changes, how conflict shapes choices, and how repeated details build a theme. This kind of close reading strengthens evidence-based interpretation in all subjects.",
+      outcomes: [
+        "Identify theme from repeated ideas",
+        "Track character motivation and change",
+        "Explain how a detail supports interpretation"
+      ],
+      checkpoints: [
+        "Can separate plot from theme",
+        "Can explain why a character acts a certain way",
+        "Can support an interpretation with a detail"
+      ],
+      quiz: [
+        {
+          id: "g9lit-1",
+          prompt: "Theme is best described as:",
+          options: [
+            "A deeper message or idea in the text",
+            "Only the title",
+            "The number of pages",
+            "A punctuation pattern"
+          ],
+          correctIndex: 0,
+          explanation: "Theme is the larger idea or message that the story develops."
+        },
+        {
+          id: "g9lit-2",
+          prompt: "Character motivation explains:",
+          options: [
+            "Why a character acts a certain way",
+            "Only the setting",
+            "The page number",
+            "The chapter title only"
+          ],
+          correctIndex: 0,
+          explanation: "Motivation is the reason behind a character's choices."
+        },
+        {
+          id: "g9lit-3",
+          prompt: "Which evidence best supports an interpretation?",
+          options: [
+            "A specific detail from the text",
+            "A random guess",
+            "A fact from another book",
+            "A completely unrelated opinion"
+          ],
+          correctIndex: 0,
+          explanation: "Text-based interpretation should always be backed by a detail from the passage."
+        }
+      ]
+    }
+  ],
+  "grade-10": [
+    {
+      id: "grade-10-chemistry",
+      title: "Chemistry Foundations",
+      tag: "Reactions and Models",
+      summary:
+        "Understand reactants, products, conservation, and how chemical models communicate change.",
+      theory:
+        "Chemistry becomes clearer when students treat equations as stories of rearrangement rather than just symbols. Atoms are conserved, substances change form, and models help explain invisible processes at the particle level.",
+      outcomes: [
+        "Identify reactants and products",
+        "Understand conservation of matter",
+        "Connect particle models to reactions"
+      ],
+      checkpoints: [
+        "Can point out what starts the reaction",
+        "Can explain why atoms are not lost",
+        "Can read a simple chemical equation"
+      ],
+      quiz: [
+        {
+          id: "g10c-1",
+          prompt: "In a chemical equation, the substances you start with are called:",
+          options: ["Products", "Reactants", "Catalysts", "Variables"],
+          correctIndex: 1,
+          explanation: "Reactants are the starting substances in a reaction."
+        },
+        {
+          id: "g10c-2",
+          prompt: "Why is matter conserved in a chemical reaction?",
+          options: [
+            "Atoms are rearranged, not destroyed",
+            "The products disappear",
+            "Mass has no role",
+            "Only liquids react"
+          ],
+          correctIndex: 0,
+          explanation: "Chemical reactions rearrange atoms into new combinations, but the atoms are still there."
+        },
+        {
+          id: "g10c-3",
+          prompt: "The substances formed after a reaction are called:",
+          options: ["Inputs", "Reactants", "Products", "Controls"],
+          correctIndex: 2,
+          explanation: "Products are the new substances formed after the reaction."
+        }
+      ]
+    },
+    {
+      id: "grade-10-history",
+      title: "Historical Reasoning",
+      tag: "Sources, Perspective, and Context",
+      summary:
+        "Read historical material by looking at source type, perspective, and surrounding context.",
+      theory:
+        "By Grade 10, students are expected to do more than remember what happened. They need to ask who produced a source, what perspective it reflects, and what larger context shapes its meaning. Historical reasoning is really a form of critical reading applied to documents, speeches, and evidence from the past.",
+      outcomes: [
+        "Identify primary vs. secondary sources",
+        "Recognize perspective and bias",
+        "Use context to interpret evidence more accurately"
+      ],
+      checkpoints: [
+        "Can tell what kind of source a text is",
+        "Can explain how perspective shapes a source",
+        "Can connect a document to its historical setting"
+      ],
+      quiz: [
+        {
+          id: "g10h-1",
+          prompt: "A diary written during an event is usually a:",
+          options: ["Primary source", "Secondary source", "Lab report", "Graph"],
+          correctIndex: 0,
+          explanation: "A firsthand account created during the event is a primary source."
+        },
+        {
+          id: "g10h-2",
+          prompt: "Why does perspective matter when reading a source?",
+          options: [
+            "It affects how the event is described",
+            "It removes all meaning",
+            "It changes the alphabet",
+            "It only matters in science"
+          ],
+          correctIndex: 0,
+          explanation: "Perspective influences what the author notices, values, and emphasizes."
+        },
+        {
+          id: "g10h-3",
+          prompt: "Context helps a reader understand:",
+          options: [
+            "The time and conditions around the source",
+            "Only the font style",
+            "How many pages the book has",
+            "Nothing important"
+          ],
+          correctIndex: 0,
+          explanation: "Context explains the larger circumstances that shape the source."
+        }
+      ]
+    }
+  ],
+  "grade-11": [
+    {
+      id: "grade-11-algebra",
+      title: "Advanced Algebra Bridge",
+      tag: "Quadratics and Exponential Thinking",
+      summary:
+        "Practice the high-school algebra ideas that show up often in SAT math.",
+      theory:
+        "By Grade 11, students should be able to move between linear, quadratic, and exponential models. The key is noticing how the pattern changes: constant difference suggests linearity, repeated multiplication suggests exponential growth, and turning-point behavior suggests quadratics.",
+      outcomes: [
+        "Distinguish linear, quadratic, and exponential patterns",
+        "Interpret key features of a quadratic",
+        "Reason about growth and decay"
+      ],
+      checkpoints: [
+        "Can identify a pattern from a table",
+        "Can recognize a parabola's turning point",
+        "Can explain exponential growth in words"
+      ],
+      quiz: [
+        {
+          id: "g11a-1",
+          prompt: "A pattern that multiplies by the same factor each step is usually:",
+          options: ["Linear", "Quadratic", "Exponential", "Constant"],
+          correctIndex: 2,
+          explanation: "Repeated multiplication signals an exponential pattern."
+        },
+        {
+          id: "g11a-2",
+          prompt: "The highest or lowest point of a parabola is called the:",
+          options: ["Intercept", "Vertex", "Slope", "Median"],
+          correctIndex: 1,
+          explanation: "The vertex is the turning point of a parabola."
+        },
+        {
+          id: "g11a-3",
+          prompt: "If values grow by a constant difference, the pattern is most likely:",
+          options: ["Exponential", "Linear", "Random", "Circular"],
+          correctIndex: 1,
+          explanation: "A constant difference between terms is the hallmark of a linear relationship."
+        }
+      ]
+    },
+    {
+      id: "grade-11-writing",
+      title: "Argument and Essay Logic",
+      tag: "Claim, Structure, and Precision",
+      summary:
+        "Prepare for advanced writing by strengthening argument structure and precision of explanation.",
+      theory:
+        "At this level, writing quality depends on control over logic. Students need to state a clear claim, organize reasons in a sensible order, use evidence purposefully, and explain exactly how that evidence supports the point. Precision matters more than sounding complex. Strong argument writing is also strong thinking.",
+      outcomes: [
+        "Write a focused claim",
+        "Organize reasons in a logical order",
+        "Explain evidence with precision"
+      ],
+      checkpoints: [
+        "Can distinguish claim from evidence",
+        "Can keep paragraph logic consistent",
+        "Can revise vague commentary into precise explanation"
+      ],
+      quiz: [
+        {
+          id: "g11w-1",
+          prompt: "In an argument, a claim is:",
+          options: [
+            "The main point being argued",
+            "Any random fact",
+            "Only the essay title",
+            "A citation format"
+          ],
+          correctIndex: 0,
+          explanation: "A claim is the central position or point the writer is trying to prove."
+        },
+        {
+          id: "g11w-2",
+          prompt: "Evidence is most useful when the writer:",
+          options: [
+            "Explains how it supports the claim",
+            "Drops it in without comment",
+            "Makes it unrelated",
+            "Uses it only to fill space"
+          ],
+          correctIndex: 0,
+          explanation: "Evidence works best when the writer clearly connects it back to the main point."
+        },
+        {
+          id: "g11w-3",
+          prompt: "Precise writing usually means:",
+          options: [
+            "Clear wording with accurate meaning",
+            "Longer sentences no matter what",
+            "Using difficult words only",
+            "Removing all examples"
+          ],
+          correctIndex: 0,
+          explanation: "Precision comes from saying exactly what you mean in a clear and accurate way."
+        }
+      ]
+    }
+  ]
+};
+
+for (const grade of LEARN_PROGRAM) {
+  const extras = EXTRA_LEARN_MODULES[grade.id];
+  if (extras?.length) {
+    grade.subjects.push(...extras);
+  }
+}
+
 export function getLearnProgram(language: LearnProgramLanguage): LearnGrade[] {
   return language === "ru" ? LEARN_PROGRAM_RU : LEARN_PROGRAM;
+}
+
+export function getLearnGradeById(
+  program: LearnGrade[],
+  gradeId: string | undefined
+) {
+  return program.find((grade) => grade.id === gradeId) ?? program[0];
+}
+
+export function getLearnModuleById(
+  grade: LearnGrade,
+  moduleId: string | undefined
+) {
+  return grade.subjects.find((subject) => subject.id === moduleId) ?? grade.subjects[0];
 }

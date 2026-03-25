@@ -71,10 +71,10 @@ export default function SiteHeader() {
                 key={item.href}
                 href={item.href}
                 className={cn(
-                  "flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-all",
+                  "hover-glow flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-all",
                   active
-                    ? "text-primary-600 bg-primary-50 dark:bg-primary-900/20"
-                    : "text-zinc-600 hover:text-zinc-900 hover:bg-zinc-100 dark:text-zinc-400 dark:hover:text-zinc-100 dark:hover:bg-zinc-800"
+                    ? "text-primary-700 bg-primary-50 shadow-sm shadow-primary-500/10 dark:bg-primary-900/20 dark:text-primary-300"
+                    : "text-zinc-600 hover:-translate-y-0.5 hover:text-primary-700 hover:bg-primary-50 dark:text-zinc-400 dark:hover:text-primary-300 dark:hover:bg-zinc-800"
                 )}
               >
                 {item.icon}
@@ -87,10 +87,10 @@ export default function SiteHeader() {
             <Link
               href="/admin"
               className={cn(
-                "flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-all",
+                "hover-glow flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-all",
                 pathname.startsWith("/admin")
-                  ? "text-primary-600 bg-primary-50 dark:bg-primary-900/20"
-                  : "text-zinc-600 hover:text-zinc-900 hover:bg-zinc-100 dark:text-zinc-400 dark:hover:text-zinc-100 dark:hover:bg-zinc-800"
+                  ? "text-primary-700 bg-primary-50 shadow-sm shadow-primary-500/10 dark:bg-primary-900/20 dark:text-primary-300"
+                  : "text-zinc-600 hover:-translate-y-0.5 hover:text-primary-700 hover:bg-primary-50 dark:text-zinc-400 dark:hover:text-primary-300 dark:hover:bg-zinc-800"
               )}
             >
               <LayoutDashboard className="w-4 h-4" />
@@ -109,10 +109,10 @@ export default function SiteHeader() {
                   type="button"
                   onClick={() => setLanguage(lang)}
                   className={cn(
-                    "rounded-lg px-2.5 py-1 text-xs font-bold uppercase tracking-[0.15em] transition-all",
+                    "hover-glow rounded-lg px-2.5 py-1 text-xs font-bold uppercase tracking-[0.15em] transition-all",
                     active
-                      ? "bg-primary-600 text-white"
-                      : "text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100"
+                      ? "bg-primary-600 text-white shadow-md shadow-primary-500/25"
+                      : "text-zinc-500 hover:-translate-y-0.5 hover:bg-primary-50 hover:text-primary-700 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-primary-300"
                   )}
                 >
                   {lang}
@@ -152,7 +152,7 @@ export default function SiteHeader() {
             <div className="flex items-center gap-2">
               <Link
                 href="/login"
-                className="text-sm font-medium text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100 px-4 py-2"
+                className="hover-glow rounded-xl px-4 py-2 text-sm font-medium text-zinc-600 hover:-translate-y-0.5 hover:bg-primary-50 hover:text-primary-700 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-primary-300"
               >
                 {text.login}
               </Link>
