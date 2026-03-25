@@ -1,0 +1,11 @@
+{
+  "name": "sat-workspace",
+  "private": true,
+  "scripts": {
+    "dev": "npm --prefix sat-prep run dev",
+    "build": "npm --prefix sat-prep run build",
+    "start": "npm --prefix sat-prep run start",
+    "lint": "npm --prefix sat-prep run lint",
+    "prisma": "npm --prefix sat-prep run prisma"
+  }
+}
