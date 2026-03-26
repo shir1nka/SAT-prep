@@ -36,12 +36,14 @@ export default function AdminPage() {
           subtitle: "Управляй вопросами и просматривай попытки.",
           questions: "Вопросы",
           attempts: "Попытки",
+          users: "Пользователи",
           totalUsers: "Всего пользователей",
           totalQuestions: "Всего вопросов",
           totalAttempts: "Всего попыток",
           correct: "Верных %",
           manageQuestions: "Управлять вопросами",
           reviewAttempts: "Просмотр попыток",
+          viewUsers: "Просмотр пользователей",
         }
       : {
           denied: "Access denied.",
@@ -51,12 +53,14 @@ export default function AdminPage() {
           subtitle: "Manage questions and review attempts.",
           questions: "Questions",
           attempts: "Attempts",
+          users: "Users",
           totalUsers: "Total users",
           totalQuestions: "Total questions",
           totalAttempts: "Total attempts",
           correct: "Correct %",
           manageQuestions: "Manage Questions",
           reviewAttempts: "Review Attempts",
+          viewUsers: "View Users",
         };
 
   const admin = isAdminEmail(session?.user?.email);
@@ -136,6 +140,9 @@ export default function AdminPage() {
               <LinkButton href="/admin/attempts" variant="secondary">
                 {text.attempts}
               </LinkButton>
+              <LinkButton href="/admin/users" variant="secondary">
+                {text.users}
+              </LinkButton>
             </div>
           </div>
 
@@ -175,7 +182,10 @@ export default function AdminPage() {
           </div>
 
           <div className="mt-6 flex flex-col sm:flex-row gap-3">
-            <Button variant="primary" onClick={() => router.push("/admin/questions")}>
+            <Button variant="primary" onClick={() => router.push("/admin/users")}>
+              {text.viewUsers}
+            </Button>
+            <Button variant="secondary" onClick={() => router.push("/admin/questions")}>
               {text.manageQuestions}
             </Button>
             <Button variant="secondary" onClick={() => router.push("/admin/attempts")}>
