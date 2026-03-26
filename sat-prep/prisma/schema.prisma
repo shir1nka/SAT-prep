@@ -17,6 +17,9 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   attempts  Attempt[]
+
+  @@index([email])
+  @@index([createdAt])
 }
 
 model Question {
@@ -31,6 +34,8 @@ model Question {
   attempts      Attempt[]
 
   @@index([section])
+  @@index([createdAt])
+  @@fulltext([questionText])
 }
 
 model Attempt {
@@ -43,4 +48,10 @@ model Attempt {
   
   user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   question       Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([questionId])
+  @@index([isCorrect])
+  @@index([createdAt])
+  @@index([userId, createdAt])
 }
