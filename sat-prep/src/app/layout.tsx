@@ -35,6 +35,11 @@ export default function RootLayout({
                 gtag('config', '${process.env.NEXT_PUBLIC_GA_ID}');
               `}
             </Script>
+            <noscript>
+              &lt;img height="1" width="1" style="display:none"
+                src="https://www.facebook.com/tr?id=${process.env.NEXT_PUBLIC_GA_ID}&ev=PageView&noscript=1"
+              /&gt;
+            </noscript>
           </>
         )}
       </head>
