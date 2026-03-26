@@ -35,7 +35,6 @@ model Question {
 
   @@index([section])
   @@index([createdAt])
-  @@fulltext([questionText])
 }
 
 model Attempt {
