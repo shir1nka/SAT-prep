@@ -11,6 +11,13 @@ import {
 type BatchAnswer = {
   questionId?: string;
   selectedAnswer?: string;
+  questionSnapshot?: {
+    section?: "reading-writing" | "math";
+    questionText?: string;
+    options?: string[];
+    correctAnswer?: string;
+    explanation?: string;
+  };
 };
 
 export async function POST(req: NextRequest) {
@@ -85,6 +92,12 @@ export async function POST(req: NextRequest) {
       questionId: typeof answer.questionId === "string" ? answer.questionId : "",
       selectedAnswer:
         typeof answer.selectedAnswer === "string" ? answer.selectedAnswer : "",
+      questionSnapshot:
+        answer.questionSnapshot &&
+        typeof answer.questionSnapshot === "object" &&
+        !Array.isArray(answer.questionSnapshot)
+          ? answer.questionSnapshot
+          : undefined,
     }));
 
     if (sanitizedAnswers.some((answer) => !answer.questionId)) {
@@ -105,6 +118,58 @@ export async function POST(req: NextRequest) {
     });
 
     const byId = new Map(questions.map((question) => [question.id, question]));
+
+    if (byId.size !== questionIds.length) {
+      const missingQuestionIds = questionIds.filter((questionId) => !byId.has(questionId));
+      const recoveryPayload = missingQuestionIds
+        .map((questionId) =>
+          sanitizedAnswers.find(
+            (answer) =>
+              answer.questionId === questionId &&
+              answer.questionSnapshot?.questionText &&
+              Array.isArray(answer.questionSnapshot.options) &&
+              answer.questionSnapshot.options.length >= 2 &&
+              answer.questionSnapshot.correctAnswer &&
+              answer.questionSnapshot.explanation
+          )
+        )
+        .filter(Boolean) as Array<
+        typeof sanitizedAnswers[number] & {
+          questionSnapshot: NonNullable<typeof sanitizedAnswers[number]["questionSnapshot"]>;
+        }
+      >;
+
+      for (const answer of recoveryPayload) {
+        try {
+          await prisma.question.create({
+            data: {
+              id: answer.questionId,
+              section: answer.questionSnapshot.section ?? "reading-writing",
+              questionText: answer.questionSnapshot.questionText!,
+              options: JSON.stringify(answer.questionSnapshot.options),
+              correctAnswer: answer.questionSnapshot.correctAnswer!,
+              explanation: answer.questionSnapshot.explanation!,
+            },
+          });
+        } catch (error) {
+          console.error("Batch question recreation failed:", error);
+        }
+      }
+
+      const refreshedQuestions = await prisma.question.findMany({
+        where: { id: { in: questionIds } },
+        select: {
+          id: true,
+          correctAnswer: true,
+          explanation: true,
+        },
+      });
+
+      byId.clear();
+      for (const question of refreshedQuestions) {
+        byId.set(question.id, question);
+      }
+    }
 
     if (byId.size !== questionIds.length) {
       return jsonWithSecurityHeaders(

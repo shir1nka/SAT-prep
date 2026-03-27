@@ -14,6 +14,14 @@ type AttemptResponse = {
   correctAnswer?: string;
 };
 
+type QuestionSnapshot = {
+  section?: "reading-writing" | "math";
+  questionText?: string;
+  options?: string[];
+  correctAnswer?: string;
+  explanation?: string;
+};
+
 export async function POST(req: NextRequest) {
   try {
     const originResponse = ensureSameOrigin(req);
@@ -78,10 +86,12 @@ export async function POST(req: NextRequest) {
     const body = (await req.json()) as {
       questionId?: string;
       selectedAnswer?: string;
+      questionSnapshot?: QuestionSnapshot;
     };
 
     const questionId = body.questionId;
     const selectedAnswer = body.selectedAnswer;
+    const snapshot = body.questionSnapshot;
 
     console.log("Attempt request:", { userId, questionId, selectedAnswer });
 
@@ -105,10 +115,39 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const question = await prisma.question.findUnique({
+    let question = await prisma.question.findUnique({
       where: { id: questionId },
       select: { correctAnswer: true, explanation: true },
     });
+
+    if (
+      !question &&
+      snapshot?.questionText &&
+      Array.isArray(snapshot.options) &&
+      snapshot.options.length >= 2 &&
+      typeof snapshot.correctAnswer === "string" &&
+      typeof snapshot.explanation === "string"
+    ) {
+      try {
+        await prisma.question.create({
+          data: {
+            id: questionId,
+            section: snapshot.section,
+            questionText: snapshot.questionText,
+            options: JSON.stringify(snapshot.options),
+            correctAnswer: snapshot.correctAnswer,
+            explanation: snapshot.explanation,
+          },
+        });
+
+        question = {
+          correctAnswer: snapshot.correctAnswer,
+          explanation: snapshot.explanation,
+        };
+      } catch (createError) {
+        console.error("Question recreation failed:", createError);
+      }
+    }
 
     if (!question) {
       console.error("Question not found:", questionId);

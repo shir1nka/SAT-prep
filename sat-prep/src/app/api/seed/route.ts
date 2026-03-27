@@ -2,6 +2,7 @@ import type { NextRequest } from "next/server";
 import { getToken } from "next-auth/jwt";
 import prisma from '@/lib/prisma';
 import { isAdminEmail } from '@/lib/admin';
+import { buildOfficialHardQuestionPack } from "@/lib/official-hard-questions";
 import { buildExpansionQuestionPack } from "@/lib/question-generators";
 import {
   enforceRateLimit,
@@ -241,6 +242,7 @@ export async function POST(req: NextRequest) {
     for(let i=0; i<20; i++) allQuestions.push(generateQuadraticEquation());
     for(let i=0; i<15; i++) allQuestions.push(generatePercentage());
     allQuestions.push(...buildExpansionQuestionPack());
+    allQuestions.push(...buildOfficialHardQuestionPack());
 
     await prisma.question.deleteMany();
 

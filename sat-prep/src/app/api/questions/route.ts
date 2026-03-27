@@ -3,9 +3,16 @@ import { getToken } from "next-auth/jwt";
 
 import prisma from "@/lib/prisma";
 import {
+  ensureOfficialHardQuestionBank,
+  getOfficialQuestionFigure,
+  getOfficialHardQuestionTextSet,
+} from "@/lib/official-hard-questions";
+import {
   inferQuestionSection,
   normalizeSatSection,
+  normalizePracticeDifficulty,
   parseQuestionOptions,
+  scoreSatQuestionDifficulty,
 } from "@/lib/sat";
 import { enforceRateLimit, jsonWithSecurityHeaders } from "@/lib/security";
 
@@ -16,6 +23,19 @@ type QuestionDto = {
   options: string[];
   correctAnswer?: string;
   explanation?: string;
+  figure?: unknown;
+};
+
+type RankedQuestion = {
+  id: string;
+  section: "reading-writing" | "math";
+  questionText: string;
+  options: string;
+  correctAnswer: string | null;
+  explanation: string | null;
+  difficulty: "easy" | "medium" | "hard";
+  score: number;
+  percentile: number;
 };
 
 function shuffle<T>(arr: T[]) {
@@ -52,7 +72,9 @@ export async function GET(req: NextRequest) {
   const url = new URL(req.url);
   const countRaw = url.searchParams.get("count");
   const mode = url.searchParams.get("mode");
-  const includeTrainingDetails = mode === "training";
+  const requestedDifficulty = normalizePracticeDifficulty(
+    url.searchParams.get("difficulty")
+  );
   const requestedSection = normalizeSatSection(url.searchParams.get("section"));
   const requestAll = countRaw === "all";
   const requested = countRaw ? Number(countRaw) : 10;
@@ -62,14 +84,18 @@ export async function GET(req: NextRequest) {
       ? Math.max(1, Math.min(200, Math.floor(requested)))
       : 10;
 
+  if (requestedDifficulty === "hard") {
+    await ensureOfficialHardQuestionBank();
+  }
+
   const allQuestions = await prisma.question.findMany({
     select: {
       id: true,
       section: true,
       questionText: true,
       options: true,
-      correctAnswer: includeTrainingDetails,
-      explanation: includeTrainingDetails,
+      correctAnswer: true,
+      explanation: true,
     },
   });
 
@@ -81,21 +107,52 @@ export async function GET(req: NextRequest) {
     return section === requestedSection;
   });
 
-  const picked = shuffle(sectionQuestions).slice(0, count);
+  const officialHardTextSet = getOfficialHardQuestionTextSet();
+  const rankedQuestions = rankQuestionsByDifficulty(
+    sectionQuestions,
+    officialHardTextSet
+  );
+  const filteredQuestions = rankedQuestions.filter(
+    (question) => question.difficulty === requestedDifficulty
+  );
+  const strictHardQuestions =
+    requestedDifficulty === "hard" && mode === "test"
+      ? filteredQuestions.filter(
+          (question) =>
+            officialHardTextSet.has(question.questionText) ||
+            question.percentile >= 0.85
+        )
+      : filteredQuestions;
+  const effectiveQuestions =
+    strictHardQuestions.length > 0 ? strictHardQuestions : filteredQuestions;
+
+  const picked =
+    requestedDifficulty === "hard"
+      ? [
+          ...shuffle(
+            effectiveQuestions.filter((question) =>
+              officialHardTextSet.has(question.questionText)
+            )
+          ),
+          ...shuffle(
+            effectiveQuestions.filter(
+              (question) => !officialHardTextSet.has(question.questionText)
+            )
+          ),
+        ].slice(0, count)
+      : shuffle(effectiveQuestions).slice(0, count);
 
   const questions: QuestionDto[] = picked.map((q) => {
     const safeOptions = parseQuestionOptions(q.options);
-    const section = normalizeSatSection(
-      q.section ?? inferQuestionSection(q.questionText)
-    );
 
     return {
       id: q.id,
-      section,
+      section: q.section,
       questionText: q.questionText,
       options: safeOptions,
-      correctAnswer: includeTrainingDetails ? q.correctAnswer : undefined,
-      explanation: includeTrainingDetails ? q.explanation : undefined,
+      correctAnswer: q.correctAnswer ?? undefined,
+      explanation: q.explanation ?? undefined,
+      figure: getOfficialQuestionFigure(q.questionText),
     };
   });
 
@@ -103,7 +160,62 @@ export async function GET(req: NextRequest) {
     questions,
     meta: {
       section: requestedSection,
-      totalAvailable: sectionQuestions.length,
+      totalAvailable: effectiveQuestions.length,
+      difficulty: requestedDifficulty,
     },
+  });
+}
+
+function rankQuestionsByDifficulty(
+  questions: Array<{
+    id: string;
+    section: string | null;
+    questionText: string;
+    options: string;
+    correctAnswer: string | null;
+    explanation: string | null;
+  }>,
+  officialHardTextSet: Set<string>
+) {
+  const ranked = questions
+    .map((question) => {
+      const section = normalizeSatSection(
+        question.section ?? inferQuestionSection(question.questionText)
+      );
+      const options = parseQuestionOptions(question.options);
+      const score = scoreSatQuestionDifficulty({
+        section,
+        questionText: question.questionText,
+        options,
+        explanation: question.explanation,
+      });
+
+      return {
+        ...question,
+        section,
+        score,
+      };
+    })
+    .sort((left, right) => left.score - right.score);
+
+  const total = ranked.length;
+
+  return ranked.map((question, index) => {
+    const percentile = total <= 1 ? 0.5 : index / (total - 1);
+    let difficulty: RankedQuestion["difficulty"] = "medium";
+
+    if (percentile < 0.34) {
+      difficulty = "easy";
+    } else if (percentile > 0.66) {
+      difficulty = "hard";
+    }
+
+    return {
+      ...question,
+      difficulty: officialHardTextSet.has(question.questionText)
+        ? "hard"
+        : difficulty,
+      percentile,
+    };
   });
 }

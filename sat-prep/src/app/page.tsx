@@ -76,21 +76,21 @@ export default function Home() {
           depthAnalysis: "Глубокая аналитика",
           depthAnalysisDesc:
             "Отслеживай результаты и прогресс с помощью подробной статистики.",
-          learnBadge: "Новый раздел обучения",
-          learnTitle: "Нужна школьная база перед SAT?",
+          learnBadge: "Новый SAT learn hub",
+          learnTitle: "Нужна структурная SAT-подготовка?",
           learnDesc:
-            "Начни с нового раздела обучения: база 7-11 классов, понятные объяснения и мини-викторины перед полноценной SAT-практикой.",
-          openLearn: "Открыть раздел обучения",
+            "Открой новый SAT learn hub: отдельные курсы SAT Math и SAT Reading and Writing, юниты, навыки, объяснения и quick checks в стиле course map.",
+          openLearn: "Открыть SAT learn",
           saveProgressLater: "Вернуться к этому позже",
-          gradesTitle: "7-11 классы",
+          gradesTitle: "2 SAT курса",
           gradesDesc:
-            "Восстанови школьную базу, которую многие упускают или забывают.",
-          theoryPractice: "Теория + практика",
+            "SAT Math и SAT Reading and Writing теперь собраны в отдельные course maps.",
+          theoryPractice: "Skills + quick checks",
           theoryPracticeDesc:
-            "Короткие объяснения и мини-задания для проверки понимания.",
-          confidenceFirst: "Сначала уверенность",
+            "Каждый навык открывается как мини-урок с объяснением и быстрой практикой.",
+          confidenceFirst: "Roadmap по юнитам",
           confidenceFirstDesc:
-            "Сначала разберись в теме спокойно, а потом переходи к SAT под таймер.",
+            "Двигайся по юнитам от foundations к mixed challenge, не теряясь в хаосе тем.",
           adminTools: "Инструменты администратора",
           adminToolsDesc:
             "Обнови банк заданий и заново загрузи примерно 200 SAT-вопросов.",
@@ -138,21 +138,21 @@ export default function Home() {
           depthAnalysis: "Depth Analysis",
           depthAnalysisDesc:
             "Track your accuracy and progress over time with comprehensive performance statistics.",
-          learnBadge: "New Learning Section",
-          learnTitle: "Need school basics first?",
+          learnBadge: "New SAT Learn Hub",
+          learnTitle: "Need a structured SAT roadmap?",
           learnDesc:
-            "Start in the new Learn section with 7-11 grade foundations, clear explanations, and mini quizzes before jumping into full SAT practice.",
-          openLearn: "Open Learn Hub",
+            "Open the new SAT learn hub with separate SAT Math and SAT Reading and Writing course maps, visible units, skill lessons, and quick checks.",
+          openLearn: "Open SAT Learn",
           saveProgressLater: "Save My Progress Later",
-          gradesTitle: "Grades 7-11",
+          gradesTitle: "2 SAT Courses",
           gradesDesc:
-            "Rebuild the exact school-level foundations many students miss.",
-          theoryPractice: "Theory + Practice",
+            "SAT Math and SAT Reading and Writing now live in separate course maps.",
+          theoryPractice: "Skills + Quick Checks",
           theoryPracticeDesc:
-            "Short explanations followed by quiz questions that check understanding.",
-          confidenceFirst: "Confidence First",
+            "Each skill opens as a mini-lesson with a fast practice check.",
+          confidenceFirst: "Unit Roadmap",
           confidenceFirstDesc:
-            "Learn calmly before you move into timed SAT sessions.",
+            "Move from foundations into mixed challenge without losing the structure.",
           adminTools: "Admin Tools",
           adminToolsDesc:
             "Re-populate your question bank with roughly 200 SAT questions.",

@@ -13,23 +13,29 @@ import {
   ChevronRight,
   CircleHelp,
   Clock,
+  Flame,
   Flag,
+  Gauge,
   PlayCircle,
   RotateCcw,
   Shield,
+  Sparkles,
   Target,
   Trophy,
   XCircle,
 } from "lucide-react";
 import { useEffect, useEffectEvent, useMemo, useState } from "react";
 
+import MathText from "@/components/MathText";
 import SiteHeader from "@/components/SiteHeader";
 import Card from "@/components/ui/Card";
 import { Button, LinkButton } from "@/components/ui/Button";
 import { useLanguage } from "@/lib/language-context";
+import type { OfficialQuestionFigure } from "@/lib/official-hard-questions";
 import {
   getPracticeQuestionCount,
   getSectionTimerSeconds,
+  type PracticeDifficulty,
   type PracticeMode,
   type SatSection,
 } from "@/lib/sat";
@@ -42,6 +48,7 @@ type QuestionDto = {
   options: string[];
   correctAnswer?: string;
   explanation?: string;
+  figure?: OfficialQuestionFigure;
 };
 
 type QuestionsResponse = {
@@ -49,6 +56,7 @@ type QuestionsResponse = {
   meta?: {
     section?: SatSection;
     totalAvailable?: number;
+    difficulty?: PracticeDifficulty;
   };
 };
 
@@ -122,6 +130,8 @@ export default function PracticePage() {
   const [selectedSection, setSelectedSection] =
     useState<SatSection>("reading-writing");
   const [selectedMode, setSelectedMode] = useState<PracticeMode>("training");
+  const [selectedDifficulty, setSelectedDifficulty] =
+    useState<PracticeDifficulty>("medium");
 
   const [questions, setQuestions] = useState<QuestionDto[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -147,11 +157,12 @@ export default function PracticePage() {
     language === "ru"
       ? {
           setupEyebrow: "SAT practice",
-          setupTitle: "Выбери секцию и формат",
+          setupTitle: "Выбери секцию, формат и сложность",
           setupDescription:
-            "Сначала выбираешь нужную часть SAT, а потом режим: спокойная тренировка с объяснениями или реалистичный timed test без подсказок до конца.",
+            "Сначала выбираешь нужную часть SAT, потом режим, а затем уровень: легко, средне или сложно. Так практика и тесты становятся действительно под твой уровень.",
           sectionTitle: "Секция SAT",
           modeTitle: "Формат прохождения",
+          difficultyTitle: "Сложность",
           readingWriting: "Reading & Writing",
           readingWritingDescription:
             "Тексты, логика, грамматика и работа с аргументацией.",
@@ -164,10 +175,22 @@ export default function PracticePage() {
           test: "Реальный тест",
           testDescription:
             "Таймер, полный набор вопросов по выбранной секции и никакой помощи до финиша.",
+          easy: "Легко",
+          easyDescription:
+            "Больше прямых вопросов, меньше многошаговых ловушек и проще вход в темп.",
+          medium: "Средне",
+          mediumDescription:
+            "Сбалансированный SAT-поток: нормальная сложность без перекоса в обе стороны.",
+          hard: "Сложно",
+          hardDescription:
+            "Самые жёсткие SAT-style задачи: плотные формулировки, тяжёлые отвлекающие варианты и многошаговые решения.",
           quickFeedback: "Мгновенная обратная связь",
           fullSection: "Полная секция SAT",
           noTimer: "Без таймера",
           noHints: "Без подсказок во время теста",
+          easierEntry: "Более мягкий вход",
+          balancedSet: "Сбалансированный набор",
+          hardChallenge: "Жёсткий уровень",
           startTraining: "Начать тренировку",
           startTest: "Начать реальный тест",
           loading: "Собираем твою SAT-сессию...",
@@ -177,7 +200,7 @@ export default function PracticePage() {
           connectionError: "Не удалось подключиться к банку вопросов.",
           emptyBank: "Для этой секции пока нет вопросов.",
           emptyBankHint:
-            "Сначала синхронизируй банк вопросов в админке, а потом возвращайся сюда.",
+            "Попробуй другой уровень сложности или сначала синхронизируй более широкий банк вопросов в админке.",
           tryAgain: "Попробовать снова",
           changeSetup: "Изменить выбор",
           activeSession: "Текущая сессия",
@@ -187,6 +210,8 @@ export default function PracticePage() {
           timer: "Таймер",
           section: "Секция",
           mode: "Режим",
+          difficulty: "Сложность",
+          figureLabel: "Схема к задаче",
           answerSaved: "Ответ сохранён. Подсказок не будет до завершения теста.",
           chooseAnswer: "Выбери ответ",
           nextQuestion: "Следующий вопрос",
@@ -223,11 +248,12 @@ export default function PracticePage() {
         }
       : {
           setupEyebrow: "SAT practice",
-          setupTitle: "Choose a section and mode",
+          setupTitle: "Choose a section, mode, and difficulty",
           setupDescription:
-            "Pick the SAT section you want, then choose between guided training with explanations or a realistic timed test with no hints until the end.",
+            "Pick the SAT section you want, then choose the mode and the level: easy, medium, or hard. That way both practice and tests match the pressure you want.",
           sectionTitle: "SAT section",
           modeTitle: "Session mode",
+          difficultyTitle: "Difficulty",
           readingWriting: "Reading & Writing",
           readingWritingDescription:
             "Passages, grammar, rhetoric, and evidence-based reasoning.",
@@ -240,10 +266,22 @@ export default function PracticePage() {
           test: "Real test",
           testDescription:
             "Timed, full section length, and no hints or explanations until you finish.",
+          easy: "Easy",
+          easyDescription:
+            "More direct questions, fewer traps, and a smoother way to build confidence.",
+          medium: "Medium",
+          mediumDescription:
+            "A balanced SAT flow with normal pressure and no strong bias either way.",
+          hard: "Hard",
+          hardDescription:
+            "The toughest SAT-style items with dense wording, sharper distractors, and longer multi-step reasoning.",
           quickFeedback: "Instant feedback",
           fullSection: "Full SAT section",
           noTimer: "No timer",
           noHints: "No hints during the test",
+          easierEntry: "Gentler entry",
+          balancedSet: "Balanced set",
+          hardChallenge: "Hard challenge",
           startTraining: "Start training",
           startTest: "Start real test",
           loading: "Preparing your SAT session...",
@@ -253,7 +291,7 @@ export default function PracticePage() {
           connectionError: "Failed to connect to the question bank.",
           emptyBank: "There are no questions for this section yet.",
           emptyBankHint:
-            "Sync the question bank from the admin area, then come back here.",
+            "Try another difficulty or sync a wider question bank from the admin area, then come back here.",
           tryAgain: "Try again",
           changeSetup: "Change setup",
           activeSession: "Active session",
@@ -263,6 +301,8 @@ export default function PracticePage() {
           timer: "Timer",
           section: "Section",
           mode: "Mode",
+          difficulty: "Difficulty",
+          figureLabel: "Question diagram",
           answerSaved: "Answer saved. No hints will appear until the test is over.",
           chooseAnswer: "Choose an answer",
           nextQuestion: "Next question",
@@ -330,6 +370,12 @@ export default function PracticePage() {
     selectedSection === "math" ? text.math : text.readingWriting;
   const modeLabel =
     selectedMode === "training" ? text.training : text.test;
+  const difficultyLabel =
+    selectedDifficulty === "easy"
+      ? text.easy
+      : selectedDifficulty === "hard"
+        ? text.hard
+        : text.medium;
 
   const reviewItems = useMemo(() => {
     if (!questions.length) return [];
@@ -409,7 +455,7 @@ export default function PracticePage() {
     try {
       const count = getPracticeQuestionCount(selectedMode);
       const res = await fetch(
-        `/api/questions?section=${selectedSection}&count=${count}&mode=${selectedMode}`
+        `/api/questions?section=${selectedSection}&count=${count}&mode=${selectedMode}&difficulty=${selectedDifficulty}`
       );
 
       if (res.status === 401) {
@@ -440,7 +486,11 @@ export default function PracticePage() {
     }
   }
 
-  async function persistTrainingAttempt(questionId: string, selectedAnswer: string) {
+  async function persistTrainingAttempt(
+    questionId: string,
+    selectedAnswer: string,
+    snapshot: QuestionDto
+  ) {
     try {
       const res = await fetch("/api/attempt", {
         method: "POST",
@@ -448,6 +498,13 @@ export default function PracticePage() {
         body: JSON.stringify({
           questionId,
           selectedAnswer,
+          questionSnapshot: {
+            section: snapshot.section,
+            questionText: snapshot.questionText,
+            options: snapshot.options,
+            correctAnswer: snapshot.correctAnswer,
+            explanation: snapshot.explanation,
+          },
         }),
       });
 
@@ -457,7 +514,10 @@ export default function PracticePage() {
       }
 
       if (!res.ok) {
-        console.error("Failed to persist training attempt:", await readErrorMessage(res));
+        const errorMessage = await readErrorMessage(res);
+        if (errorMessage !== "Question not found.") {
+          console.error("Failed to persist training attempt:", errorMessage);
+        }
       }
     } catch (err) {
       console.error("Persist training attempt error:", err);
@@ -498,7 +558,7 @@ export default function PracticePage() {
             selectedAnswer: option,
           },
         }));
-        void persistTrainingAttempt(currentQuestion.id, option);
+        void persistTrainingAttempt(currentQuestion.id, option, currentQuestion);
         return;
       }
 
@@ -554,6 +614,13 @@ export default function PracticePage() {
           answers: questions.map((question) => ({
             questionId: question.id,
             selectedAnswer: answersByQuestion[question.id] ?? "",
+            questionSnapshot: {
+              section: question.section,
+              questionText: question.questionText,
+              options: question.options,
+              correctAnswer: question.correctAnswer,
+              explanation: question.explanation,
+            },
           })),
         }),
       });
@@ -798,6 +865,57 @@ export default function PracticePage() {
                   </LinkButton>
                 </div>
               </Card>
+
+              <Card className="p-6 md:p-8 glass-card shadow-xl shadow-primary-500/10 lg:col-span-2">
+                <div className="mb-6">
+                  <h2 className="text-xl font-bold mb-2">{text.difficultyTitle}</h2>
+                  <p className="text-zinc-500 dark:text-zinc-400">
+                    {sectionLabel} • {modeLabel}
+                  </p>
+                </div>
+
+                <div className="grid gap-4 md:grid-cols-3">
+                  <ChoiceCard
+                    selected={selectedDifficulty === "easy"}
+                    icon={<Sparkles className="w-6 h-6" />}
+                    title={text.easy}
+                    description={text.easyDescription}
+                    badges={[
+                      {
+                        icon: <CheckCircle2 className="w-3.5 h-3.5" />,
+                        label: text.easierEntry,
+                      },
+                    ]}
+                    onClick={() => setSelectedDifficulty("easy")}
+                  />
+                  <ChoiceCard
+                    selected={selectedDifficulty === "medium"}
+                    icon={<Gauge className="w-6 h-6" />}
+                    title={text.medium}
+                    description={text.mediumDescription}
+                    badges={[
+                      {
+                        icon: <BarChart3 className="w-3.5 h-3.5" />,
+                        label: text.balancedSet,
+                      },
+                    ]}
+                    onClick={() => setSelectedDifficulty("medium")}
+                  />
+                  <ChoiceCard
+                    selected={selectedDifficulty === "hard"}
+                    icon={<Flame className="w-6 h-6" />}
+                    title={text.hard}
+                    description={text.hardDescription}
+                    badges={[
+                      {
+                        icon: <Target className="w-3.5 h-3.5" />,
+                        label: text.hardChallenge,
+                      },
+                    ]}
+                    onClick={() => setSelectedDifficulty("hard")}
+                  />
+                </div>
+              </Card>
             </div>
           </div>
         </main>
@@ -833,7 +951,7 @@ export default function PracticePage() {
                     : text.testCompleteDescription}
                 </p>
                 <p className="text-sm font-semibold uppercase tracking-[0.25em] text-primary-600 mb-8">
-                  {sectionLabel} • {modeLabel}
+                  {sectionLabel} • {modeLabel} • {difficultyLabel}
                 </p>
 
                 {timeExpired ? (
@@ -909,7 +1027,7 @@ export default function PracticePage() {
                           {text.resultQuestion} {item.index + 1}
                         </p>
                         <h3 className="text-lg font-semibold leading-relaxed text-zinc-900 dark:text-zinc-100">
-                          {item.questionText}
+                          <MathText text={item.questionText} />
                         </h3>
                       </div>
                       <div
@@ -927,12 +1045,18 @@ export default function PracticePage() {
                     <div className="grid gap-3 md:grid-cols-2">
                       <ResultPanel
                         title={text.yourAnswer}
-                        value={item.selectedAnswer || text.unanswered}
+                        value={
+                          item.selectedAnswer ? (
+                            <MathText text={item.selectedAnswer} />
+                          ) : (
+                            text.unanswered
+                          )
+                        }
                         tone={item.isCorrect ? "neutral" : "danger"}
                       />
                       <ResultPanel
                         title={text.correctAnswer}
-                        value={item.correctAnswer}
+                        value={<MathText text={item.correctAnswer} />}
                         tone="success"
                       />
                     </div>
@@ -942,7 +1066,7 @@ export default function PracticePage() {
                         {item.isCorrect ? text.greatReasoning : text.explanation}
                       </p>
                       <p className="text-sm md:text-base leading-relaxed text-zinc-700 dark:text-zinc-300 whitespace-pre-line">
-                        {item.explanation}
+                        <MathText text={item.explanation} preserveLines />
                       </p>
                     </div>
                   </div>
@@ -976,7 +1100,7 @@ export default function PracticePage() {
                 {text.activeSession}
               </h1>
               <p className="text-zinc-500 dark:text-zinc-400 mt-2">
-                {sectionLabel} • {modeLabel}
+                {sectionLabel} • {modeLabel} • {difficultyLabel}
                 {selectedMode === "test"
                   ? ` • ${formatDurationLabel(timerForSection, language)}`
                   : ` • ${text.practiceSetLabel}`}
@@ -986,6 +1110,7 @@ export default function PracticePage() {
             <div className="flex flex-wrap items-center gap-3">
               <InfoChip label={text.section} value={sectionLabel} />
               <InfoChip label={text.mode} value={modeLabel} />
+              <InfoChip label={text.difficulty} value={difficultyLabel} />
               <InfoChip
                 label={text.answered}
                 value={`${answeredCount}/${totalQuestions}`}
@@ -1047,8 +1172,23 @@ export default function PracticePage() {
                     ) : null}
                   </div>
 
-                  <div className="text-xl md:text-2xl font-medium leading-relaxed mb-10 text-zinc-800 dark:text-zinc-100 italic">
-                    "{currentQuestion?.questionText}"
+                  {currentQuestion?.figure ? (
+                    <div className="mb-8 overflow-hidden rounded-[28px] border border-primary-200 bg-gradient-to-br from-primary-50 via-white to-sky-50 shadow-sm dark:border-primary-900/60 dark:from-primary-950/20 dark:via-zinc-950 dark:to-sky-950/10">
+                      <div className="border-b border-primary-100 px-5 py-3 dark:border-primary-900/40">
+                        <p className="text-xs font-bold uppercase tracking-[0.28em] text-primary-700 dark:text-primary-300">
+                          {text.figureLabel}
+                        </p>
+                      </div>
+                      <div className="p-4 md:p-6">
+                        <QuestionFigure figure={currentQuestion.figure} />
+                      </div>
+                    </div>
+                  ) : null}
+
+                  <div className="mb-10 text-xl font-medium leading-relaxed text-zinc-800 dark:text-zinc-100 md:text-2xl">
+                    {currentQuestion?.questionText ? (
+                      <MathText text={currentQuestion.questionText} />
+                    ) : null}
                   </div>
 
                   <div className="grid grid-cols-1 gap-4">
@@ -1115,7 +1255,7 @@ export default function PracticePage() {
                               showIncorrect && "text-red-900 dark:text-red-100"
                             )}
                           >
-                            {option}
+                            <MathText text={option} />
                           </span>
                           {selectedMode === "test" && isSelected ? (
                             <div className="w-2.5 h-2.5 rounded-full bg-primary-600 animate-pulse" />
@@ -1182,7 +1322,13 @@ export default function PracticePage() {
                             {!currentAttemptResult.isCorrect ? (
                               <ResultPanel
                                 title={text.yourAnswer}
-                                value={displayedSelectedAnswer || text.unanswered}
+                                value={
+                                  displayedSelectedAnswer ? (
+                                    <MathText text={displayedSelectedAnswer} />
+                                  ) : (
+                                    text.unanswered
+                                  )
+                                }
                                 tone="danger"
                               />
                             ) : null}
@@ -1190,7 +1336,7 @@ export default function PracticePage() {
                             {currentAttemptResult.correctAnswer ? (
                               <ResultPanel
                                 title={text.correctAnswer}
-                                value={currentAttemptResult.correctAnswer}
+                                value={<MathText text={currentAttemptResult.correctAnswer} />}
                                 tone="success"
                               />
                             ) : null}
@@ -1202,7 +1348,7 @@ export default function PracticePage() {
                                   : text.explanation}
                               </p>
                               <p className="text-zinc-800 dark:text-zinc-200 leading-relaxed text-sm md:text-base whitespace-pre-line">
-                                {currentAttemptResult.explanation}
+                                <MathText text={currentAttemptResult.explanation} preserveLines />
                               </p>
                             </div>
 
@@ -1294,8 +1440,8 @@ export default function PracticePage() {
                   icon={<CheckCircle2 className="w-4 h-4" />}
                 />
                 <MiniStat
-                  label={text.mode}
-                  value={selectedMode === "training" ? "10" : "Full"}
+                  label={text.difficulty}
+                  value={difficultyLabel}
                   icon={<Shield className="w-4 h-4" />}
                 />
                 <MiniStat
@@ -1348,6 +1494,174 @@ export default function PracticePage() {
         </div>
       </main>
     </div>
+  );
+}
+
+function QuestionFigure({ figure }: { figure: OfficialQuestionFigure }) {
+  return (
+    <div className="rounded-[24px] border border-zinc-200 bg-white/90 p-4 dark:border-zinc-800 dark:bg-zinc-950/80">
+      {figure.kind === "right-triangle" ? (
+        <RightTriangleFigure figure={figure} />
+      ) : null}
+      {figure.kind === "coordinate-circle" ? (
+        <CoordinateCircleFigure figure={figure} />
+      ) : null}
+      {figure.kind === "similar-triangles" ? (
+        <SimilarTrianglesFigure figure={figure} />
+      ) : null}
+    </div>
+  );
+}
+
+function RightTriangleFigure({
+  figure,
+}: {
+  figure: Extract<OfficialQuestionFigure, { kind: "right-triangle" }>;
+}) {
+  return (
+    <svg
+      viewBox="0 0 320 220"
+      className="mx-auto h-auto w-full max-w-[340px]"
+      role="img"
+      aria-label="Right triangle diagram"
+    >
+      <rect x="0" y="0" width="320" height="220" rx="24" fill="#f8fafc" />
+      <path
+        d="M70 170 L70 60 L230 170 Z"
+        fill="#dbeafe"
+        stroke="#1d4ed8"
+        strokeWidth="4"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M70 170 L70 146 L94 146"
+        fill="none"
+        stroke="#0f172a"
+        strokeWidth="3"
+      />
+      <text x="56" y="183" fontSize="18" fontWeight="700" fill="#0f172a">
+        A
+      </text>
+      <text x="56" y="56" fontSize="18" fontWeight="700" fill="#0f172a">
+        C
+      </text>
+      <text x="238" y="183" fontSize="18" fontWeight="700" fill="#0f172a">
+        B
+      </text>
+      <text x="130" y="188" fontSize="18" fontWeight="700" fill="#1d4ed8">
+        AC = {figure.baseLabel}
+      </text>
+      <text x="18" y="126" fontSize="18" fontWeight="700" fill="#1d4ed8">
+        BC = {figure.heightLabel}
+      </text>
+      {figure.hypotenuseLabel ? (
+        <text x="150" y="104" fontSize="18" fontWeight="700" fill="#1e3a8a">
+          AB = {figure.hypotenuseLabel}
+        </text>
+      ) : null}
+      <path
+        d="M95 165 A30 30 0 0 1 80 141"
+        fill="none"
+        stroke="#ea580c"
+        strokeWidth="3"
+      />
+      <text x="99" y="154" fontSize="18" fontWeight="700" fill="#ea580c">
+        {figure.angleLabel}
+      </text>
+    </svg>
+  );
+}
+
+function CoordinateCircleFigure({
+  figure,
+}: {
+  figure: Extract<OfficialQuestionFigure, { kind: "coordinate-circle" }>;
+}) {
+  return (
+    <svg
+      viewBox="0 0 320 220"
+      className="mx-auto h-auto w-full max-w-[340px]"
+      role="img"
+      aria-label="Coordinate plane with circle"
+    >
+      <rect x="0" y="0" width="320" height="220" rx="24" fill="#f8fafc" />
+      <line x1="40" y1="110" x2="280" y2="110" stroke="#64748b" strokeWidth="2.5" />
+      <line x1="160" y1="30" x2="160" y2="190" stroke="#64748b" strokeWidth="2.5" />
+      <text x="286" y="114" fontSize="16" fontWeight="700" fill="#475569">
+        x
+      </text>
+      <text x="164" y="24" fontSize="16" fontWeight="700" fill="#475569">
+        y
+      </text>
+      <circle cx="208" cy="142" r="50" fill="#dbeafe" stroke="#1d4ed8" strokeWidth="4" />
+      <circle cx="208" cy="142" r="5" fill="#0f172a" />
+      <line x1="208" y1="142" x2="258" y2="142" stroke="#ea580c" strokeWidth="4" />
+      <text x="187" y="164" fontSize="18" fontWeight="700" fill="#0f172a">
+        {figure.centerLabel}
+      </text>
+      <text x="214" y="134" fontSize="18" fontWeight="700" fill="#ea580c">
+        {figure.radiusLabel}
+      </text>
+    </svg>
+  );
+}
+
+function SimilarTrianglesFigure({
+  figure,
+}: {
+  figure: Extract<OfficialQuestionFigure, { kind: "similar-triangles" }>;
+}) {
+  return (
+    <svg
+      viewBox="0 0 320 220"
+      className="mx-auto h-auto w-full max-w-[340px]"
+      role="img"
+      aria-label="Similar triangles diagram"
+    >
+      <rect x="0" y="0" width="320" height="220" rx="24" fill="#f8fafc" />
+      <path
+        d="M70 180 L140 45 L260 180 Z"
+        fill="#e0f2fe"
+        stroke="#0369a1"
+        strokeWidth="4"
+        strokeLinejoin="round"
+      />
+      <line
+        x1="101"
+        y1="120"
+        x2="205"
+        y2="120"
+        stroke="#ea580c"
+        strokeWidth="4"
+      />
+      <text x="62" y="197" fontSize="18" fontWeight="700" fill="#0f172a">
+        A
+      </text>
+      <text x="134" y="39" fontSize="18" fontWeight="700" fill="#0f172a">
+        B
+      </text>
+      <text x="264" y="197" fontSize="18" fontWeight="700" fill="#0f172a">
+        C
+      </text>
+      <text x="88" y="114" fontSize="16" fontWeight="700" fill="#0f172a">
+        D
+      </text>
+      <text x="209" y="114" fontSize="16" fontWeight="700" fill="#0f172a">
+        E
+      </text>
+      <text x="80" y="94" fontSize="18" fontWeight="700" fill="#1d4ed8">
+        AD = {figure.leftUpperLabel}
+      </text>
+      <text x="48" y="152" fontSize="18" fontWeight="700" fill="#1d4ed8">
+        DB = {figure.leftLowerLabel}
+      </text>
+      <text x="130" y="112" fontSize="18" fontWeight="700" fill="#ea580c">
+        DE = {figure.topSegmentLabel}
+      </text>
+      <text x="150" y="197" fontSize="18" fontWeight="700" fill="#0369a1">
+        {figure.fullBaseLabel}
+      </text>
+    </svg>
   );
 }
 
@@ -1465,7 +1779,7 @@ function ResultPanel({
   tone,
 }: {
   title: string;
-  value: string;
+  value: React.ReactNode;
   tone: "neutral" | "success" | "danger";
 }) {
   return (
