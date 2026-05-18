@@ -747,7 +747,7 @@ export default function PracticePage() {
               <p className="text-xs font-bold uppercase tracking-[0.35em] text-primary-600 mb-4">
                 {text.setupEyebrow}
               </p>
-              <h1 className="text-4xl md:text-5xl font-black tracking-tight text-zinc-950 dark:text-zinc-50 mb-4">
+              <h1 className="text-3xl md:text-4xl lg:text-5xl font-black tracking-tight text-zinc-950 dark:text-zinc-50 mb-4">
                 {text.setupTitle}
               </h1>
               <p className="text-zinc-600 dark:text-zinc-400 text-lg leading-relaxed">
@@ -1220,7 +1220,7 @@ export default function PracticePage() {
                           }
                           disabled={isDisabled}
                           className={cn(
-                            "group text-left rounded-2xl border-2 px-6 py-4 transition-all flex items-center gap-4 relative overflow-hidden",
+                            "group text-left rounded-2xl border-2 px-5 md:px-6 py-4 md:py-4 transition-all flex items-center gap-3 md:gap-4 relative overflow-hidden min-h-[60px] md:min-h-0",
                             isDisabled
                               ? "cursor-not-allowed"
                               : "hover:border-primary-300 hover:bg-primary-50 dark:hover:bg-primary-900/10",

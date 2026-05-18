@@ -37,7 +37,7 @@ export default function AdminUsersPage() {
           name: "Имя",
           joined: "Дата регистрации",
           attempts: "Попытки",
-          success: "Успех",
+          success: "Успех", 
           noUsers: "Пользователи не найдены",
           search: "Поиск по email или имени...",
           sortLatest: "Новые",

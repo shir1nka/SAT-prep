@@ -92,7 +92,7 @@ export default function LearnPage() {
           <div className="absolute inset-0 subtle-grid opacity-[0.18]" />
         </div>
 
-        <section className="relative mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
+        <section className="relative mx-auto max-w-6xl px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
           <motion.div
             initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}

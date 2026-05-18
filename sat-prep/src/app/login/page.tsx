@@ -110,15 +110,15 @@ function LoginPageContent() {
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.3 }}
-          className="w-full max-w-md relative z-10"
+          className="w-full max-w-sm md:max-w-md relative z-10"
         >
-          <Card className="p-8 md:p-10 glass-card shadow-2xl shadow-zinc-200/50 dark:shadow-none border-t-4 border-t-primary-600">
-            <div className="flex flex-col items-center mb-8">
-              <div className="w-12 h-12 bg-primary-600 rounded-2xl flex items-center justify-center text-white shadow-xl shadow-primary-500/20 mb-4 rotate-3">
-                <Brain className="w-7 h-7" />
+          <Card className="p-6 sm:p-8 md:p-10 glass-card shadow-2xl shadow-zinc-200/50 dark:shadow-none border-t-4 border-t-primary-600">
+            <div className="flex flex-col items-center mb-6 md:mb-8">
+              <div className="w-10 h-10 md:w-12 md:h-12 bg-primary-600 rounded-2xl flex items-center justify-center text-white shadow-xl shadow-primary-500/20 mb-3 md:mb-4 rotate-3">
+                <Brain className="w-6 h-6 md:w-7 md:h-7" />
               </div>
-              <h1 className="text-3xl font-bold tracking-tight">{text.welcome}</h1>
-              <p className="text-sm text-zinc-500 dark:text-zinc-400 mt-2">
+              <h1 className="text-2xl md:text-3xl font-bold tracking-tight">{text.welcome}</h1>
+              <p className="text-xs md:text-sm text-zinc-500 dark:text-zinc-400 mt-1 md:mt-2">
                 {text.subtitle}
               </p>
             </div>
@@ -135,7 +135,7 @@ function LoginPageContent() {
                     <div className="w-5 h-5 border-2 border-primary-600/30 border-t-primary-600 rounded-full animate-spin" />
                   ) : (
                     <>
-                      <svg className="w-5 h-5 mr-3" viewBox="0 0 24 24">
+                      <svg className="w-5 h-5 mr-3 shrink-0" viewBox="0 0 24 24">
                         <path
                           fill="#4285F4"
                           d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
@@ -171,18 +171,18 @@ function LoginPageContent() {
               </div>
             )}
 
-            <form className="space-y-5 mt-6" onSubmit={onSubmit}>
+            <form className="space-y-4 md:space-y-5 mt-5 md:mt-6" onSubmit={onSubmit}>
               <div className="space-y-2">
-                <label className="text-sm font-bold text-zinc-500 uppercase tracking-widest ml-1" htmlFor="email">
+                <label className="text-xs md:text-sm font-bold text-zinc-500 uppercase tracking-widest ml-1" htmlFor="email">
                   {text.email}
                 </label>
                 <div className="relative group">
                   <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-zinc-400 group-focus-within:text-primary-600 transition-colors">
-                    <Mail className="w-5 h-5" />
+                    <Mail className="w-4 h-4 md:w-5 md:h-5" />
                   </div>
                   <input
                     id="email"
-                    className="block w-full h-12 rounded-2xl border-2 border-zinc-100 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900/50 px-11 outline-none focus:border-primary-600 focus:ring-4 focus:ring-primary-600/10 transition-all text-sm font-medium"
+                    className="block w-full h-11 md:h-12 rounded-2xl border-2 border-zinc-100 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900/50 px-11 outline-none focus:border-primary-600 focus:ring-4 focus:ring-primary-600/10 transition-all text-sm font-medium"
                     type="email"
                     placeholder="name@example.com"
                     value={email}
@@ -195,7 +195,7 @@ function LoginPageContent() {
 
               <div className="space-y-2">
                 <div className="flex justify-between items-center ml-1">
-                  <label className="text-sm font-bold text-zinc-500 uppercase tracking-widest" htmlFor="password">
+                  <label className="text-xs md:text-sm font-bold text-zinc-500 uppercase tracking-widest" htmlFor="password">
                     {text.password}
                   </label>
                   <Link href="#" className="text-xs font-bold text-primary-600 hover:text-primary-700">
@@ -204,11 +204,11 @@ function LoginPageContent() {
                 </div>
                 <div className="relative group">
                   <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-zinc-400 group-focus-within:text-primary-600 transition-colors">
-                    <Lock className="w-5 h-5" />
+                    <Lock className="w-4 h-4 md:w-5 md:h-5" />
                   </div>
                   <input
                     id="password"
-                    className="block w-full h-12 rounded-2xl border-2 border-zinc-100 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900/50 px-11 outline-none focus:border-primary-600 focus:ring-4 focus:ring-primary-600/10 transition-all text-sm font-medium"
+                    className="block w-full h-11 md:h-12 rounded-2xl border-2 border-zinc-100 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900/50 px-11 outline-none focus:border-primary-600 focus:ring-4 focus:ring-primary-600/10 transition-all text-sm font-medium"
                     type="password"
                     placeholder="••••••••"
                     value={password}
@@ -223,9 +223,9 @@ function LoginPageContent() {
                 <motion.div 
                   initial={{ opacity: 0, x: -10 }}
                   animate={{ opacity: 1, x: 0 }}
-                  className="flex items-center gap-2 p-4 rounded-xl bg-red-50 dark:bg-red-900/20 text-red-600 text-xs font-bold border border-red-100 dark:border-red-800/50"
+                  className="flex items-center gap-2 p-3 md:p-4 rounded-xl bg-red-50 dark:bg-red-900/20 text-red-600 text-xs font-bold border border-red-100 dark:border-red-800/50"
                 >
-                  <AlertCircle className="w-4 h-4" />
+                  <AlertCircle className="w-4 h-4 shrink-0" />
                   {error}
                 </motion.div>
               )}
@@ -234,28 +234,28 @@ function LoginPageContent() {
                 variant="primary"
                 type="submit"
                 disabled={isSubmitting || isGoogleSubmitting}
-                className="w-full h-14 text-base shadow-xl shadow-primary-500/20"
+                className="w-full h-12 md:h-14 text-sm md:text-base shadow-xl shadow-primary-500/20"
               >
                 {isSubmitting ? (
                   <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
                 ) : (
                   <>
                     {text.signIn}
-                    <LogIn className="ml-2 w-5 h-5" />
+                    <LogIn className="ml-2 w-4 h-4 md:w-5 md:h-5" />
                   </>
                 )}
               </Button>
             </form>
 
-            <div className="mt-8 pt-8 border-t border-zinc-100 dark:border-zinc-800 text-center">
-              <p className="text-sm text-zinc-500 dark:text-zinc-400">
+            <div className="mt-6 md:mt-8 pt-6 md:pt-8 border-t border-zinc-100 dark:border-zinc-800 text-center">
+              <p className="text-xs md:text-sm text-zinc-500 dark:text-zinc-400">
                 {text.noAccount}{" "}
                 <Link
                   className="font-bold text-primary-600 hover:text-primary-700 inline-flex items-center group"
                   href={`/signup?callbackUrl=${encodeURIComponent(callbackUrl)}`}
                 >
                   {text.create}
-                  <ArrowRight className="ml-1 w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                  <ArrowRight className="ml-1 w-3 h-3 md:w-4 md:h-4 group-hover:translate-x-1 transition-transform" />
                 </Link>
               </p>
             </div>
@@ -271,7 +271,7 @@ function LoginPageFallback() {
     <div className="min-h-screen bg-zinc-50 dark:bg-zinc-950 flex flex-col selection:bg-primary-500/20">
       <SiteHeader />
       <main className="flex-1 flex items-center justify-center p-4">
-        <Card className="p-8 text-sm text-zinc-500 dark:text-zinc-400">
+        <Card className="p-6 md:p-8 text-sm text-zinc-500 dark:text-zinc-400">
           Loading...
         </Card>
       </main>
