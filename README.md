@@ -9,13 +9,18 @@
     <img src="https://img.shields.io/badge/Tailwind_CSS-06B6D4?style=flat-square&logo=tailwindcss&logoColor=white" />
     <img src="https://img.shields.io/badge/PostgreSQL-4169E1?style=flat-square&logo=postgresql&logoColor=white" />
   </p>
+<<<<<<< HEAD
   <p><i>Bilingual (EN/RU) SAT preparation platform</i></p>
+=======
+  <p><i>Bilingual (EN/RU) SAT preparation platform — practice tests, progress tracking, and learning hub</i></p>
+>>>>>>> 32e0eb5 (upgrade README with badges and polished formatting)
 </div>
 
 ---
 
 Bilingual SAT preparation platform built with Next.js 16. Features practice tests, progress tracking, admin tools, and a learning hub for grades 7-11.
 
+<<<<<<< HEAD
 ## 📁 Structure
 
 ```
@@ -40,6 +45,21 @@ SAT/
 
 ## 🛠️ Tech Stack
 
+=======
+## ✨ Features
+
+- 🔐 **Auth** — Email/password and Google OAuth via NextAuth.js
+- 📝 **Practice tests** — SAT-style questions with detailed explanations
+- 📊 **Progress tracking** — performance analytics and insights
+- 👑 **Admin tools** — review and moderation dashboard
+- 🌍 **Bilingual** — full English / Russian interface
+- 🏫 **Learning hub** — school foundation materials for grades 7-11
+- ✨ **Animations** — smooth Framer Motion transitions
+- 📱 **Responsive** — works on desktop and mobile
+
+## 🛠️ Tech Stack
+
+>>>>>>> 32e0eb5 (upgrade README with badges and polished formatting)
 | Category | Technology |
 |----------|-----------|
 | **Frontend** | Next.js 16, React 19, TypeScript 5, Tailwind CSS 4 |
