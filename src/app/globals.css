@@ -1,5 +1,9 @@
 @import "tailwindcss";
 
+/* The app is dark-only and sets `.dark` on <html> explicitly.
+   Without this, Tailwind v4 binds `dark:` to the OS preference instead. */
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme inline {
   --color-primary-50: #f5f3ff;
   --color-primary-100: #ede9fe;
