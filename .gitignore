@@ -48,3 +48,9 @@ next-env.d.ts
 /prisma/*.db
 
 .vercel
+
+dist/
+Thumbs.db
+.vscode/
+.idea/
+.trunk/out/
