@@ -723,7 +723,7 @@ export default function PracticePage() {
 
   if (stage === "loading") {
     return (
-      <div className="min-h-screen bg-background flex flex-col">
+      <div className="min-h-screen flex flex-col">
         <SiteHeader />
         <div className="flex-1 flex items-center justify-center">
           <div className="flex flex-col items-center gap-4">
@@ -737,7 +737,7 @@ export default function PracticePage() {
 
   if (stage === "setup") {
     return (
-      <div className="min-h-screen bg-background flex flex-col selection:bg-primary-500/20">
+      <div className="min-h-screen flex flex-col selection:bg-primary-500/20">
         <SiteHeader />
         <main className="flex-1 py-10 px-4 sm:px-6 relative overflow-hidden">
           <div className="absolute inset-0 subtle-grid opacity-[0.3] pointer-events-none" />
@@ -925,7 +925,7 @@ export default function PracticePage() {
 
   if (stage === "result") {
     return (
-      <div className="min-h-screen bg-background flex flex-col">
+      <div className="min-h-screen flex flex-col">
         <SiteHeader />
         <main className="flex-1 py-12 px-4 relative overflow-hidden">
           <div className="absolute inset-0 subtle-grid opacity-[0.4] pointer-events-none" />
@@ -1080,7 +1080,7 @@ export default function PracticePage() {
   }
 
   return (
-    <div className="min-h-screen bg-background flex flex-col selection:bg-primary-500/20">
+    <div className="min-h-screen flex flex-col selection:bg-primary-500/20">
       <SiteHeader />
 
       <main className="flex-1 py-8 px-4 sm:px-6 relative overflow-hidden">

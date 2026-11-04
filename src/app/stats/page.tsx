@@ -110,7 +110,7 @@ export default function StatsPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-background flex flex-col">
+      <div className="min-h-screen flex flex-col">
         <SiteHeader />
         <div className="flex-1 flex items-center justify-center">
           <div className="flex flex-col items-center gap-4">
@@ -124,7 +124,7 @@ export default function StatsPage() {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-background flex flex-col">
+      <div className="min-h-screen flex flex-col">
         <SiteHeader />
         <div className="flex-1 flex items-center justify-center p-4">
           <Card className="max-w-md w-full p-6 md:p-8 text-center glass-card">
@@ -145,7 +145,7 @@ export default function StatsPage() {
   const accuracy = stats?.correctPercentage ?? 0;
 
   return (
-    <div className="min-h-screen bg-background flex flex-col selection:bg-primary-500/20">
+    <div className="min-h-screen flex flex-col selection:bg-primary-500/20">
       <SiteHeader />
       
       <main className="flex-1 py-8 md:py-12 px-4 sm:px-6 relative overflow-hidden">

@@ -199,7 +199,7 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-background selection:bg-primary-500/30">
+    <div className="min-h-screen selection:bg-primary-500/30">
       <SiteHeader />
 
       <main className="relative">

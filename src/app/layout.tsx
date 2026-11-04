@@ -96,11 +96,13 @@ export default function RootLayout({
         )}
         <link rel="manifest" href="/manifest.json" />
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-        <meta name="theme-color" content="#ffffff" />
+        <meta name="theme-color" content="#0a0a0c" />
       </head>
-      <body className="min-h-full flex flex-col bg-white dark:bg-slate-950 text-gray-900 dark:text-gray-50 transition-colors">
+      <body className="min-h-full flex flex-col bg-background text-foreground transition-colors">
         <CursorWeb />
-        <Providers>{children}</Providers>
+        <Providers>
+          <div className="relative z-10 flex flex-1 flex-col">{children}</div>
+        </Providers>
       </body>
     </html>
   );

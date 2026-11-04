@@ -100,7 +100,7 @@ function LoginPageContent() {
   }
 
   return (
-    <div className="min-h-screen bg-background flex flex-col selection:bg-primary-500/20">
+    <div className="min-h-screen flex flex-col selection:bg-primary-500/20">
       <SiteHeader />
 
       <main className="flex-1 flex items-center justify-center p-4 relative overflow-hidden">
@@ -268,7 +268,7 @@ function LoginPageContent() {
 
 function LoginPageFallback() {
   return (
-    <div className="min-h-screen bg-background flex flex-col selection:bg-primary-500/20">
+    <div className="min-h-screen flex flex-col selection:bg-primary-500/20">
       <SiteHeader />
       <main className="flex-1 flex items-center justify-center p-4">
         <Card className="p-6 md:p-8 text-sm text-zinc-500 dark:text-zinc-400">

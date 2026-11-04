@@ -83,7 +83,7 @@ export default function LearnPage() {
         };
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className="min-h-screen text-foreground">
       <SiteHeader />
 
       <main className="relative overflow-hidden">
