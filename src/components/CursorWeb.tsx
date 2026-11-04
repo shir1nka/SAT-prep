@@ -68,7 +68,7 @@ export default function CursorWeb() {
 
     const targetCount = () => {
       const area = width * height;
-      return Math.round(Math.min(140, Math.max(32, area / 15000)));
+      return Math.round(Math.min(120, Math.max(28, area / 18000)));
     };
 
     const resize = () => {
@@ -175,8 +175,8 @@ export default function CursorWeb() {
           if (dist2 < LINK_DISTANCE * LINK_DISTANCE) {
             const dist = Math.sqrt(dist2);
             const strength = 1 - dist / LINK_DISTANCE;
-            ctx.strokeStyle = `rgba(${palette.line}, ${strength * 0.28})`;
-            ctx.lineWidth = strength > 0.55 ? 1.1 : 0.7;
+            ctx.strokeStyle = `rgba(${palette.line}, ${strength * 0.22})`;
+            ctx.lineWidth = strength > 0.55 ? 1 : 0.6;
             ctx.beginPath();
             ctx.moveTo(a.x, a.y);
             ctx.lineTo(b.x, b.y);
@@ -193,7 +193,7 @@ export default function CursorWeb() {
           if (dist2 < POINTER_DISTANCE * POINTER_DISTANCE) {
             const dist = Math.sqrt(dist2);
             const strength = 1 - dist / POINTER_DISTANCE;
-            ctx.strokeStyle = `rgba(${palette.line}, ${strength * 0.55})`;
+            ctx.strokeStyle = `rgba(${palette.line}, ${strength * 0.45})`;
             ctx.lineWidth = 0.8 + strength * 0.8;
             ctx.beginPath();
             ctx.moveTo(a.x, a.y);
