@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Script from "next/script";
 import "./globals.css";
 import Providers from "./providers";
+import CursorWeb from "@/components/CursorWeb";
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXTAUTH_URL || "http://localhost:3000"),
@@ -98,6 +99,7 @@ export default function RootLayout({
         <meta name="theme-color" content="#ffffff" />
       </head>
       <body className="min-h-full flex flex-col bg-white dark:bg-slate-950 text-gray-900 dark:text-gray-50 transition-colors">
+        <CursorWeb />
         <Providers>{children}</Providers>
       </body>
     </html>
