@@ -54,3 +54,5 @@ Thumbs.db
 .vscode/
 .idea/
 .trunk/out/
+.vercel
+.env*
