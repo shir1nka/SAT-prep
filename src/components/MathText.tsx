@@ -430,9 +430,28 @@ function normalizeMath(raw: string) {
   // Percent needs escaping in math mode.
   s = s.replace(/%/g, "\\%");
 
-  // Fractions.
-  s = s.replace(/(\d+)\s*\/\s*(\d+)/g, "\\dfrac{$1}{$2}");
-  s = s.replace(/(\([^()]*\))\s*\/\s*([\w]+)/g, "\\dfrac{$1}{$2}");
+  // Fractions. Parenthesised forms first so the numerator/denominator stay
+  // grouped, then plain numeric and algebraic forms.
+  s = s.replace(
+    /\(([^()]*)\)\s*\/\s*\(([^()]*)\)/g,
+    "\\dfrac{$1}{$2}"
+  );
+  s = s.replace(
+    /(\([^()]*\))\s*\/\s*([A-Za-z0-9]+)(?![\^A-Za-z0-9])/g,
+    "\\dfrac{$1}{$2}"
+  );
+  s = s.replace(
+    /(?<![\^A-Za-z0-9])([A-Za-z0-9]+)\s*\/\s*\(([^()]*)\)/g,
+    "\\dfrac{$1}{$2}"
+  );
+  s = s.replace(
+    /(?<![\^A-Za-z0-9])(\d+(?:\.\d+)?)\s*\/\s*(\d+(?:\.\d+)?)(?![\^A-Za-z0-9])/g,
+    "\\dfrac{$1}{$2}"
+  );
+  s = s.replace(
+    /(?<![\^A-Za-z0-9])([A-Za-z0-9]+)\s*\/\s*([A-Za-z0-9]+)(?![\^A-Za-z0-9])/g,
+    "\\dfrac{$1}{$2}"
+  );
 
   // Named helpers.
   s = s.replace(/sqrt\((.*?)\)/g, "\\sqrt{$1}");
