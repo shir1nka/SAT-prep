@@ -16,6 +16,7 @@ import {
 } from "lucide-react";
 
 import SiteHeader from "@/components/SiteHeader";
+import MathText from "@/components/MathText";
 import { useLanguage } from "@/lib/language-context";
 import { ACCENT } from "@/lib/learn/accent";
 import {
@@ -341,10 +342,10 @@ export default function LearnSectionPage() {
                             </div>
 
                             <h3 className="mt-3 text-lg font-bold leading-snug text-foreground">
-                              {pick(language, topic.title)}
+                              <MathText text={pick(language, topic.title)} />
                             </h3>
                             <p className="mt-1.5 line-clamp-2 text-sm leading-relaxed text-muted-foreground">
-                              {pick(language, topic.subtitle)}
+                              <MathText text={pick(language, topic.subtitle)} preserveLines />
                             </p>
 
                             <div className="mt-4 flex flex-wrap items-center gap-3 text-[11px] font-semibold text-muted-foreground">

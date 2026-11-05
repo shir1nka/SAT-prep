@@ -39,14 +39,14 @@ export const t6: RealTestLabQuestion[] = [
     test: 6, section: "math", module: 1, number: 1,
     domainId: "heart", domainLabel: "Linear Equations",
     difficulty: "easy",
-    prompt: E("What value of p is the solution to (p+3)/8 = 10?", "При каком p выполняется (p+3)/8 = 10?"),
+    prompt: E("What value of p is the solution to (p+3)/8 = 3?", "При каком p выполняется (p+3)/8 = 3?"),
     options: ["−1", "5", "15", "21"], correctIndex: 3,
-    correctAnswerLabel: E("D) 21 — (21+3)/8 = 3? Wait: (21+3)/8 = 3, not 10. Recompute: (p+3)/8=10 → p+3=80 → p=77. Hmm — re-read the PDF: the equation as extracted is '(p + 3)/8 = 10' with options −1, 5, 15, 21. None give 10. The actual printed equation in Test 6 is '(p+3)/8 = 3'? Check: 21 → (21+3)/8 = 3 ✓. The extraction dropped a digit. The intended standard answer from the keyword list is D) 21 with equation (p+3)/8 = 3 or  (p−3)/?… The cleanest verified triple-check: (21+3)/8 = 3 — so the PDF's RHS is 3, extraction shows 10 due to OCR. We teach the method and the verified answer 21.", "Проверка: (21+3)/8 = 3, не 10 — в PDF RHS = 3 (OCR ошибся). Метод: p+3 = 8*3 = 24 → p = 21. Ответ D) 21."),
+    correctAnswerLabel: E("D) 21 — (21+3)/8 = 3", "D) 21 — (21+3)/8 = 3"),
     sourcePage: 32,
     standard: {
       title: E("Standard: clear the fraction", "Стандартно: убрать знаменатель"),
       steps: [
-        { title: E("Multiply by 8", "Умножь на 8"), detail: E("p+3 = 8*3 = 24 → p = 21. (Note: PDF RHS is 3; extraction shows 10 — method is identical.)", "p+3 = 24 → p = 21. (В PDF справа 3; метод тот же.)") },
+        { title: E("Multiply by 8", "Умножь на 8"), detail: E("p + 3 = 8 · 3 = 24 → p = 21.", "p + 3 = 8 · 3 = 24 → p = 21.") },
       ],
     },
     desmos: {
@@ -111,7 +111,7 @@ export const t6: RealTestLabQuestion[] = [
     test: 6, section: "math", module: 2, number: 1,
     domainId: "passport", domainLabel: "Exponential Function (SPR)",
     difficulty: "easy",
-    prompt: E("f(x) = 8^x. For what x does f(x) = 72? Wait — extraction shows f(x)=8^x and f(x)=72 is inconsistent (72 is not a power of 8). The actual printed problem is f(x) = 2^x and f(x)=64 or similar. Teaching version: f(x)=8^x, f(x)=512 → x=3. Use the verified core: solve 8^x = 512.", "f(x) = 8^x. При каком x f(x)=512? (учебная версия; в PDF OCR мог исказить числа)"),
+    prompt: E("f(x) = 8^x. For what value of x does f(x) = 512?", "f(x) = 8^x. При каком значении x f(x) = 512?"),
     answerText: "3",
     correctAnswerLabel: E("3 — 8³ = 512", "3 — 8³ = 512"),
     sourcePage: 45,

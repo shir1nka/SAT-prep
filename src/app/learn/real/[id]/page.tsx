@@ -367,8 +367,8 @@ export default function RealLabDetailPage() {
                         <div key={i} className="flex gap-3">
                           <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-violet-500/15 text-sm font-black text-violet-200">{i + 1}</span>
                           <div className="min-w-0 flex-1">
-                            <p className="text-sm font-bold text-foreground">{step.title[language]}</p>
-                            <p className="mt-1 text-sm leading-relaxed text-muted-foreground">{step.detail[language]}</p>
+                            <p className="text-sm font-bold text-foreground"><MathText text={step.title[language]} /></p>
+                            <p className="mt-1 text-sm leading-relaxed text-muted-foreground"><MathText text={step.detail[language]} preserveLines /></p>
                           </div>
                         </div>
                       ))}
@@ -387,7 +387,7 @@ export default function RealLabDetailPage() {
                 <ul className="mt-2 space-y-1.5">
                   {q.pitfalls.map((p, i) => (
                     <li key={i} className="flex gap-2 text-sm leading-relaxed text-amber-100/85">
-                      <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-amber-300" /> {p[language]}
+                      <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-amber-300" /> <MathText text={p[language]} preserveLines />
                     </li>
                   ))}
                 </ul>

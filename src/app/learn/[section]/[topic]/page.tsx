@@ -203,7 +203,7 @@ function PracticeCard({
             </p>
           ) : question.answerText ? (
             <p className="text-xs font-bold uppercase tracking-[0.16em] text-emerald-300">
-              {copy.answer}: {pick(language, question.answerText)}
+              {copy.answer}: <MathText text={pick(language, question.answerText)} />
             </p>
           ) : null}
           <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
@@ -457,10 +457,10 @@ export default function LearnTopicPage() {
               </div>
 
               <h1 className="mt-4 max-w-3xl text-3xl font-black tracking-tight text-foreground sm:text-4xl lg:text-5xl">
-                {pick(language, topic.title)}
+                <MathText text={pick(language, topic.title)} />
               </h1>
               <p className="mt-3 max-w-3xl text-base leading-relaxed text-muted-foreground">
-                {pick(language, topic.subtitle)}
+                <MathText text={pick(language, topic.subtitle)} preserveLines />
               </p>
 
               <div className="mt-5 flex flex-wrap items-center gap-3 text-xs font-semibold text-muted-foreground">
@@ -507,7 +507,7 @@ export default function LearnTopicPage() {
                         {String(index + 1).padStart(2, "0")}
                       </p>
                       <h3 className="mt-1 text-lg font-bold text-foreground">
-                        {pick(language, block.heading)}
+                        <MathText text={pick(language, block.heading)} />
                       </h3>
                       <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
                         <MathText text={pick(language, block.body)} preserveLines />
@@ -650,10 +650,10 @@ export default function LearnTopicPage() {
                             {copy.goal}
                           </p>
                           <h3 className="mt-1 text-lg font-bold text-foreground">
-                            {pick(language, recipe.title)}
+                            <MathText text={pick(language, recipe.title)} />
                           </h3>
                           <p className="mt-1 text-sm text-muted-foreground">
-                            {pick(language, recipe.goal)}
+                            <MathText text={pick(language, recipe.goal)} preserveLines />
                           </p>
                         </div>
 
@@ -665,7 +665,7 @@ export default function LearnTopicPage() {
                               </span>
                               <div className="min-w-0 flex-1">
                                 <p className="text-sm font-semibold text-foreground">
-                                  {pick(language, step.title)}
+                                  <MathText text={pick(language, step.title)} />
                                 </p>
                                 {step.note ? (
                                   <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
@@ -701,7 +701,7 @@ export default function LearnTopicPage() {
                                   {copy.speed}
                                 </p>
                                 <p className="mt-1 text-xs leading-relaxed text-emerald-100/90">
-                                  {pick(language, recipe.speed)}
+                                  <MathText text={pick(language, recipe.speed)} preserveLines />
                                 </p>
                               </div>
                             ) : null}
@@ -711,7 +711,7 @@ export default function LearnTopicPage() {
                                   {copy.caution}
                                 </p>
                                 <p className="mt-1 text-xs leading-relaxed text-amber-100/90">
-                                  {pick(language, recipe.caution)}
+                                  <MathText text={pick(language, recipe.caution)} preserveLines />
                                 </p>
                               </div>
                             ) : null}

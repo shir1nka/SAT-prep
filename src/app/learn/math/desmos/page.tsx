@@ -493,13 +493,14 @@ function DesmosQuiz() {
                         submitted && selected !== oi && oi !== q.correct && "border-border bg-secondary/40 text-muted-foreground"
                       )}
                     >
-                      {opt[language]}
+                      <MathText text={opt[language]} />
                     </button>
                   ))}
                 </div>
                 {submitted && selected !== q.correct && (
                   <p className="mt-2 text-xs font-semibold text-rose-200">
-                    {language === "ru" ? "Правильный ответ:" : "Correct answer:"} {q.options[q.correct][language]}
+                    {language === "ru" ? "Правильный ответ:" : "Correct answer:"}{" "}
+                    <MathText text={q.options[q.correct][language]} />
                   </p>
                 )}
               </div>
@@ -714,14 +715,14 @@ export default function DesmosMasteryPage() {
                     </span>
                   </div>
                   <h2 className="mt-3 text-xl font-black tracking-tight text-foreground sm:text-2xl">
-                    {recipe.title[language]}
+                    <MathText text={recipe.title[language]} />
                   </h2>
                   <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                    {recipe.goal[language]}
+                    <MathText text={recipe.goal[language]} preserveLines />
                   </p>
                   <p className="mt-2 inline-flex items-start gap-1.5 text-xs text-muted-foreground">
                     <Target className="mt-0.5 h-3.5 w-3.5 shrink-0 text-violet-300" />
-                    {recipe.when[language]}
+                    <MathText text={recipe.when[language]} preserveLines />
                   </p>
                 </div>
 
@@ -738,7 +739,7 @@ export default function DesmosMasteryPage() {
                           </span>
                           <div className="min-w-0 flex-1">
                             <p className="text-sm font-semibold text-foreground">
-                              {step.title[language]}
+                              <MathText text={step.title[language]} />
                             </p>
                             {step.note ? (
                               <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
@@ -775,7 +776,7 @@ export default function DesmosMasteryPage() {
                         {copy.speed}
                       </p>
                       <p className="mt-1.5 text-xs leading-relaxed text-emerald-100/90">
-                        {recipe.speed[language]}
+                        <MathText text={recipe.speed[language]} preserveLines />
                       </p>
                     </div>
                     <div className="rounded-xl border border-amber-400/20 bg-amber-500/[0.07] p-4">
@@ -784,7 +785,7 @@ export default function DesmosMasteryPage() {
                         {copy.caution}
                       </p>
                       <p className="mt-1.5 text-xs leading-relaxed text-amber-100/90">
-                        {recipe.caution[language]}
+                        <MathText text={recipe.caution[language]} preserveLines />
                       </p>
                     </div>
                   </div>
@@ -809,7 +810,9 @@ export default function DesmosMasteryPage() {
                     className="flex items-center justify-between gap-3 rounded-xl border border-border bg-secondary/50 px-3.5 py-2.5"
                   >
                     <code className="font-mono text-sm font-bold text-violet-200">{item.keys}</code>
-                    <span className="text-xs text-muted-foreground">{item.meaning[language]}</span>
+                    <span className="text-xs text-muted-foreground">
+                      <MathText text={item.meaning[language]} />
+                    </span>
                   </div>
                 ))}
               </div>

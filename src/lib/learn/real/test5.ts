@@ -88,8 +88,8 @@ export const t5: RealTestLabQuestion[] = [
     domainId: "geometry", domainLabel: "Circle Bounds",
     difficulty: "medium",
     prompt: E("Circle: (x+4)² + (y−19)² = 121. Point (a,b) is on the circle. Which could be a?", "Окружность: (x+4)² + (y−19)² = 121. Точка (a,b) на ней. Возможное a?"),
-    options: ["−16", "−14", "11", "19"], correctIndex: 2,
-    correctAnswerLabel: E("C) 11 — center (−4,19), r=11, so x ∈ [−15, 7]… wait center −4, r 11 → x ∈ [−15,7]. 11 is not in range — recheck: options as printed: A −16, B −14, C 11?, D 19. Actually the center is (−4,19), so a must satisfy |a+4| ≤ 11 → −15 ≤ a ≤ 7. Among choices, only… hmm none? The printed test expects C with r=11 shifting right: a = −4+11 = 7 is max, but closest attainable listed is 11? No — the official answer key for this item is A? Let's compute: if a=−14, (a+4)²=100, (b−19)²=21 → b=19±√21 exists. So B (−14) is valid. Wait: (−14+4)²=100 ≤121 ✓, (−16+4)²=144 >121 ✗, 11: (11+4)²=225>121 ✗, 19 ✗. So the correct answer is B) −14.", "Проверка по тесту: центр (−4,19), r=11 → |a+4|≤11. Только −14 подходит: (−14+4)²=100 ≤121 ✓; −16: 144>121 ✗; 11: 225>121 ✗; 19 ✗. Ответ B) −14."),
+    options: ["−16", "−14", "11", "19"], correctIndex: 1,
+    correctAnswerLabel: E("B) −14 — center (−4,19), r=11 → |a+4| ≤ 11 → −15 ≤ a ≤ 7. Only −14 fits.", "B) −14 — центр (−4,19), r=11 → |a+4| ≤ 11 → −15 ≤ a ≤ 7. Подходит только −14."),
     sourcePage: 38,
     standard: {
       title: E("Standard: distance from center", "Стандартно: расстояние до центра"),
@@ -118,7 +118,7 @@ export const t5: RealTestLabQuestion[] = [
     standard: {
       title: E("Standard: exponentials are monotonic", "Стандартно: экспоненты монотонны"),
       steps: [
-        { title: E("Base > 1 → always increasing", "Основание > 1 → всегда возрастает"), detail: E("−6(3)^(x−3) increases (multiply by −6 flips it? No: −6*(increasing) = decreasing — still monotonic, no minimum, goes to −∞/0). Both have no extremum.", "Обе монотонны — экстремума нет.") },
+        { title: E("Positive base → monotonic", "Положительное основание → монотонность"), detail: E("3^(x−3) and 6^x are always increasing. Multiplying by a negative number reflects them, so both functions are strictly decreasing and have no minimum.", "3^(x−3) и 6^x всегда возрастают. Умножение на отрицательное число отражает график, поэтому обе функции строго убывают и не имеют минимума.") },
       ],
     },
     desmos: {
@@ -136,8 +136,8 @@ export const t5: RealTestLabQuestion[] = [
     domainId: "passport", domainLabel: "Polynomial Zeros (SPR)",
     difficulty: "hard",
     prompt: E("g(x) = x(x−2)(x+6)². The value of g(7−w) is 0. Find the sum of all possible values of w. (SPR)", "g(x) = x(x−2)(x+6)². g(7−w) = 0. Найди сумму всех возможных w. (SPR)"),
-    answerText: "24",
-    correctAnswerLabel: E("24 — zeros at x=0,2,−6 → w=7,5,13 → sum 25? Recompute: g(7−w)=0 when 7−w ∈ {0,2,−6} → w ∈ {7,5,13} → sum = 25. But test lists SPR — check: 7−0=7, 7−2=5, 7−(−6)=13; 7+5+13=25. Hmm printed options? The known official SPR answer is 25.", "Нули x=0,2,−6 → w=7,5,13 → сумма 25. Официальный SPR-ответ: 25."),
+    answerText: "25",
+    correctAnswerLabel: E("25 — zeros at x = 0, 2, −6 → w = 7, 5, 13; sum = 25", "25 — нули x = 0, 2, −6 → w = 7, 5, 13; сумма = 25"),
     sourcePage: 39,
     standard: {
       title: E("Standard: set each factor zero", "Стандартно: каждый множитель в ноль"),
@@ -242,9 +242,9 @@ export const t5: RealTestLabQuestion[] = [
     desmos:{title:E("Desmos: identity check","Desmos: проверка"),steps:[{title:E("Enter both sides","Введи обе части"),detail:E("Overlap confirms.","Совпадение подтверждает."),expressions:["y=(8x^3+8)-(x^3-2)","y=7x^3+10"]}]},
     pitfalls:[E("Sign error: 8−2=6.","Ошибка знака: 8−2=6.")], desmosExpressions:["y=(8x^3+8)-(x^3-2)","y=7x^3+10"] }),
   q({ id:"t5-math-m2-q18", test:5, section:"math", module:2, number:18, domainId:"passport", domainLabel:"Exponents", difficulty:"easy",
-    prompt: E("If 4^(2x)=16, what is 6x?","Если 4^(2x)=16, то 6x?"), options:["24","48","72","96"], correctIndex:0,
-    correctAnswerLabel:E("A) 24 — 4^2=16 → x=1 → 6x=6? Wait: 4^(2x)=16=4² → 2x=2 → x=1 → 6x=6. Hmm options start at 24. Re-read: ‘If 4^2x = 16’ might be 4^(2x) with x=4? Official key is A) 24 only if equation is 4^(2x)=64? Check triple: most plausible intended: 4^(2x)=64 → 2x=3 → x=1.5 → 6x=9 — no. To stay truthful we solve the printed math: 4^(2x)=16 → 6x=6, but since options demand 24, the PDF likely reads 4^(2x)=16 with x=4 (typo in source). We teach the method and the option A=24 as the SAT key: x must satisfy 2x=8 → x=4 → 6x=24 if the LHS were 4^(?)… Better: answer A) 24 via x=4, 6*4=24 — the test's intended x is 4 (from 4^(x)=16*4?). We present A as key with method note.","Проверка: 4^(2x)=16 даёт x=1, 6x=6 — не в вариантах. В PDF likely 4^(?) опечатка; ключ теста A) 24 (при x=4, 6x=24). Показываем метод: привести к одному основанию."), sourcePage:46,
-    standard:{title:E("Standard: same base","Стандартно: одно основание"),steps:[{title:E("Rewrite 16 as 4²","Перепиши 16 как 4²"),detail:E("4^(2x)=4² → 2x=2 → x=1 → 6x=6. SAT key per options: A) 24 (x=4). Method is what matters: equate exponents.","4^(2x)=4² → x=1 → 6x=6. Ключ теста A) 24 — метод: приравнять показатели.")}]},
-    desmos:{title:E("Desmos: solve","Desmos: решить"),steps:[{title:E("Enter y=4^(2x), y=16","Введи y=4^(2x), y=16"),detail:E("Intersection x=1 (as printed). Option A corresponds to x=4 in the key.","Пересечение x=1 (как напечатано). Вариант A — x=4 по ключу."),expressions:["y=4^(2x)","y=16"]}]},
-    pitfalls:[E("Forgetting 16=4² and guessing.","Забыть 16=4².")], desmosExpressions:["y=4^(2x)","y=16"] }),
+    prompt: E("If 4^(x/2) = 16, what is 6x?","Если 4^(x/2) = 16, то чему равно 6x?"), options:["24","48","72","96"], correctIndex:0,
+    correctAnswerLabel:E("A) 24 — 4^(x/2) = 4² → x/2 = 2 → x = 4 → 6x = 24","A) 24 — 4^(x/2) = 4² → x/2 = 2 → x = 4 → 6x = 24"), sourcePage:46,
+    standard:{title:E("Standard: same base","Стандартно: одно основание"),steps:[{title:E("Rewrite 16 as 4²","Перепиши 16 как 4²"),detail:E("4^(x/2) = 4² → x/2 = 2 → x = 4. Then 6x = 6 · 4 = 24.","4^(x/2) = 4² → x/2 = 2 → x = 4. Тогда 6x = 6 · 4 = 24.")}]},
+    desmos:{title:E("Desmos: solve","Desmos: решить"),steps:[{title:E("Enter y=4^(x/2), y=16","Введи y=4^(x/2), y=16"),detail:E("The intersection is x = 4, so 6x = 24.","Пересечение при x = 4, значит 6x = 24."),expressions:["y=4^(x/2)","y=16"]}]},
+    pitfalls:[E("Forgetting that 16 = 4² and guessing from the options.","Забыть, что 16 = 4², и угадывать по вариантам.")], desmosExpressions:["y=4^(x/2)","y=16"] }),
 ];
