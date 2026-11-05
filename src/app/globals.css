@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "katex/dist/katex.min.css";
 
 /* The app is dark-only and sets `.dark` on <html> explicitly.
    Without this, Tailwind v4 binds `dark:` to the OS preference instead. */
@@ -38,57 +39,125 @@
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
-  
-  --font-sans: "Aptos", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
-  --font-mono: "Cascadia Code", "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+
+  --font-sans: "Aptos", "Inter", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  --font-mono: "Cascadia Code", "JetBrains Mono", "SF Mono", Consolas, "Liberation Mono", monospace;
 
   --radius-2xl: 1rem;
   --radius-3xl: 1.5rem;
 }
 
 .dark {
-  --background: #0a0a0c;
+  --background: #060608;
   --foreground: #fafafa;
-  --card: #0a0a0c;
+  --card: #0a0a0f;
   --card-foreground: #fafafa;
-  --popover: #0a0a0c;
+  --popover: #0a0a0f;
   --popover-foreground: #fafafa;
-  --primary: #965dff;
+  --primary: #a855f7;
   --primary-foreground: #ffffff;
-  --secondary: #1a1a1e;
+  --secondary: #16161d;
   --secondary-foreground: #fafafa;
-  --muted: #1a1a1e;
+  --muted: #16161d;
   --muted-foreground: #a1a1aa;
-  --accent: #1a1a1e;
+  --accent: #16161d;
   --accent-foreground: #fafafa;
   --destructive: #7f1d1d;
   --destructive-foreground: #fafafa;
-  --border: #1a1a1e;
-  --input: #1a1a1e;
-  --ring: #965dff;
+  --border: #22222e;
+  --input: #16161d;
+  --ring: #a855f7;
 }
 
 @layer base {
   * {
     @apply border-border;
   }
+  html {
+    scroll-behavior: smooth;
+  }
   body {
-    @apply bg-background text-foreground antialiased selection:bg-primary/20;
+    @apply bg-background text-foreground antialiased selection:bg-primary/30 selection:text-white;
     font-feature-settings: "rlig" 1, "calt" 1;
-    /* Safe area insets for modern phones */
     padding-top: env(safe-area-inset-top, 0px);
     padding-bottom: env(safe-area-inset-bottom, 0px);
-    /* Better touch behavior */
     -webkit-tap-highlight-color: transparent;
+    overflow-x: clip;
   }
-  /* Ensure touch targets are at least 44px (Apple HIG / Material Design) */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -2;
+    background:
+      radial-gradient(1100px 500px at 15% -10%, rgba(168,85,247,0.16), transparent 60%),
+      radial-gradient(900px 450px at 85% 0%, rgba(56,189,248,0.10), transparent 55%),
+      radial-gradient(700px 400px at 50% 110%, rgba(236,72,153,0.08), transparent 60%),
+      #060608;
+  }
+  body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background-image: radial-gradient(circle at 1px 1px, rgba(255,255,255,0.045) 1px, transparent 0);
+    background-size: 28px 28px;
+    mask-image: radial-gradient(ellipse 90% 70% at 50% 0%, black 40%, transparent 75%);
+  }
   button, a, input, select, textarea {
     @apply min-h-[44px] min-w-[44px];
   }
-  /* Fix for small screens: prevent horizontal overflow */
+  button {
+    min-height: auto;
+    min-width: auto;
+  }
+  a:not([class*="p-"]) {
+    min-height: auto;
+    min-width: auto;
+  }
   img, svg, video, canvas {
     @apply max-w-full h-auto;
   }
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #0a0a0f;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #2e2e3e;
+    border-radius: 8px;
+    border: 2px solid #0a0a0f;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #a855f7;
+  }
+}
+
+/* KaTeX polish — ChatGPT-like legibility */
+.katex {
+  font-size: 1.04em;
+  text-rendering: optimizeLegibility;
+}
+.katex-display {
+  margin: 0.6em 0;
+  padding: 0.65em 1em;
+  background: linear-gradient(135deg, rgba(168,85,247,0.07), rgba(56,189,248,0.04));
+  border: 1px solid rgba(168,85,247,0.18);
+  border-radius: 14px;
+  overflow-x: auto;
+}
+.math-render .katex-display {
+  background: transparent;
+  border: none;
+  padding: 0;
+  margin: 0;
+  display: inline-block;
+}
+.math-render {
+  display: inline-block;
+  vertical-align: baseline;
 }
 
 /* iOS safe area utilities */
@@ -113,24 +182,81 @@ body.overflow-hidden-mobile {
 }
 
 .glass {
-  @apply bg-white/70 dark:bg-zinc-950/70 backdrop-blur-md border border-white/20 dark:border-white/10;
+  @apply bg-white/70 dark:bg-zinc-950/70 backdrop-blur-xl border border-white/20 dark:border-white/10;
 }
 
 .glass-card {
-  @apply bg-white/50 dark:bg-zinc-900/50 backdrop-blur-sm border border-white/20 dark:border-white/5;
+  @apply bg-white/50 dark:bg-zinc-900/50 backdrop-blur-xl border border-white/20 dark:border-white/5;
 }
 
 .subtle-grid {
-  background-image: radial-gradient(circle at 1px 1px, var(--border) 1px, transparent 0);
+  background-image: radial-gradient(circle at 1px 1px, rgba(255,255,255,0.07) 1px, transparent 0);
   background-size: 24px 24px;
 }
 
 .hover-glow {
   box-shadow: 0 0 0 rgba(124, 58, 237, 0);
-  transition: box-shadow 180ms ease, transform 180ms ease, border-color 180ms ease,
-    background-color 180ms ease, color 180ms ease;
+  transition: box-shadow 220ms ease, transform 220ms cubic-bezier(0.34, 1.56, 0.64, 1), border-color 220ms ease,
+    background-color 220ms ease, color 220ms ease;
+}
+.hover-glow:hover {
+  box-shadow: 0 0 0 1px rgba(173, 147, 255, 0.35), 0 18px 40px rgba(135, 72, 245, 0.28), 0 0 40px rgba(168,85,247,0.12);
+  transform: translateY(-2px);
+}
+.hover-glow:active {
+  transform: translateY(0) scale(0.98);
 }
 
-.hover-glow:hover {
-  box-shadow: 0 0 0 1px rgba(173, 147, 255, 0.34), 0 14px 30px rgba(135, 72, 245, 0.22);
+/* Animations */
+@keyframes float-up {
+  from { opacity: 0; transform: translateY(18px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes pop-in {
+  0% { opacity: 0; transform: scale(0.94) translateY(8px); }
+  100% { opacity: 1; transform: scale(1) translateY(0); }
+}
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(200%); }
+}
+@keyframes streak-pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.18); }
+}
+@keyframes flame-flicker {
+  0%, 100% { transform: rotate(-2deg) scale(1); }
+  50% { transform: rotate(2deg) scale(1.06); }
+}
+@keyframes confetti-fall {
+  0% { transform: translateY(-20vh) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(110vh) rotate(720deg); opacity: 0.9; }
+}
+@keyframes levelup-ring {
+  0% { transform: scale(0.9); opacity: 0.6; }
+  100% { transform: scale(1.4); opacity: 0; }
+}
+
+.animate-float-up {
+  animation: float-up 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.animate-pop-in {
+  animation: pop-in 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+.animate-streak-pulse {
+  animation: streak-pulse 1.6s ease-in-out infinite;
+}
+.animate-flame-flicker {
+  animation: flame-flicker 1.2s ease-in-out infinite;
+}
+.shine-bar {
+  position: relative;
+  overflow: hidden;
+}
+.shine-bar::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent 30%, rgba(255,255,255,0.45) 50%, transparent 70%);
+  animation: shimmer 2.8s ease-in-out infinite;
 }

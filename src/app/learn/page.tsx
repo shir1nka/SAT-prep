@@ -1,335 +1,413 @@
 "use client";
 
-import type { ReactNode } from "react";
-import { useMemo, useState } from "react";
-import { motion } from "framer-motion";
-import { ArrowRight, BookOpen, Brain, GraduationCap, Sparkles, Target } from "lucide-react";
+import Link from "next/link";
+import {
+  ArrowRight,
+  BarChart3,
+  Beaker,
+  BookOpen,
+  Calculator,
+  CheckCircle2,
+  GraduationCap,
+  Layers3,
+  Sparkles,
+  Target,
+  Zap,
+} from "lucide-react";
 
 import SiteHeader from "@/components/SiteHeader";
-import { LinkButton } from "@/components/ui/Button";
+import { XpBar } from "@/components/learn/XpBar";
 import { useLanguage } from "@/lib/language-context";
+import { ACCENT } from "@/lib/learn/accent";
 import {
-  SAT_LEARN_COURSES,
-  getCourseSkillCount,
-  getLearnCourseById,
-  pickText,
-} from "@/lib/sat-learn";
+  SECTIONS,
+  TOTAL_STATS,
+  getDomain,
+  getDomains,
+  getSectionStats,
+  getSectionTopics,
+  pick,
+  type LearnSectionId,
+} from "@/lib/learn";
+import { useLearnProgress } from "@/lib/learn/progress";
 import { cn } from "@/lib/utils";
+
+const QUESTION_BANK_TOTAL = 360;
 
 export default function LearnPage() {
   const { language } = useLanguage();
-  const [selectedCourseId, setSelectedCourseId] = useState(SAT_LEARN_COURSES[0]?.id ?? "sat-math");
+  const progress = useLearnProgress();
 
-  const selectedCourse = useMemo(
-    () => getLearnCourseById(selectedCourseId),
-    [selectedCourseId]
-  );
-
-  const totalUnits = SAT_LEARN_COURSES.reduce((sum, course) => sum + course.units.length, 0);
-  const totalSkills = SAT_LEARN_COURSES.reduce(
-    (sum, course) => sum + getCourseSkillCount(course),
-    0
-  );
-
-  const text =
+  const copy =
     language === "ru"
       ? {
-          badge: "SAT Learn",
-          title: "SAT Learn",
+          kicker: "SAT Learn",
+          title: "Учись так, как тебя проверяют.",
           description:
-            "Теперь это не школьный раздел по классам, а понятная карта SAT-подготовки: два курса, юниты, навыки, быстрые проверки и отдельные страницы для тренировки.",
-          summary: "Сводка курсов",
-          courses: "Курсы",
-          units: "Юниты",
-          skills: "Навыки",
-          practiceFlow: "Как проходить",
-          practiceFlowBody:
-            "Выбирай курс, открывай один навык, проходи объяснение, решай быструю проверку и двигайся по юниту дальше.",
-          openMap: "Открыть карту курса",
-          explore: "Открыть SAT learn",
-          statCourses: "2 SAT курса",
-          statCoursesDesc: "SAT Math и SAT Reading and Writing в одной структуре.",
-          statSkills: "Навыки и проверки",
-          statSkillsDesc: "Каждый навык открывается как мини-урок с практикой.",
-          statUnits: "Карта юнитов",
-          statUnitsDesc: "Видно, с чего начать и куда идти дальше.",
-          preview: "Сейчас в фокусе",
-          startsWith: "Старт курса",
-          seeCourse: "Открыть курс",
+            "Две секции — English и Math — разобраны по темам. В каждой: теория, примеры, ловушки, практика из реальных тестов и Desmos там, где он реально экономит время.",
+          topics: "тем",
+          questions: "вопросов",
+          minutes: "минут контента",
+          sections: "Секции",
+          open: "Открыть секцию",
+          progress: "пройдено",
+          domains: "домены",
+          desmosTitle: "Desmos Mastery",
+          desmosBody:
+            "Отдельный блок про калькулятор: как строить, находить пересечения, корни, таблицы, слайдеры и линию регрессии. С кнопкой «Открыть в Desmos» в каждом шаге.",
+          desmosCta: "Открыть Desmos-блок",
+          bankTitle: `Банк вопросов · ${QUESTION_BANK_TOTAL}`,
+          bankBody:
+            "Все вопросы из трёх полных официальных тестов (4, 5, 6): фильтры по домену, теме, сложности и источнику. Ответы и разборы внутри.",
+          bankCta: "Открыть банк",
+          howTitle: "Как проходить",
+          how: [
+            {
+              title: "Выбери секцию",
+              body: "English или Math. Внутри — домены и темы в порядке, в котором они дают больше всего баллов.",
+            },
+            {
+              title: "Разбери тему",
+              body: "Теория короткая. Дальше 2 разобранных примера и список ловушек, которые встречаются в тестах.",
+            },
+            {
+              title: "Реши практику",
+              body: "4–6 вопросов из реальных тестов. Сразу видно ответ, разбор и как это же решается в Desmos.",
+            },
+          ],
+          math: "Math Section",
+          english: "English SAT",
+          go: "Начать",
+          minutesShort: "мин",
         }
       : {
-          badge: "SAT Learn",
-          title: "New SAT learning hub",
+          kicker: "SAT Learn",
+          title: "Learn the way the test asks.",
           description:
-            "This is no longer a school-grade hub. It is a clean SAT roadmap with two courses, visible units, skill drills, and dedicated practice pages.",
-          summary: "Course summary",
-          courses: "Courses",
-          units: "Units",
-          skills: "Skills",
-          practiceFlow: "How to use it",
-          practiceFlowBody:
-            "Pick a course, open one skill, study the explanation, answer the quick check, and then move forward through the unit map.",
-          openMap: "Open course map",
-          explore: "Open SAT learn",
-          statCourses: "2 SAT courses",
-          statCoursesDesc: "SAT Math and SAT Reading and Writing in one structure.",
-          statSkills: "Skills + quick checks",
-          statSkillsDesc: "Each skill opens as a mini-lesson with practice.",
-          statUnits: "Unit roadmap",
-          statUnitsDesc: "It is clear where to start and where to go next.",
-          preview: "Current focus",
-          startsWith: "Course starts with",
-          seeCourse: "Open course",
+            "Two sections — English and Math — broken into topics. Every topic has the theory, worked examples, trap lists, real practice from official tests, and Desmos where it actually saves time.",
+          topics: "topics",
+          questions: "questions",
+          minutes: "minutes of content",
+          sections: "Sections",
+          open: "Open section",
+          progress: "complete",
+          domains: "domains",
+          desmosTitle: "Desmos Mastery",
+          desmosBody:
+            "A dedicated calculator track: graphing, intersections, roots, tables, sliders, and regression. Every step has an “Open in Desmos” button.",
+          desmosCta: "Open the Desmos track",
+          bankTitle: `Question bank · ${QUESTION_BANK_TOTAL}`,
+          bankBody:
+            "Every question from three full official tests (4, 5, 6), filterable by domain, topic, difficulty, and source. Answers and explanations included.",
+          bankCta: "Open the bank",
+          howTitle: "How to use it",
+          how: [
+            {
+              title: "Pick a section",
+              body: "English or Math. Inside, domains and topics are ordered by how many points they are worth.",
+            },
+            {
+              title: "Study the topic",
+              body: "The theory is short. Then two worked examples and the trap list that shows up on the real test.",
+            },
+            {
+              title: "Do the practice",
+              body: "4–6 questions from real tests, with the answer, the reasoning, and the Desmos route.",
+            },
+          ],
+          math: "Math Section",
+          english: "English SAT",
+          go: "Start",
+          minutesShort: "min",
         };
+
+  const sectionStats = (section: LearnSectionId) => getSectionStats(section);
+  const sectionCompleted = (section: LearnSectionId) => {
+    const ids = new Set(getSectionTopics(section).map((topic) => topic.id));
+    return progress.completed.filter((id) => ids.has(id)).length;
+  };
 
   return (
     <div className="min-h-screen text-foreground">
       <SiteHeader />
 
-      <main className="relative overflow-hidden">
+      <main className="relative overflow-hidden pb-24">
         <div className="pointer-events-none absolute inset-0">
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(14,165,233,0.08),_transparent_35%),radial-gradient(circle_at_bottom_right,_rgba(245,158,11,0.08),_transparent_30%)]" />
-          <div className="absolute inset-0 subtle-grid opacity-[0.18]" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_15%_0%,rgba(150,93,255,0.16),transparent_38%),radial-gradient(circle_at_85%_10%,rgba(56,189,248,0.10),transparent_35%)]" />
+          <div className="absolute inset-0 subtle-grid opacity-[0.16]" />
         </div>
 
-        <section className="relative mx-auto max-w-6xl px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
-          <motion.div
-            initial={{ opacity: 0, y: 18 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="rounded-[2rem] border border-border bg-card p-8 shadow-[0_24px_80px_rgba(15,23,42,0.08)] dark:shadow-none backdrop-blur"
-          >
-            <div className="flex flex-col gap-8 xl:grid xl:grid-cols-[320px_minmax(0,1fr)] xl:gap-10">
-              <aside className="xl:sticky xl:top-24 xl:self-start">
-                <div className="rounded-[1.75rem] border border-border bg-secondary p-5">
-                  <div className="inline-flex items-center gap-2 rounded-full border border-sky-200 dark:border-sky-800 bg-sky-50 dark:bg-sky-950/20 px-3 py-1 text-[11px] font-bold uppercase tracking-[0.2em] text-sky-700 dark:text-sky-400">
-                    <Sparkles className="h-3.5 w-3.5" />
-                    {text.summary}
-                  </div>
+        <section className="relative mx-auto max-w-6xl px-4 pt-12 sm:px-6 lg:px-8 lg:pt-16">
+          <div className="rounded-[2rem] border border-border bg-card/80 p-7 backdrop-blur-xl sm:p-10">
+            <div className="inline-flex items-center gap-2 rounded-full border border-violet-400/25 bg-violet-500/10 px-3 py-1 text-[11px] font-bold uppercase tracking-[0.22em] text-violet-300">
+              <Sparkles className="h-3.5 w-3.5" />
+              {copy.kicker}
+            </div>
 
-                  <div className="mt-5 space-y-3">
-                    {SAT_LEARN_COURSES.map((course) => {
-                      const isActive = course.id === selectedCourse.id;
-                      return (
-                        <button
-                          key={course.id}
-                          type="button"
-                          onClick={() => setSelectedCourseId(course.id)}
-                          className={cn(
-                            "w-full rounded-[1.5rem] border px-4 py-4 text-left transition-all",
-                            isActive
-                              ? "border-sky-300 bg-sky-50/60 shadow-sm dark:border-sky-800 dark:bg-sky-950/20"
-                              : "border-border bg-card hover:border-sky-200 dark:hover:border-sky-800 hover:bg-secondary dark:hover:bg-zinc-900/30"
-                          )}
-                        >
-                          <p className="text-xs font-bold uppercase tracking-[0.18em] text-muted-foreground">
-                            {pickText(language, course.eyebrow)}
-                          </p>
-                          <p className="mt-1 text-xl font-bold text-foreground">
-                            {pickText(language, course.title)}
-                          </p>
-                          <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                            {pickText(language, course.summary)}
-                          </p>
-                          <div className="mt-4 flex items-center gap-4 text-xs font-semibold text-muted-foreground">
-                            <span>
-                              {course.units.length} {text.units}
-                            </span>
-                            <span>
-                              {getCourseSkillCount(course)} {text.skills}
-                            </span>
-                          </div>
-                        </button>
-                      );
-                    })}
-                  </div>
+            <h1 className="mt-5 max-w-3xl bg-gradient-to-r from-white via-violet-100 to-fuchsia-100 bg-clip-text text-4xl font-black leading-[1.02] tracking-tight text-transparent sm:text-5xl lg:text-6xl">
+              {copy.title}
+            </h1>
+            <p className="mt-5 max-w-2xl text-base leading-relaxed text-zinc-400 sm:text-lg">
+              {copy.description}
+            </p>
 
-                  <div className="mt-5 rounded-[1.5rem] border border-border bg-card p-4">
-                    <p className="text-xs font-bold uppercase tracking-[0.18em] text-muted-foreground">
-                      {text.practiceFlow}
-                    </p>
-                    <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-                      {text.practiceFlowBody}
-                    </p>
+            <XpBar className="mt-6" />
+
+            <div className="mt-6 grid gap-3 sm:grid-cols-3">
+              {[
+                { value: TOTAL_STATS.topics, label: copy.topics, icon: Layers3, grad: "from-violet-500/20 to-violet-500/5 text-violet-300" },
+                { value: QUESTION_BANK_TOTAL, label: copy.questions, icon: Target, grad: "from-sky-500/20 to-sky-500/5 text-sky-300" },
+                { value: TOTAL_STATS.minutes, label: copy.minutes, icon: BookOpen, grad: "from-emerald-500/20 to-emerald-500/5 text-emerald-300" },
+              ].map((item, i) => (
+                <div
+                  key={item.label}
+                  className={`group flex items-center gap-3 rounded-2xl border border-border/80 bg-gradient-to-br ${item.grad} p-4 backdrop-blur transition-all duration-300 hover:-translate-y-0.5 hover:border-violet-400/30 hover:shadow-[0_12px_32px_rgba(168,85,247,0.18)]`}
+                  style={{ animationDelay: `${i * 80}ms` }}
+                >
+                  <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/10 ring-1 ring-white/10">
+                    <item.icon className="h-5 w-5" />
+                  </span>
+                  <div>
+                    <p className="text-xl font-black leading-none text-white">{item.value}</p>
+                    <p className="mt-1 text-xs font-semibold text-zinc-400">{item.label}</p>
                   </div>
                 </div>
-              </aside>
+              ))}
+            </div>
+          </div>
+        </section>
 
-              <div className="space-y-8">
-                <div className="rounded-[2rem] border border-border bg-card p-7">
-                  <div className="inline-flex items-center gap-2 rounded-full border border-amber-200 dark:border-amber-800 bg-amber-50 dark:bg-amber-950/20 px-3 py-1 text-[11px] font-bold uppercase tracking-[0.2em] text-amber-700 dark:text-amber-400">
-                    <Target className="h-3.5 w-3.5" />
-                    {text.badge}
-                  </div>
-                  <h1 className="mt-5 text-4xl font-black tracking-tight text-foreground md:text-5xl">
-                    {text.title}
-                  </h1>
-                  <p className="mt-4 max-w-3xl text-base leading-relaxed text-muted-foreground md:text-lg">
-                    {text.description}
-                  </p>
+        <section className="relative mx-auto mt-8 max-w-6xl px-4 sm:px-6 lg:px-8">
+          <div className="grid gap-5 lg:grid-cols-2">
+            {(["english", "math"] as LearnSectionId[]).map((sectionId, si) => {
+              const section = SECTIONS[sectionId];
+              const stats = sectionStats(sectionId);
+              const completed = sectionCompleted(sectionId);
+              const percent = stats.topics === 0 ? 0 : Math.round((completed / stats.topics) * 100);
+              const accent = ACCENT[section.accent as keyof typeof ACCENT];
+              const domains = getDomains(sectionId);
 
-                  <div className="mt-8 grid gap-4 lg:grid-cols-3">
-                    <StatCard
-                      icon={<GraduationCap className="h-5 w-5 text-sky-600" />}
-                      value={String(SAT_LEARN_COURSES.length)}
-                      label={text.courses}
-                    />
-                    <StatCard
-                      icon={<BookOpen className="h-5 w-5 text-emerald-600" />}
-                      value={String(totalUnits)}
-                      label={text.units}
-                    />
-                    <StatCard
-                      icon={<Brain className="h-5 w-5 text-amber-600" />}
-                      value={String(totalSkills)}
-                      label={text.skills}
-                    />
-                  </div>
-                </div>
-
-                <div className="rounded-[2rem] border border-border bg-card p-7 shadow-sm dark:shadow-none">
-                  <p className="text-xs font-bold uppercase tracking-[0.18em] text-muted-foreground">
-                    {text.preview}
-                  </p>
-                  <div className="mt-3 flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
-                    <div className="max-w-3xl">
-                      <h2 className="text-3xl font-black tracking-tight text-foreground">
-                        {pickText(language, selectedCourse.title)}
-                      </h2>
-                      <p className="mt-3 text-base leading-relaxed text-muted-foreground">
-                        {pickText(language, selectedCourse.description)}
+              return (
+                <Link
+                  key={sectionId}
+                  href={`/learn/${sectionId}`}
+                  className={cn(
+                    "group relative flex flex-col overflow-hidden rounded-[2rem] border border-border bg-card/80 p-7 backdrop-blur-xl transition-all hover:-translate-y-1",
+                    accent.glow
+                  )}
+                >
+                  <div className={cn("absolute inset-x-0 top-0 h-px", accent.bg)} />
+                  <div className="flex items-start justify-between gap-4">
+                    <div>
+                      <p className={cn("text-xs font-bold uppercase tracking-[0.22em]", accent.text)}>
+                        {pick(language, section.kicker)}
                       </p>
-                      <div className="mt-5 flex flex-wrap gap-3 text-sm">
-                        <PreviewPill label={`${selectedCourse.units.length} ${text.units}`} />
-                        <PreviewPill
-                          label={`${getCourseSkillCount(selectedCourse)} ${text.skills}`}
-                        />
-                        <PreviewPill
-                          label={`${text.startsWith}: ${pickText(language, selectedCourse.units[0].title)}`}
-                        />
-                      </div>
+                      <h2 className="mt-2 text-3xl font-black tracking-tight text-foreground">
+                        {pick(language, section.title)}
+                      </h2>
                     </div>
-
-                    <LinkButton
-                      href={`/learn/${selectedCourse.id}`}
-                      variant="primary"
-                      size="lg"
-                      className="h-12 rounded-2xl bg-sky-600 px-7 text-base shadow-none hover:bg-sky-700"
-                    >
-                      {text.openMap}
-                      <ArrowRight className="ml-2 h-4 w-4" />
-                    </LinkButton>
-                  </div>
-                </div>
-
-                <div className="grid gap-5 lg:grid-cols-2">
-                  {SAT_LEARN_COURSES.map((course) => (
-                    <article
-                      key={course.id}
+                    <span
                       className={cn(
-                        "rounded-[2rem] border border-border bg-card p-6 shadow-sm dark:shadow-none transition-all hover:-translate-y-0.5",
-                        course.id === selectedCourse.id
-                          ? "border-sky-300 shadow-[0_18px_40px_rgba(14,165,233,0.12)] dark:border-sky-800"
-                          : "border-border"
+                        "flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border",
+                        accent.bg,
+                        accent.border,
+                        accent.text
                       )}
                     >
-                      <p className="text-xs font-bold uppercase tracking-[0.18em] text-muted-foreground">
-                        {pickText(language, course.eyebrow)}
-                      </p>
-                      <h3 className="mt-2 text-2xl font-bold text-foreground">
-                        {pickText(language, course.title)}
-                      </h3>
-                      <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-                        {pickText(language, course.summary)}
-                      </p>
+                      {sectionId === "math" ? (
+                        <Calculator className="h-6 w-6" />
+                      ) : (
+                        <BookOpen className="h-6 w-6" />
+                      )}
+                    </span>
+                  </div>
 
-                      <div className="mt-5 grid gap-3">
-                        {course.units.slice(0, 3).map((unitItem) => (
-                          <div
-                            key={unitItem.id}
-                            className="rounded-[1.25rem] border border-border bg-secondary px-4 py-3 dark:bg-zinc-900/30"
-                          >
-                            <div className="text-[11px] font-bold uppercase tracking-[0.18em] text-muted-foreground">
-                              Unit {unitItem.order}
-                            </div>
-                            <div className="mt-1 font-semibold text-foreground">
-                              {pickText(language, unitItem.title)}
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-
-                      <div className="mt-6 flex flex-wrap gap-3">
-                        <InfoChip title={text.statCourses} body={text.statCoursesDesc} />
-                        <InfoChip title={text.statSkills} body={text.statSkillsDesc} />
-                        <InfoChip title={text.statUnits} body={text.statUnitsDesc} />
-                      </div>
-
-                      <div className="mt-6">
-                        <LinkButton
-                          href={`/learn/${course.id}`}
-                          variant="outline"
-                          className="rounded-2xl border-border bg-secondary text-foreground hover:border-sky-300 dark:hover:border-sky-800 hover:bg-secondary dark:hover:bg-zinc-900/30 hover:text-sky-700 dark:hover:text-sky-400"
-                        >
-                          {text.seeCourse}
-                          <ArrowRight className="ml-2 h-4 w-4" />
-                        </LinkButton>
-                      </div>
-                    </article>
-                  ))}
-                </div>
-
-                <div className="rounded-[2rem] border border-border bg-secondary p-6 dark:bg-zinc-900/30">
-                  <p className="text-xs font-bold uppercase tracking-[0.18em] text-muted-foreground">
-                    {text.explore}
-                  </p>
                   <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-                    {pickText(language, selectedCourse.banner)}
+                    {pick(language, section.summary)}
                   </p>
-                </div>
+
+                  <div className="mt-5 flex flex-wrap gap-2">
+                    {domains.map((domain) => (
+                      <span
+                        key={domain.id}
+                        className="rounded-full border border-border bg-secondary/70 px-2.5 py-1 text-[11px] font-medium text-muted-foreground"
+                      >
+                        {pick(language, domain.shortTitle)}
+                      </span>
+                    ))}
+                  </div>
+
+                  <div className="mt-6 grid grid-cols-3 gap-2 text-center">
+                    <div className="rounded-xl border border-border bg-secondary/50 px-2 py-2">
+                      <p className="text-lg font-black text-foreground">{stats.topics}</p>
+                      <p className="text-[10px] uppercase tracking-wide text-muted-foreground">
+                        {copy.topics}
+                      </p>
+                    </div>
+                    <div className="rounded-xl border border-border bg-secondary/50 px-2 py-2">
+                      <p className="text-lg font-black text-foreground">{stats.questions}</p>
+                      <p className="text-[10px] uppercase tracking-wide text-muted-foreground">
+                        {copy.questions}
+                      </p>
+                    </div>
+                    <div className="rounded-xl border border-border bg-secondary/50 px-2 py-2">
+                      <p className="text-lg font-black text-foreground">{stats.minutes}</p>
+                      <p className="text-[10px] uppercase tracking-wide text-muted-foreground">
+                        {copy.minutesShort}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="mt-5">
+                    <div className="flex items-center justify-between text-xs text-muted-foreground">
+                      <span>
+                        {completed}/{stats.topics} {copy.progress}
+                      </span>
+                      <span>{percent}%</span>
+                    </div>
+                    <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-secondary">
+                      <div
+                        className={cn("h-full rounded-full transition-all", accent.dot)}
+                        style={{ width: `${percent}%` }}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="mt-6 flex items-center gap-2 text-sm font-semibold text-foreground">
+                    {copy.open}
+                    <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                  </div>
+                </Link>
+              );
+            })}
+          </div>
+        </section>
+
+        <section className="relative mx-auto mt-6 grid max-w-6xl gap-5 px-4 sm:px-6 lg:grid-cols-[1.2fr_0.8fr] lg:px-8">
+          <Link
+            href="/learn/math/desmos"
+            className="group relative overflow-hidden rounded-[2rem] border border-violet-400/25 bg-gradient-to-br from-violet-600/20 via-card to-card p-7 transition-all hover:-translate-y-1 hover:border-violet-300/40"
+          >
+            <div className="flex items-center gap-3">
+              <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-violet-500/20 text-violet-200">
+                <Calculator className="h-5 w-5" />
+              </span>
+              <div>
+                <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-violet-300">
+                  {pick(language, SECTIONS.math.kicker)}
+                </p>
+                <h3 className="text-2xl font-black text-foreground">{copy.desmosTitle}</h3>
               </div>
             </div>
-          </motion.div>
+            <p className="mt-4 max-w-xl text-sm leading-relaxed text-muted-foreground">
+              {copy.desmosBody}
+            </p>
+            <div className="mt-5 flex flex-wrap gap-2 text-[11px] font-semibold text-violet-200">
+              {["intersections", "roots", "tables", "sliders", "regression", "inequalities"].map(
+                (item) => (
+                  <span key={item} className="rounded-full border border-violet-400/25 bg-violet-500/10 px-2.5 py-1">
+                    {item}
+                  </span>
+                )
+              )}
+            </div>
+            <div className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-violet-200">
+              {copy.desmosCta}
+              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+            </div>
+          </Link>
+
+          <Link
+            href="/learn/math/bank"
+            className="group relative overflow-hidden rounded-[2rem] border border-border bg-card/80 p-7 backdrop-blur-xl transition-all hover:-translate-y-1 hover:border-emerald-400/30"
+          >
+            <div className="flex items-center gap-3">
+              <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-emerald-500/10 text-emerald-300">
+                <BarChart3 className="h-5 w-5" />
+              </span>
+              <h3 className="text-2xl font-black text-foreground">{copy.bankTitle}</h3>
+            </div>
+            <p className="mt-4 text-sm leading-relaxed text-muted-foreground">{copy.bankBody}</p>
+            <div className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-emerald-200">
+              {copy.bankCta}
+              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+            </div>
+          </Link>
+
+          <Link
+            href="/learn/real"
+            className="group relative overflow-hidden rounded-[2rem] border border-emerald-400/25 bg-gradient-to-br from-emerald-600/20 via-card to-card p-7 backdrop-blur-xl transition-all hover:-translate-y-1 hover:border-emerald-300/50 hover:shadow-[0_20px_50px_rgba(16,185,129,0.18)] lg:col-span-2"
+          >
+            <div className="pointer-events-none absolute -right-10 -top-10 h-40 w-40 rounded-full bg-emerald-500/20 blur-3xl" />
+            <div className="relative flex flex-wrap items-start justify-between gap-4">
+              <div className="flex items-center gap-3">
+                <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-500 text-white shadow-[0_10px_28px_rgba(16,185,129,0.4)]">
+                  <Beaker className="h-5 w-5" />
+                </span>
+                <div>
+                  <p className="text-[11px] font-black uppercase tracking-[0.22em] text-emerald-300">Real Test Lab</p>
+                  <h3 className="text-2xl font-black text-foreground">{language === "ru" ? "Реальные задачи из тестов 4–6" : "Real tasks from Tests 4–6"}</h3>
+                </div>
+              </div>
+              <span className="rounded-full border border-emerald-400/30 bg-emerald-500/10 px-3 py-1 text-xs font-black text-emerald-100">+15 XP / {language === "ru" ? "задача" : "question"}</span>
+            </div>
+            <p className="relative mt-4 max-w-2xl text-sm leading-relaxed text-muted-foreground">
+              {language === "ru"
+                ? "Настоящие вопросы из официальных PDF: стандартный разбор по шагам + быстрый Desmos-путь с точными выражениями. Каждый — проверен 3 раза: условие из PDF, независимый пересчёт, проверка выражений Desmos."
+                : "Real questions from the official PDFs: standard step-by-step solution + fast Desmos path with exact expressions. Each triple-checked: PDF prompt, independent recalculation, Desmos expressions."}
+            </p>
+            <div className="relative mt-5 flex flex-wrap gap-2 text-[11px] font-bold text-emerald-100">
+              {["Test 4", "Test 5", "Test 6", "Math", "RW", "SPR + MCQ"].map((item) => (
+                <span key={item} className="rounded-full border border-emerald-400/25 bg-emerald-500/10 px-2.5 py-1">
+                  {item}
+                </span>
+              ))}
+            </div>
+            <div className="relative mt-6 inline-flex items-center gap-2 text-sm font-black text-emerald-200">
+              {language === "ru" ? "Открыть лабораторию" : "Open the lab"}
+              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+            </div>
+          </Link>
+        </section>
+
+        <section className="relative mx-auto mt-10 max-w-6xl px-4 sm:px-6 lg:px-8">
+          <div className="rounded-[2rem] border border-border bg-card/60 p-7 backdrop-blur-xl">
+            <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-[0.22em] text-muted-foreground">
+              <Zap className="h-4 w-4 text-amber-300" />
+              {copy.howTitle}
+            </div>
+            <div className="mt-5 grid gap-4 md:grid-cols-3">
+              {copy.how.map((step, index) => (
+                <div
+                  key={step.title}
+                  className="rounded-2xl border border-border bg-secondary/50 p-5"
+                >
+                  <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-violet-500/15 text-sm font-black text-violet-200">
+                    {index + 1}
+                  </span>
+                  <p className="mt-3 font-bold text-foreground">{step.title}</p>
+                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{step.body}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="relative mx-auto mt-6 max-w-6xl px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-border bg-secondary/40 px-5 py-4 text-sm text-muted-foreground">
+            <span className="inline-flex items-center gap-2">
+              <CheckCircle2 className="h-4 w-4 text-emerald-400" />
+              {language === "ru"
+                ? "Прогресс сохраняется в браузере — можно закрыть и вернуться."
+                : "Progress is saved in your browser — close it and come back later."}
+            </span>
+            <span className="inline-flex items-center gap-2">
+              <GraduationCap className="h-4 w-4 text-violet-300" />
+              {language === "ru" ? "SAT · English + Math" : "SAT · English + Math"}
+            </span>
+          </div>
         </section>
       </main>
-    </div>
-  );
-}
-
-function StatCard({
-  icon,
-  value,
-  label,
-}: {
-  icon: ReactNode;
-  value: string;
-  label: string;
-}) {
-  return (
-    <div className="rounded-[1.5rem] border border-border bg-card p-4">
-      <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-muted">
-        {icon}
-      </div>
-      <div className="mt-4 text-3xl font-black text-foreground">{value}</div>
-      <div className="mt-1 text-xs font-bold uppercase tracking-[0.18em] text-muted-foreground">
-        {label}
-      </div>
-    </div>
-  );
-}
-
-function PreviewPill({ label }: { label: string }) {
-  return (
-    <div className="rounded-full border border-border bg-secondary px-3 py-1.5 text-sm font-semibold text-foreground">
-      {label}
-    </div>
-  );
-}
-
-function InfoChip({ title, body }: { title: string; body: string }) {
-  return (
-    <div className="rounded-[1.25rem] border border-border bg-secondary px-4 py-3 dark:bg-zinc-900/30">
-      <div className="text-xs font-bold uppercase tracking-[0.18em] text-muted-foreground">{title}</div>
-      <div className="mt-1 text-sm leading-relaxed text-muted-foreground">{body}</div>
     </div>
   );
 }

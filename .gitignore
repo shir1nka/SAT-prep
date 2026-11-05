@@ -56,3 +56,7 @@ Thumbs.db
 .trunk/out/
 .vercel
 .env*
+
+# local test PDFs and scratch scripts
+sat-practice-test-*-digital.pdf
+tmp_*.py

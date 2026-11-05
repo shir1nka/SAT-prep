@@ -1,0 +1,220 @@
+import { text, type Topic } from "../types";
+
+export const EXPRESSION_TOPICS: Topic[] = [
+  {
+    id: "eng-transitions",
+    section: "english",
+    domainId: "expression",
+    order: 9,
+    title: text("Transitions between ideas", "Переходы между идеями"),
+    subtitle: text("Choose the connector that shows the true logical relationship", "Выберите союзник, показывающий истинное логическое отношение"),
+    minutes: 10,
+    tags: ["transitions", "cohesion", "logical connectors"],
+    objectives: [
+      text("Distinguish contrast, cause-effect, addition, and concession transitions", "Различать противопоставление, причину-следствие, добавление и уступку"),
+      text("Eliminate transitions that contradict the relationship between sentences", "Отбрасывать переходы, противоречащие отношению между предложениями"),
+      text("Predict the relationship from sentence meaning before looking at the options", "Определять отношение по смыслу предложений до просмотра вариантов"),
+    ],
+    theory: [
+      {
+        heading: text("The relationship comes first", "Сначала — отношение"),
+        body: text("The correct transition names the logic already present in the sentences. Contrast (however, nevertheless) requires opposing claims. Cause-effect (therefore, as a result) requires an outcome. Addition (moreover, furthermore) requires a second supporting point in the same direction.", "Правильный переход называет логику, уже заложенную в предложениях. Контраст (however, nevertheless) требует противоположных утверждений. Причина-следствие (therefore, as a result) требует результата. Добавление (moreover, furthermore) требует второго аргумента в ту же сторону."),
+      },
+      {
+        heading: text("Sentence meaning is the test", "Проверка — смысл предложений"),
+        body: text("Cover the options and ask: is the second sentence agreeing, opposing, or resulting? If the second sentence qualifies or limits the first, choose a concessive or contrast marker. If it simply continues the same line of thought, choose an additive marker. Never pick a transition that sounds formal if it misstates the logic.", "Закройте варианты и спросите: второе предложение согласуется, противоречит или вытекает? Если оно ограничивает первое — берите контраст или уступку. Если продолжает ту же мысль — берите добавление. Никогда не выбирайте красивый, но неверный по логике переход."),
+      },
+    ],
+    examples: [
+      {
+        prompt: text("For decades, the river's flooding was seen as purely natural. ______, the city's new levees have made the remaining risk a matter of engineering failure, not weather.", "Десятилетиями наводнения реки считались чисто природными. ______, новые плотины города сделали оставшийся риск вопросом инженерных ошибок, а не погоды."),
+        steps: [
+          text("Identify the second sentence's claim: human engineering now determines the risk.", "Определяем утверждение второго предложения: теперь риск определяет инженерное сооружение."),
+          text("Rule out cause-effect (therefore) because the levees did not cause the old view to change in that way.", "Отбрасываем причину-следствие (therefore), потому что плотины не «вызвали» смену взгляда таким образом."),
+          text("Rule out simple addition (moreover) because the sentences do not stack two supports for one claim.", "Отбрасываем простое добавление (moreover), так как предложения не складывают два аргумента за одно утверждение."),
+          text("Choose a contrast marker: nevertheless / however signals the shift from natural to engineered cause.", "Выбираем маркер контраста: nevertheless / however обозначает сдвиг от природного к инженерному."),
+        ],
+        answer: text("Nevertheless", "Nevertheless"),
+        source: "Original SAT-style item",
+      },
+      {
+        prompt: text("Ocean surveys show jellyfish numbers rising. ______, warming and overfishing of predators make jellyfish blooms more likely, a pattern seen on every coast surveyed.", "Океанские исследования показывают рост численности медуз. ______, потепление и перелов хищников делают цветение медуз более вероятным — закономерность, наблюдаемая на каждом изученном побережье."),
+        steps: [
+          text("Note the second sentence gives the cause of the rise.", "Отмечаем: второе предложение называет причину роста."),
+          text("A result connector fits: the rise follows from warming and overfishing.", "Подходит союзник результата: рост вытекает из потепления и перелова."),
+          text("Reject contrast (however) because nothing opposes the first claim.", "Отклоняем контраст (however), так как первое утверждение ничем не противоречит."),
+        ],
+        answer: text("As a result", "As a result"),
+        source: "Original SAT-style item",
+      },
+    ],
+    strategy: [
+      text("Label the relationship in plain words (oppose / cause / extend) before reading the options.", "Назовите отношение простыми словами (противоположность / причина / продолжение) до чтения вариантов."),
+      text("Eliminate any transition whose logic contradicts that label.", "Отбросьте любой переход, чья логика противоречит этой метке."),
+      text("If two remain, test each by inserting it and checking whether the paragraph still makes sense.", "Если осталось два, вставьте каждый и проверьте, сохраняется ли смысл абзаца."),
+    ],
+    pitfalls: [
+      text("Choosing a fancy transition that reverses the actual logic (e.g., however where the sentences agree).", "Выбор красивого перехода, переворачивающего реальную логику (например, however, где предложения согласуются)."),
+      text("Confusing therefore (result of a cause) with moreover (another point in the same direction).", "Путаница therefore (результат причины) с moreover (другой пункт в ту же сторону)."),
+      text("Treating concession (admittedly, it is true that) as full contrast; it concedes then continues.", "Воспринимать уступку (admittedly, it is true that) как полный контраст; она признаёт, а затем продолжает."),
+    ],
+    practice: [
+      {
+        id: "eng-transitions-p1",
+        prompt: text("The library's oldest maps were burned in the flood. ______, only photographic copies remain, and several details on the originals are now lost.", "Самые старые карты библиотеки сгорели при пожаре. ______, остались только фотокопии, и несколько деталей оригиналов утрачены."),
+        options: [text("Consequently", "Consequently"), text("By contrast", "By contrast"), text("For example", "For example"), text("Similarly", "Similarly")],
+        correctIndex: 0,
+        explanation: text("The lost originals are the result of the fire, so a cause-effect transition fits. Contrast would require opposition.", "Утрата оригиналов — результат пожара, значит подходит переход причины-следствия. Контраст здесь неуместен."),
+        difficulty: "easy",
+        source: "Original",
+      },
+      {
+        id: "eng-transitions-p2",
+        prompt: text("Critics praised the novel as daring. ______, reviewers in the press called its plot tedious and its characters flat.", "Критики хвалили роман как дерзкий. ______, рецензенты в прессе называли его сюжет скучным, а героев плоскими."),
+        options: [text("Also", "Also"), text("Therefore", "Therefore"), text("Nevertheless", "Nevertheless"), text("In other words", "In other words")],
+        correctIndex: 2,
+        explanation: text("The press verdict opposes the critics' praise, so a contrast marker is required. Moreover would add agreement, and therefore would imply causation.", "Оценка прессы противоречит похвале критиков, поэтому нужен контраст. Moreover означало бы согласие, а therefore — причинность."),
+        difficulty: "medium",
+        source: "Original",
+      },
+      {
+        id: "eng-transitions-p3",
+        prompt: text("The comet appeared only once every 76 years. ______, its last visit in 1986 was photographed in detail by space probes, giving scientists their best record of its return cycle.", "Комета появлялась лишь раз в 76 лет. ______, её последнее посещение в 1986 году было детально сфотографировано зондами, что дало учёным лучшую запись цикла возвращения."),
+        options: [text("In fact", "In fact"), text("However", "However"), text("As a result", "As a result"), text("Still", "Still")],
+        correctIndex: 0,
+        explanation: text("The second sentence supplies a factual specification of the same point (the rarity), so in fact — an emphatic addition — fits better than contrast or causation.", "Второе предложение уточняет тот же факт (редкость), поэтому in fact — усиление той же мысли — подходит лучше, чем контраст или причинность."),
+        difficulty: "medium",
+        source: "Original",
+      },
+      {
+        id: "eng-transitions-p4",
+        prompt: text("The proposal would cut bus service by a third. ______, it would still fund the new light-rail line at full strength.", "Предложение сократило бы автобусное сообщение на треть. ______, оно всё равно финансировало бы новую линию лёгкого метро в полном объёме."),
+        options: [text("Likewise", "Likewise"), text("Nevertheless", "Nevertheless"), text("Because", "Because"), text("For instance", "For instance")],
+        correctIndex: 1,
+        explanation: text("Full funding despite the cut is a concession: the second claim limits the negative implication of the first, which nevertheless signals. Likewise would wrongly imply the cuts and funding go in the same direction.", "Полное финансирование несмотря на сокращение — уступка: второе утверждение смягчает негативный вывод из первого, что и передаёт nevertheless. Likewise неверно подразумевало бы одно направление."),
+        difficulty: "hard",
+        source: "Original",
+      },
+    ],
+  },
+  {
+    id: "eng-rhetorical-synthesis",
+    section: "english",
+    domainId: "expression",
+    order: 10,
+    title: text("Rhetorical synthesis", "Rhetorical synthesis"),
+    subtitle: text("Turn two notes into one sentence that meets a stated goal", "Превратите две заметки в одно предложение с заданной целью"),
+    minutes: 12,
+    tags: ["synthesis", "purpose", "sentence construction"],
+    objectives: [
+      text("Read the goal first: it defines the function the sentence must serve", "Сначала читайте цель: она определяет функцию предложения"),
+      text("Combine both notes without dropping information or changing meaning", "Соединяйте обе заметки, не теряя информацию и не меняя смысл"),
+      text("Reject options that violate the goal, distort a note, or add outside facts", "Отбрасывайте варианты, нарушающие цель, искажающие заметку или добавляющие внешние факты"),
+    ],
+    theory: [
+      {
+        heading: text("The goal is a constraint, not decoration", "Цель — это ограничение, а не украшение"),
+        body: text("A synthesis task gives two facts and a rhetorical goal — for example, to emphasize the surprise of a finding or to contrast two places. The correct sentence must satisfy the goal and use both facts. An option that is true but misses the goal is wrong. An option that hits the goal but drops a fact is also wrong.", "Задача синтеза даёт два факта и риторическую цель — например, подчеркнуть неожиданность находки или противопоставить два места. Правильное предложение должно удовлетворять цели и использовать оба факта. Вариант, верный по сути, но мимо цели, неверен. Вариант, попадающий в цель, но теряющий факт, тоже неверен."),
+      },
+      {
+        heading: text("Both notes must survive", "Обе заметки должны сохраниться"),
+        body: text("Check each note against the option: is the who/what/where/number present? Watch for subtle distortions — a comparison reversed, a quantity altered, or a causal claim the notes never made. Also reject options that add new details not in the notes, however plausible they sound.", "Сверяйте каждую заметку с вариантом: есть ли кто/что/где/число? Следите за тонкими искажениями — перевёрнутым сравнением, изменённым количеством или причинностью, которой в заметках нет. Отбрасывайте и варианты, добавляющие новые детали, какими бы правдоподобными они ни были."),
+      },
+      {
+        heading: text("Match the goal's wording", "Соответствуйте формулировке цели"),
+        body: text("If the goal says 'emphasize how unusual the result is,' the sentence must contain evaluative language (surprisingly, remarkably, far higher). If it says 'contrast,' it needs a contrast structure (unlike, whereas) — not mere listing. Match the verb in the goal to the verb in the correct sentence.", "Если цель — «подчеркнуть, насколько необычен результат», в предложении нужен оценочный язык (surprisingly, remarkably, far higher). Если цель — «противопоставить», нужна контрастивная конструкция (unlike, whereas), а не просто перечисление. Выбирайте глагол из цели в правильном предложении."),
+      },
+    ],
+    examples: [
+      {
+        prompt: text("Notes: (1) The loganberry was first bred in California in 1881. (2) It is a hybrid of the blackberry and the raspberry. Goal: emphasize the loganberry's origin as a cross between two berries.", "Заметки: (1) Логанова ягода впервые выведена в Калифорнии в 1881 году. (2) Это гибрид ежевики и малины. Цель: подчеркнуть происхождение логановой ягоды как скрещивания двух ягод."),
+        steps: [
+          text("Fix the goal: the sentence must foreground the hybrid origin, not merely the date or place.", "Улавливам цель: предложение должно выдвинуть на первый план гибридное происхождение, а не только дату или место."),
+          text("Keep note 2's fact as the main clause: hybrid of blackberry and raspberry.", "Сохраняем факт заметки 2 как главное предложение: гибрид ежевики и малины."),
+          text("Attach note 1 with a subordinate phrase: bred in California in 1881.", "Присоединяем заметку 1 подчинительным оборотом: выведена в Калифорнии в 1881 году."),
+          text("Reject any option that leads with the place and buries the hybrid fact, or that drops either parent berry.", "Отбрасываем варианты, начинающиеся с места и прячущие гибридный факт или теряющие одну из ягод."),
+        ],
+        answer: text("A hybrid of the blackberry and the raspberry, the loganberry was first bred in California in 1881.", "A hybrid of the blackberry and the raspberry, the loganberry was first bred in California in 1881."),
+        source: "Original SAT-style item",
+      },
+      {
+        prompt: text("Notes: (1) In 2023 the city's riverwalk had 40 solar-panel benches. (2) In 2024 it had 42. Goal: contrast the two years to show the change was modest.", "Заметки: (1) В 2023 году на набережной было 40 скамеек с солнечными панелями. (2) В 2024 году — 42. Цель: противопоставить два года, показав скромность изменения."),
+        steps: [
+          text("The goal requires a contrast structure and an evaluation like 'only slightly more.'", "Цель требует контрастной структуры и оценки вроде «лишь чуть больше»."),
+          text("Combine the numbers without reversing years or quantities.", "Соединяем числа, не перепутывая годы и количества."),
+          text("Reject options that claim a dramatic increase or that invent a reason for the change.", "Отбрасываем варианты, утверждающие резкий рост или выдумывающие причину."),
+        ],
+        answer: text("The riverwalk had only slightly more solar-panel benches in 2024 (42) than in 2023 (40).", "The riverwalk had only slightly more solar-panel benches in 2024 (42) than in 2023 (40)."),
+        source: "Original SAT-style item",
+      },
+    ],
+    strategy: [
+      text("Underline the goal verb (emphasize, contrast, quote) and require it in the sentence.", "Подчеркните глагол цели (emphasize, contrast, quote) и требуйте его в предложении."),
+      text("Check both notes are present — especially numbers, names, and directions of comparison.", "Проверьте, что обе заметки присутствуют — особенно числа, имена и направления сравнений."),
+      text("Eliminate options that add facts not in the notes.", "Отбросьте варианты, добавляющие факты, отсутствующие в заметках."),
+    ],
+    pitfalls: [
+      text("An option that is factually true but serves the opposite rhetorical goal.", "Вариант, фактически верный, но служащий противоположной цели."),
+      text("Reversed comparisons (saying A is more than B when the notes say the reverse).", "Перевёрнутые сравнения (утверждение, что A больше B, когда в заметках наоборот)."),
+      text("Answer choices that satisfy the goal alone but quietly drop one of the two notes.", "Варианты, удовлетворяющие только цели, но тихо теряющие одну из заметок."),
+    ],
+    practice: [
+      {
+        id: "eng-rhetorical-synthesis-p1",
+        prompt: text("Notes: (1) The beetle glows because it hosts bioluminescent bacteria. (2) The bacteria supply the beetle with a light-based defense. Goal: explain the cause of the beetle's glow.", "Заметки: (1) Жук светится, потому что в нём живут биолюминесцентные бактерии. (2) Бактерии дают жуку световую защиту. Цель: объяснить причину свечения жука."),
+        options: [
+          text("The beetle glows because the bioluminescent bacteria it hosts provide a light-based defense.", "The beetle glows because the bioluminescent bacteria it hosts provide a light-based defense."),
+          text("The beetle's light-based defense glows because it hosts bioluminescent bacteria.", "The beetle's light-based defense glows because it hosts bioluminescent bacteria."),
+          text("The beetle hosts bioluminescent bacteria, which glows because of a light-based defense.", "The beetle hosts bioluminescent bacteria, which glows because of a light-based defense."),
+          text("The beetle glows, and its bacteria provide a light-based defense for many insects.", "The beetle glows, and its bacteria provide a light-based defense for many insects."),
+        ],
+        correctIndex: 0,
+        explanation: text("The causal structure is correct: bacteria cause the glow, and the glow serves as defense. Option B reverses the cause, C reverses the glow's source, and D invents other insects.", "Причинная структура верна: бактерии вызывают свечение, а свечение служит защитой. Вариант B переворачивает причину, C — источник свечения, D выдумывает других насекомых."),
+        difficulty: "easy",
+        source: "Original",
+      },
+      {
+        id: "eng-rhetorical-synthesis-p2",
+        prompt: text("Notes: (1) Maya Lin's Vietnam Veterans Memorial opened in 1982. (2) It was designed by a 21-year-old undergraduate. Goal: emphasize how remarkable the designer's youth was.", "Заметки: (1) Мемориал ветеранам Вьетнама Майи Лин открылся в 1982 году. (2) Его спроектировала 21-летняя студентка. Цель: подчеркнуть, насколько примечательна юность автора."),
+        options: [
+          text("Maya Lin's Vietnam Veterans Memorial, designed by a 21-year-old undergraduate, opened in 1982.", "Maya Lin's Vietnam Veterans Memorial, designed by a 21-year-old undergraduate, opened in 1982."),
+          text("Remarkably, Maya Lin's Vietnam Veterans Memorial was designed by a 21-year-old undergraduate before it opened in 1982.", "Remarkably, Maya Lin's Vietnam Veterans Memorial was designed by a 21-year-old undergraduate before it opened in 1982."),
+          text("The Vietnam Veterans Memorial opened in 1982, a year when many undergraduates began designing monuments.", "The Vietnam Veterans Memorial opened in 1982, a year when many undergraduates began designing monuments."),
+          text("In 1982, the Vietnam Veterans Memorial opened, and many undergraduates at the time were 21 years old.", "In 1982, the Vietnam Veterans Memorial opened, and many undergraduates at the time were 21 years old."),
+        ],
+        correctIndex: 1,
+        explanation: text("Only option B combines both notes and marks the youth as remarkable as the goal demands. A merely mentions the age without emphasizing it, and C and D add facts not in the notes.", "Только вариант B соединяет обе заметки и отмечает юность как примечательную, как требует цель. Вариант A лишь упоминает возраст, а C и D добавляют факты вне заметок."),
+        difficulty: "medium",
+        source: "Original",
+      },
+      {
+        id: "eng-rhetorical-synthesis-p3",
+        prompt: text("Notes: (1) The mountain town of Tigerville sits at 4,800 meters. (2) The farming town of Vale sits at 1,200 meters. Goal: contrast the towns' elevations.", "Заметки: (1) Горный городок Тайгервилл находится на высоте 4 800 метров. (2) Земледельческий городок Вейл — на высоте 1 200 метров. Цель: противопоставить высоты городов."),
+        options: [
+          text("Unlike the farming town of Vale, which sits at 1,200 meters, the mountain town of Tigerville sits at 4,800 meters.", "Unlike the farming town of Vale, which sits at 1,200 meters, the mountain town of Tigerville sits at 4,800 meters."),
+          text("The mountain town of Tigerville, at 4,800 meters, is a farming town, unlike Vale at 1,200 meters.", "The mountain town of Tigerville, at 4,800 meters, is a farming town, unlike Vale at 1,200 meters."),
+          text("Tigerville and Vale are towns, one at 4,800 meters and the other, a farming town, at 1,200 meters.", "Tigerville and Vale are towns, one at 4,800 meters and the other, a farming town, at 1,200 meters."),
+          text("The farming town of Vale at 1,200 meters is higher than Tigerville at 4,800 meters.", "The farming town of Vale at 1,200 meters is higher than Tigerville at 4,800 meters."),
+        ],
+        correctIndex: 0,
+        explanation: text("Only A contrasts correctly, keeps the labels attached to the right towns, and preserves the numbers. B mislabels Tigerville, D reverses the comparison, and C blurs which town is which.", "Только A корректно противопоставляет, сохраняет привязку описаний к городам и числа. B неверно называет Тайгервилл земледельческим, D переворачивает сравнение, C размывает, какой город какой."),
+        difficulty: "medium",
+        source: "Original",
+      },
+      {
+        id: "eng-rhetorical-synthesis-p4",
+        prompt: text("Notes: (1) The new seed hybrid yielded 12% more grain than the old one. (2) It used 8% less water. Goal: emphasize the hybrid's efficiency, citing both advantages.", "Заметки: (1) Новый гибрид семян дал на 12% больше зерна, чем старый. (2) Он использовал на 8% меньше воды. Цель: подчеркнуть эффективность гибрида, назвав оба преимущества."),
+        options: [
+          text("The hybrid required 8% less water to produce 12% more grain, making it a more efficient seed than the old variety.", "The hybrid required 8% less water to produce 12% more grain, making it a more efficient seed than the old variety."),
+          text("The hybrid used 8% less water because it produced 12% more grain than the old seed.", "The hybrid used 8% less water because it produced 12% more grain than the old seed."),
+          text("More efficient seeds are those that use less water and produce more grain, such as the old variety.", "More efficient seeds are those that use less water and produce more grain, such as the old variety."),
+          text("The old variety used 8% more water and produced 12% less grain than the hybrid, showing the hybrid's efficiency.", "The old variety used 8% more water and produced 12% less grain than the hybrid, showing the hybrid's efficiency."),
+        ],
+        correctIndex: 0,
+        explanation: text("A names both advantages and judges overall efficiency without inventing causation. B falsely makes the yield the cause of the savings, C names the wrong seed as the efficient one, and D reverses the water figure — using 8% more is not entailed by using 8% less.", "A называет оба преимущества и оценивает общую эффективность, не выдумывая причинность. B ложно делает урожай причиной экономии, C называет эффективным старый сорт, а D переворачивает данные о воде — из «на 8% меньше» не следует «на 8% больше»."),
+        difficulty: "hard",
+        source: "Original",
+      },
+    ],
+  },
+];
