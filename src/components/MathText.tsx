@@ -44,17 +44,20 @@ const PLAIN_WORDS = new Set(
   (
     "a an the and are was were for not you can has had but its our out one two " +
     "how why who all any may use get set let put new old own per via yet yes " +
-    "in is it as if so do to of on at be we he me my no or am us up go " +
+    "in is it as if so do to of on at by be we he me my no or am us up go " +
     "sat act pdf api usa"
   ).split(" ")
 );
 
 function isOperandLike(word: string) {
-  const core = coreOf(word).toLowerCase();
+  const raw = coreOf(word);
+  // Capital B + lowercase y is the standard-form term, not the preposition.
+  if (raw === "By") return true;
+  const core = raw.toLowerCase();
   if (!SHORT_ALGEBRA.test(core)) return false;
   if (PLAIN_WORDS.has(core)) return false;
   // All-caps tokens are acronyms (SAT, ACT), not variables.
-  if (/^[A-Z]{2,3}$/.test(coreOf(word))) return false;
+  if (/^[A-Z]{2,3}$/.test(raw)) return false;
   return true;
 }
 
