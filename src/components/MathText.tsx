@@ -33,7 +33,30 @@ const SENTENCE_WORDS =
 
 /** Markers strong enough to make a run math on their own. */
 const STRONG_MATH =
-  /[\^_=<>≤≥≠√∛π·×÷±°∞⁰¹²³⁴⁵⁶⁷⁸⁹₀₁₂₃₄₅₆₇₈₉]/;
+  /[\^_=<>≤≥≠√∛π·×÷±°∞−⁰¹²³⁴⁵⁶⁷⁸⁹₀₁₂₃₄₅₆₇₈₉]/;
+
+/** Short letter products like mx, Ax, By, ab; short fractions like C/A. */
+const SHORT_ALGEBRA = /^[A-Za-z]{1,3}$/;
+const SHORT_SLASH = /^[A-Za-z0-9]{1,2}\/[A-Za-z0-9]{1,2}$/;
+
+/** Words that look like letter products but are ordinary English. */
+const PLAIN_WORDS = new Set(
+  (
+    "a an the and are was were for not you can has had but its our out one two " +
+    "how why who all any may use get set let put new old own per via yet yes " +
+    "in is it as if so do to of on at be we he me my no or am us up go " +
+    "sat act pdf api usa"
+  ).split(" ")
+);
+
+function isOperandLike(word: string) {
+  const core = coreOf(word).toLowerCase();
+  if (!SHORT_ALGEBRA.test(core)) return false;
+  if (PLAIN_WORDS.has(core)) return false;
+  // All-caps tokens are acronyms (SAT, ACT), not variables.
+  if (/^[A-Z]{2,3}$/.test(coreOf(word))) return false;
+  return true;
+}
 
 /** Operator-only tokens. */
 const OPERATOR = /^[+\-−–—*/=<>≤≥≠^_·×÷±]+$/;
@@ -72,6 +95,8 @@ function isMathWord(word: string) {
   if (any(FRACTION)) return true;
   if (any(FUNCTION_CALL)) return true;
   if (any(POINT)) return true;
+  if (SHORT_SLASH.test(core) || SHORT_SLASH.test(bare)) return true;
+  if (isOperandLike(core) || isOperandLike(bare)) return true;
   // Algebra with both letters and digits, e.g. 18h, 3x, 0.64x
   if (EXPRESSION.test(core) && /[a-zA-Z]/.test(core) && /\d/.test(core)) return true;
   if (EXPRESSION.test(bare) && /[a-zA-Z]/.test(bare) && /\d/.test(bare)) return true;
@@ -108,6 +133,7 @@ function shouldRender(group: MathGroup) {
     return (
       STRONG_MATH.test(c) ||
       FRACTION.test(c) ||
+      SHORT_SLASH.test(c) ||
       FUNCTION_CALL.test(c) ||
       POINT.test(c)
     );
