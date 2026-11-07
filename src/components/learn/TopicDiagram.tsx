@@ -476,7 +476,7 @@ function Diagram({ kind }: { kind: Kind }) {
     }
     case "scatter": {
       const p = PLOTS.scatter!;
-      const pts: Array<[number, number]> = [[1, 2.2], [2, 3.4], [3, 4.6], [4, 5.1], [5, 6.6], [6, 7.4], [7, 8.6], [8, 9.4], [9, 10.2]];
+      const pts: Array<[number, number]> = [[1, 1.6], [2, 4.0], [3, 3.9], [4, 6.1], [5, 5.9], [6, 8.2], [7, 7.8], [8, 10.3], [9, 9.9]];
       const line = (x: number) => 1.05 * x + 1.1;
       return (
         <g>
@@ -644,19 +644,27 @@ export default function TopicDiagram({ topicId, section, language, className }: 
   const plot = PLOTS[kind];
   const svgRef = useRef<SVGSVGElement | null>(null);
   const [hover, setHover] = useState<Hover>(null);
+  const [pinned, setPinned] = useState<Hover>(null);
 
-  const onMove = (e: React.MouseEvent) => {
+  const updateFromClient = (clientX: number, clientY: number) => {
     const svg = svgRef.current;
     if (!svg || !plot) return;
     const rect = svg.getBoundingClientRect();
-    if (rect.width === 0) return;
-    const px = ((e.clientX - rect.left) / rect.width) * 640;
-    const py = ((e.clientY - rect.top) / rect.height) * 360;
+    if (rect.width === 0 || rect.height === 0) return;
+    const px = ((clientX - rect.left) / rect.width) * 640;
+    const py = ((clientY - rect.top) / rect.height) * 360;
     let dx = (px - plot.ox) / plot.s;
     let dy = (plot.oy - py) / plot.s;
     if (plot.yDiv) dy = dy * plot.yDiv;
     setHover({ px, py, dx: Math.round(dx * 100) / 100, dy: Math.round(dy * 100) / 100 });
   };
+
+  const onMove = (e: React.MouseEvent) => updateFromClient(e.clientX, e.clientY);
+  const onTouch = (e: React.TouchEvent) => {
+    const t = e.touches[0];
+    if (t) updateFromClient(t.clientX, t.clientY);
+  };
+  const onClick = () => { if (hover) setPinned(hover); };
 
   const fmt = (n: number) => (Number.isInteger(n) ? String(n) : n.toFixed(2));
 
@@ -668,7 +676,7 @@ export default function TopicDiagram({ topicId, section, language, className }: 
           {title}
         </span>
         <span className="text-[11px] font-medium text-muted-foreground">
-          {plot ? (language === "ru" ? "Наведите курсор — появятся координаты" : "Hover the graph — coordinates appear") : (language === "ru" ? "Смотри на стрелки" : "Follow the arrows")}
+          {plot ? (language === "ru" ? "Курсор — координаты · клик — закрепить точку" : "Hover reads coordinates · click pins a point") : (language === "ru" ? "Смотри на стрелки" : "Follow the arrows")}
         </span>
       </figcaption>
       <div className="relative p-3 sm:p-4">
@@ -681,9 +689,34 @@ export default function TopicDiagram({ topicId, section, language, className }: 
           aria-label={title}
           onMouseMove={onMove}
           onMouseLeave={() => setHover(null)}
+          onTouchMove={onTouch}
+          onTouchEnd={() => setHover(null)}
+          onClick={onClick}
         >
           {plot ? <Axes plot={plot} /> : <SchematicAxes />}
           <Diagram kind={kind} />
+          {plot ? (
+            <g pointerEvents="none">
+              <rect x={20} y={18} width={170} height={28} rx={8} fill="rgba(10,10,15,0.88)" stroke={AMBER} strokeOpacity="0.55" />
+              <text x={30} y={36} fill={LABEL} fontSize="12" fontWeight="800" fontFamily="monospace">
+                {hover ? `(${fmt(hover.dx)}, ${fmt(hover.dy)})` : (language === "ru" ? "— двигайте курсор" : "— hover the graph")}
+              </text>
+            </g>
+          ) : null}
+          {pinned && plot ? (
+            <g pointerEvents="none">
+              <circle cx={pinned.px} cy={pinned.py} r={9} fill="none" stroke={ROSE} strokeWidth="2" />
+              <circle cx={pinned.px} cy={pinned.py} r={4} fill={ROSE} stroke="#0a0a0f" strokeWidth="1.5" />
+              <line x1={pinned.px - 14} y1={pinned.py} x2={pinned.px + 14} y2={pinned.py} stroke={ROSE} strokeWidth="1.5" />
+              <line x1={pinned.px} y1={pinned.py - 14} x2={pinned.px} y2={pinned.py + 14} stroke={ROSE} strokeWidth="1.5" />
+              <g>
+                <rect x={Math.min(pinned.px + 12, 520)} y={Math.max(52, pinned.py - 34)} width={118} height={26} rx={8} fill="rgba(10,10,15,0.92)" stroke={ROSE} strokeOpacity="0.7" />
+                <text x={Math.min(pinned.px + 22, 530)} y={Math.max(52, pinned.py - 34) + 18} fill={LABEL} fontSize="12" fontWeight="800" fontFamily="monospace">
+                  {`(${fmt(pinned.dx)}, ${fmt(pinned.dy)})`}
+                </text>
+              </g>
+            </g>
+          ) : null}
           {hover && plot ? (
             <g pointerEvents="none">
               <line x1={hover.px} y1={10} x2={hover.px} y2={350} stroke={AMBER} strokeWidth="1" strokeDasharray="4 4" opacity="0.7" />
@@ -708,7 +741,11 @@ export default function TopicDiagram({ topicId, section, language, className }: 
           ) : null}
         </svg>
         <p className="mt-3 px-1 text-sm leading-relaxed text-muted-foreground">{caption}</p>
-        {hover && plot ? (
+        {pinned && plot ? (
+          <p className="mt-1 px-1 font-mono text-xs text-rose-200">
+            {language === "ru" ? `Закреплено: x = ${fmt(pinned.dx)} · y = ${fmt(pinned.dy)}` : `Pinned: x = ${fmt(pinned.dx)} · y = ${fmt(pinned.dy)}`}
+          </p>
+        ) : hover && plot ? (
           <p className="mt-1 px-1 font-mono text-xs text-amber-200">
             {`x = ${fmt(hover.dx)} · y = ${fmt(hover.dy)}`}
           </p>
