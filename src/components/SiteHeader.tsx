@@ -85,7 +85,7 @@ export default function SiteHeader() {
     <header className="sticky top-0 z-50 w-full glass border-b">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 py-3 md:py-4 flex items-center justify-between gap-4">
         <Link href="/" className="flex items-center gap-2 group shrink-0">
-          <div className="w-8 h-8 bg-primary-600 rounded-lg flex items-center justify-center text-white shadow-lg shadow-primary-500/20 group-hover:scale-110 transition-transform">
+          <div className="animate-pulse-soft w-8 h-8 bg-primary-600 rounded-lg flex items-center justify-center text-white shadow-lg shadow-primary-500/20 group-hover:scale-110 transition-transform">
             <Brain className="w-5 h-5" />
           </div>
           <span className="font-bold text-xl tracking-tight text-zinc-900 dark:text-zinc-100 hidden sm:inline-block">

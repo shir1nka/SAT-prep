@@ -426,7 +426,10 @@ export default function LearnTopicPage() {
               {copy.back}
             </Link>
 
-            <div className="mt-5 rounded-[2rem] border border-border bg-card/80 p-7 backdrop-blur-xl sm:p-9">
+            <div className="animate-float-up relative mt-5 overflow-hidden rounded-[2rem] border border-border bg-card/80 p-7 backdrop-blur-xl sm:p-9">
+              <span aria-hidden="true" className="animate-float-slow pointer-events-none absolute -right-4 top-4 opacity-[0.08]">
+                {sectionId === "math" ? <Calculator className="h-24 w-24" /> : <BookOpen className="h-24 w-24" />}
+              </span>
               <div className="flex flex-wrap items-center gap-2">
                 <span
                   className={cn(
@@ -800,13 +803,13 @@ export default function LearnTopicPage() {
                           {answeredCount}/{topic.practice.length} {copy.answered}
                         </span>
                       </div>
-                      <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-secondary">
+                      <div className="shine-bar mt-2 h-1.5 overflow-hidden rounded-full bg-secondary">
                         <div
                           className={cn(
-                            "h-full rounded-full transition-all",
+                            "h-full rounded-full bg-gradient-to-r from-violet-500 to-fuchsia-500 transition-all duration-700",
                             quizComplete && correctCount === topic.practice.length
-                              ? "bg-emerald-400"
-                              : "bg-violet-400"
+                              ? "from-emerald-500 to-teal-400"
+                              : ""
                           )}
                           style={{
                             width: `${Math.round((answeredCount / topic.practice.length) * 100)}%`,

@@ -8,6 +8,7 @@ import {
   BarChart3,
   Brain,
   BookOpen,
+  Calculator,
   CheckCircle2,
   Clock3,
   GraduationCap,
@@ -215,8 +216,25 @@ export default function Home() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className={isAuthenticated ? "grid grid-cols-1 lg:grid-cols-[1.25fr_0.75fr] gap-8 md:gap-10 items-center" : "text-center"}
+            className={isAuthenticated ? "grid grid-cols-1 lg:grid-cols-[1.25fr_0.75fr] gap-8 md:gap-10 items-center" : "text-center relative"}
           >
+            {/* Floating icons around the hero */}
+            {!isAuthenticated && (
+              <>
+                <span aria-hidden="true" className="animate-float-slow absolute -left-24 top-6 hidden lg:flex h-14 w-14 items-center justify-center rounded-2xl border border-violet-400/30 bg-violet-500/10 text-violet-300 shadow-[0_8px_24px_rgba(168,85,247,0.25)]">
+                  <Calculator className="h-6 w-6" />
+                </span>
+                <span aria-hidden="true" className="animate-float-slower absolute -right-24 top-2 hidden lg:flex h-12 w-12 items-center justify-center rounded-2xl border border-sky-400/30 bg-sky-500/10 text-sky-300 shadow-[0_8px_24px_rgba(56,189,248,0.25)]" style={{ animationDelay: "1.2s" }}>
+                  <BookOpen className="h-6 w-6" />
+                </span>
+                <span aria-hidden="true" className="animate-float-slow absolute -left-20 bottom-10 hidden lg:flex h-11 w-11 items-center justify-center rounded-xl border border-amber-400/30 bg-amber-500/10 text-amber-300" style={{ animationDelay: "0.6s" }}>
+                  <Zap className="h-5 w-5" />
+                </span>
+                <span aria-hidden="true" className="animate-float-slower absolute -right-20 bottom-16 hidden lg:flex h-11 w-11 items-center justify-center rounded-xl border border-emerald-400/30 bg-emerald-500/10 text-emerald-300" style={{ animationDelay: "1.8s" }}>
+                  <Target className="h-5 w-5" />
+                </span>
+              </>
+            )}
             {isAuthenticated ? (
               <>
                 <div className="text-left">
@@ -273,7 +291,7 @@ export default function Home() {
                 </div>
                 <h1 className="text-4xl md:text-5xl lg:text-7xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100 mb-6 md:mb-8 leading-[1.1]">
                   {text.heroTitle1} <br />
-                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-indigo-500 dark:from-primary-400 dark:to-indigo-300">
+                  <span className="gradient-animated text-transparent bg-clip-text bg-gradient-to-r from-primary-600 via-fuchsia-500 to-indigo-500 dark:from-primary-400 dark:via-fuchsia-400 dark:to-indigo-300">
                     {text.heroTitle2}
                   </span>
                 </h1>

@@ -655,8 +655,8 @@ export default function DesmosMasteryPage() {
             </Link>
 
             <div className="animate-float-up relative mt-5 overflow-hidden rounded-[2rem] border border-violet-400/25 bg-gradient-to-br from-violet-600/25 via-[#12121a] to-card p-7 backdrop-blur-xl sm:p-10">
-              <div className="pointer-events-none absolute -right-16 -top-16 h-64 w-64 rounded-full bg-violet-500/25 blur-3xl" />
-              <div className="pointer-events-none absolute -bottom-20 -left-10 h-64 w-64 rounded-full bg-fuchsia-500/15 blur-3xl" />
+              <div className="animate-float-slow pointer-events-none absolute -right-16 -top-16 h-64 w-64 rounded-full bg-violet-500/25 blur-3xl" />
+              <div className="animate-float-slower pointer-events-none absolute -bottom-20 -left-10 h-64 w-64 rounded-full bg-fuchsia-500/15 blur-3xl" />
               <div className="relative">
                 <div className="inline-flex items-center gap-2 rounded-full border border-violet-300/30 bg-gradient-to-r from-violet-500/20 to-fuchsia-500/15 px-3 py-1 text-[11px] font-black uppercase tracking-[0.22em] text-violet-100">
                   <Calculator className="h-3.5 w-3.5" />
