@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Script from "next/script";
 import "./globals.css";
 import Providers from "./providers";
+import CursorWeb from "@/components/CursorWeb";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://sat-prep-said.vercel.app"),
@@ -98,6 +99,7 @@ export default function RootLayout({
         <meta name="theme-color" content="#0a0a0c" />
       </head>
       <body className="min-h-full flex flex-col bg-background text-foreground transition-colors">
+        <CursorWeb />
         <Providers>
           <div className="relative z-10 flex flex-1 flex-col">{children}</div>
         </Providers>

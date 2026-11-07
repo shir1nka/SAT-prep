@@ -12,8 +12,10 @@ import {
   Gauge,
   Keyboard,
   Lightbulb,
+  Sparkles,
   Target,
   TriangleAlert,
+  Zap,
 } from "lucide-react";
 
 import { DesmosProvider, OpenInDesmos } from "@/components/learn/Desmos";
@@ -447,7 +449,7 @@ function DesmosQuiz() {
 
   return (
     <section className="relative mx-auto mt-8 max-w-5xl px-4 sm:px-6 lg:px-8">
-      <div className="overflow-hidden rounded-2xl border border-border bg-card p-6">
+      <div className="animate-float-up overflow-hidden rounded-[1.75rem] border border-emerald-400/25 bg-gradient-to-br from-emerald-500/[0.09] via-[#0f1417] to-card p-6 shadow-[0_20px_60px_rgba(16,185,129,0.12)]">
         <div className="flex flex-wrap items-start justify-between gap-3">
           <div>
             <h2 className="text-xl font-black text-foreground">{copy.title}</h2>
@@ -637,7 +639,12 @@ export default function DesmosMasteryPage() {
       <div className="min-h-screen text-foreground">
         <SiteHeader />
 
-        <main className="relative pb-24">
+        <main className="relative overflow-hidden pb-24">
+          <div className="pointer-events-none absolute inset-0">
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_0%,rgba(150,93,255,0.20),transparent_38%),radial-gradient(circle_at_85%_15%,rgba(56,189,248,0.10),transparent_35%)]" />
+            <div className="absolute inset-0 subtle-grid opacity-[0.14]" />
+          </div>
+
           <section className="relative mx-auto max-w-5xl px-4 pt-8 sm:px-6 lg:px-8">
             <Link
               href="/learn/math"
@@ -647,12 +654,18 @@ export default function DesmosMasteryPage() {
               {copy.back}
             </Link>
 
-            <div className="relative mt-5 overflow-hidden rounded-2xl border border-border bg-card p-7 sm:p-10">
+            <div className="animate-float-up relative mt-5 overflow-hidden rounded-[2rem] border border-violet-400/25 bg-gradient-to-br from-violet-600/25 via-[#12121a] to-card p-7 backdrop-blur-xl sm:p-10">
+              <div className="pointer-events-none absolute -right-16 -top-16 h-64 w-64 rounded-full bg-violet-500/25 blur-3xl" />
+              <div className="pointer-events-none absolute -bottom-20 -left-10 h-64 w-64 rounded-full bg-fuchsia-500/15 blur-3xl" />
               <div className="relative">
-                <h1 className="mt-2 max-w-3xl text-4xl font-bold leading-[1.02] tracking-tight text-foreground sm:text-5xl">
+                <div className="inline-flex items-center gap-2 rounded-full border border-violet-300/30 bg-gradient-to-r from-violet-500/20 to-fuchsia-500/15 px-3 py-1 text-[11px] font-black uppercase tracking-[0.22em] text-violet-100">
+                  <Calculator className="h-3.5 w-3.5" />
+                  {copy.kicker}
+                </div>
+                <h1 className="mt-5 max-w-3xl bg-gradient-to-r from-white via-violet-100 to-fuchsia-100 bg-clip-text text-4xl font-black leading-[1.02] tracking-tight text-transparent sm:text-5xl">
                   {copy.title}
                 </h1>
-                <p className="mt-5 max-w-2xl text-base leading-relaxed text-zinc-400 sm:text-lg">
+                <p className="mt-5 max-w-2xl text-base leading-relaxed text-zinc-300 sm:text-lg">
                   {copy.description}
                 </p>
 
@@ -662,14 +675,18 @@ export default function DesmosMasteryPage() {
                     onClick={() => {
                       window.dispatchEvent(new CustomEvent("open-desmos"));
                     }}
-                    className="group inline-flex items-center gap-2 rounded-xl bg-violet-600 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-violet-500"
+                    className="group inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-violet-600 to-fuchsia-600 px-6 py-3 text-sm font-black text-white shadow-[0_12px_32px_rgba(168,85,247,0.45)] transition-all duration-300 hover:shadow-[0_16px_40px_rgba(168,85,247,0.6)] hover:brightness-110 active:scale-[0.98]"
                   >
-                    <Calculator className="h-4 w-4" />
+                    <Calculator className="h-4 w-4 transition-transform group-hover:rotate-6" />
                     {copy.open}
                   </button>
-                  <span className="inline-flex items-center gap-2 rounded-xl border border-border bg-secondary/60 px-4 py-2.5 text-sm text-zinc-300">
-                    <Clock3 className="h-4 w-4 text-zinc-400" />
+                  <span className="inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white/[0.06] px-4 py-2.5 text-sm font-semibold text-zinc-300 backdrop-blur">
+                    <Clock3 className="h-4 w-4 text-sky-300" />
                     {copy.minutes}
+                  </span>
+                  <span className="inline-flex items-center gap-2 rounded-xl border border-emerald-400/30 bg-gradient-to-r from-emerald-500/15 to-teal-500/10 px-4 py-2.5 text-sm font-bold text-emerald-100">
+                    <Zap className="h-4 w-4 animate-flame-flicker" />
+                    {language === "ru" ? "Открой калькулятор — но оставь себе 5 секунд на проверку" : "Open the calculator — but keep 5 seconds for a check"}
                   </span>
                 </div>
                 <div className="mt-4">
@@ -682,7 +699,7 @@ export default function DesmosMasteryPage() {
           <section className="relative mx-auto mt-8 max-w-5xl space-y-5 px-4 sm:px-6 lg:px-8">
             {RECIPES.map((recipe, index) => (              <article
                 key={recipe.id}
-                className="group overflow-hidden rounded-2xl border border-border bg-card"
+                className="animate-float-up group overflow-hidden rounded-[1.75rem] border border-border/80 bg-gradient-to-br from-[#12121a] to-card/80 backdrop-blur-xl transition-all duration-500 hover:-translate-y-1 hover:border-violet-400/30 hover:shadow-[0_24px_64px_rgba(168,85,247,0.16)]"
                 style={{ animationDelay: `${index * 70}ms` }}
               >
                 <div className="border-b border-border px-6 py-5">
@@ -778,7 +795,7 @@ export default function DesmosMasteryPage() {
           <DesmosQuiz />
 
           <section className="relative mx-auto mt-8 max-w-5xl px-4 sm:px-6 lg:px-8">
-            <div className="rounded-2xl border border-border bg-card p-6">
+            <div className="rounded-[1.75rem] border border-border bg-card/70 p-6 backdrop-blur-xl">
               <div className="flex items-center gap-2">
                 <Keyboard className="h-5 w-5 text-sky-300" />
                 <h2 className="text-xl font-black text-foreground">{copy.shortcuts}</h2>
@@ -801,9 +818,12 @@ export default function DesmosMasteryPage() {
           </section>
 
           <section className="relative mx-auto mt-6 max-w-5xl px-4 sm:px-6 lg:px-8">
-            <div className="flex flex-col gap-4 rounded-2xl border border-border bg-card p-6 sm:flex-row sm:items-center sm:justify-between">
+            <div className="flex flex-col gap-4 rounded-[1.75rem] border border-violet-400/25 bg-violet-500/[0.08] p-6 sm:flex-row sm:items-center sm:justify-between">
               <div>
-                <h2 className="text-xl font-bold">{copy.practice}</h2>
+                <div className="flex items-center gap-2 text-violet-200">
+                  <Sparkles className="h-5 w-5" />
+                  <h2 className="text-xl font-black">{copy.practice}</h2>
+                </div>
                 <p className="mt-2 max-w-xl text-sm text-muted-foreground">{copy.practiceBody}</p>
               </div>
               <Link

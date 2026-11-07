@@ -84,8 +84,8 @@ export default function SiteHeader() {
   return (
     <header className="sticky top-0 z-50 w-full glass border-b">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 py-3 md:py-4 flex items-center justify-between gap-4">
-        <Link href="/" className="flex items-center gap-2 shrink-0">
-          <div className="w-8 h-8 bg-zinc-800 rounded-lg flex items-center justify-center text-zinc-100">
+        <Link href="/" className="flex items-center gap-2 group shrink-0">
+          <div className="w-8 h-8 bg-primary-600 rounded-lg flex items-center justify-center text-white shadow-lg shadow-primary-500/20 group-hover:scale-110 transition-transform">
             <Brain className="w-5 h-5" />
           </div>
           <span className="font-bold text-xl tracking-tight text-zinc-900 dark:text-zinc-100 hidden sm:inline-block">
@@ -102,10 +102,10 @@ export default function SiteHeader() {
                 key={item.href}
                 href={item.href}
                 className={cn(
-                  "flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-colors",
+                  "hover-glow flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-all",
                   active
-                    ? "text-zinc-100 bg-zinc-800"
-                    : "text-zinc-400 hover:text-zinc-100 hover:bg-zinc-800/70"
+                    ? "text-primary-700 bg-primary-50 shadow-sm shadow-primary-500/10 dark:bg-primary-900/20 dark:text-primary-300"
+                    : "text-zinc-600 hover:-translate-y-0.5 hover:text-primary-700 hover:bg-primary-50 dark:text-zinc-400 dark:hover:text-primary-300 dark:hover:bg-zinc-800"
                 )}
               >
                 {item.icon}
@@ -118,10 +118,10 @@ export default function SiteHeader() {
             <Link
               href="/admin"
               className={cn(
-                "flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-colors",
+                "hover-glow flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-all",
                 pathname.startsWith("/admin")
-                  ? "text-zinc-100 bg-zinc-800"
-                  : "text-zinc-400 hover:text-zinc-100 hover:bg-zinc-800/70"
+                  ? "text-primary-700 bg-primary-50 shadow-sm shadow-primary-500/10 dark:bg-primary-900/20 dark:text-primary-300"
+                  : "text-zinc-600 hover:-translate-y-0.5 hover:text-primary-700 hover:bg-primary-50 dark:text-zinc-400 dark:hover:text-primary-300 dark:hover:bg-zinc-800"
               )}
             >
               <LayoutDashboard className="w-4 h-4" />
@@ -165,7 +165,7 @@ export default function SiteHeader() {
             <div className="flex items-center gap-2">
               <Link
                 href="/login"
-                className="rounded-xl px-4 py-2 text-sm font-medium text-zinc-400 hover:text-zinc-100 hover:bg-zinc-800/70"
+                className="hover-glow rounded-xl px-4 py-2 text-sm font-medium text-zinc-600 hover:-translate-y-0.5 hover:bg-primary-50 hover:text-primary-700 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-primary-300"
               >
                 {text.login}
               </Link>
@@ -181,7 +181,7 @@ export default function SiteHeader() {
           <LanguageToggle language={language} setLanguage={setLanguage} />
           <button
             onClick={() => setMobileMenuOpen(true)}
-            className="rounded-xl p-2.5 text-zinc-400 hover:bg-zinc-800/70 hover:text-zinc-100"
+            className="hover-glow rounded-xl p-2.5 text-zinc-600 hover:bg-primary-50 hover:text-primary-700 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-primary-300"
             aria-label="Open menu"
           >
             <Menu className="w-6 h-6" />
@@ -216,7 +216,7 @@ export default function SiteHeader() {
           >
             <div className="flex items-center justify-between p-5 border-b border-zinc-100 dark:border-zinc-800">
               <Link href="/" className="flex items-center gap-2" onClick={() => setMobileMenuOpen(false)}>
-                <div className="w-8 h-8 bg-zinc-800 rounded-lg flex items-center justify-center text-zinc-100">
+                <div className="w-8 h-8 bg-primary-600 rounded-lg flex items-center justify-center text-white">
                   <Brain className="w-5 h-5" />
                 </div>
                 <span className="font-bold text-xl tracking-tight text-zinc-900 dark:text-zinc-100">
@@ -225,7 +225,7 @@ export default function SiteHeader() {
               </Link>
               <button
                 onClick={() => setMobileMenuOpen(false)}
-                className="rounded-xl p-2.5 text-zinc-400 hover:bg-zinc-800/70 hover:text-zinc-100"
+                className="hover-glow rounded-xl p-2.5 text-zinc-600 hover:bg-primary-50 hover:text-primary-700 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-primary-300"
                 aria-label="Close menu"
               >
                 <X className="w-6 h-6" />
@@ -360,10 +360,10 @@ function LanguageToggle({
             type="button"
             onClick={() => setLanguage(lang)}
             className={cn(
-              "rounded-lg px-2.5 py-1 text-xs font-bold transition-colors min-h-0 min-w-0",
+              "hover-glow rounded-lg px-2.5 py-1 text-xs font-bold uppercase tracking-[0.15em] transition-all min-h-0 min-w-0",
               active
-                ? "bg-zinc-100 text-zinc-900"
-                : "text-zinc-500 hover:bg-zinc-800 hover:text-zinc-100"
+                ? "bg-primary-600 text-white shadow-md shadow-primary-500/25"
+                : "text-zinc-500 hover:-translate-y-0.5 hover:bg-primary-50 hover:text-primary-700 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-primary-300"
             )}
           >
             {lang}
