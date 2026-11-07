@@ -16,7 +16,6 @@ import {
   Lightbulb,
   ListChecks,
   RotateCcw,
-  Sparkles,
   Target,
   TriangleAlert,
   X,
@@ -313,7 +312,7 @@ export default function LearnTopicPage() {
           strategy: "Стратегия",
           pitfalls: "Ловушки",
           practice: "Практика",
-          objectives: "Что освоишь",
+          objectives: "В этом уроке",
           minutes: "мин",
           questions: "вопросов",
           complete: "Отметить пройденной",
@@ -347,7 +346,7 @@ export default function LearnTopicPage() {
           strategy: "Strategy",
           pitfalls: "Traps",
           practice: "Practice",
-          objectives: "What you will master",
+          objectives: "In this lesson",
           minutes: "min",
           questions: "questions",
           complete: "Mark as complete",
@@ -411,12 +410,7 @@ export default function LearnTopicPage() {
       <div className="min-h-screen text-foreground">
         <SiteHeader />
 
-        <main className="relative overflow-hidden pb-24">
-          <div className="pointer-events-none absolute inset-0">
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_10%_0%,rgba(150,93,255,0.12),transparent_34%)]" />
-            <div className="absolute inset-0 subtle-grid opacity-[0.12]" />
-          </div>
-
+        <main className="relative pb-24">
           <section className="relative mx-auto max-w-6xl px-4 pt-8 sm:px-6 lg:px-8">
             <Link
               href={`/learn/${sectionId}`}
@@ -426,7 +420,7 @@ export default function LearnTopicPage() {
               {copy.back}
             </Link>
 
-            <div className="mt-5 rounded-[2rem] border border-border bg-card/80 p-7 backdrop-blur-xl sm:p-9">
+            <div className="mt-5 rounded-2xl border border-border bg-card p-7 sm:p-9">
               <div className="flex flex-wrap items-center gap-2">
                 <span
                   className={cn(
@@ -501,7 +495,7 @@ export default function LearnTopicPage() {
                   {topic.theory.map((block, index) => (
                     <div
                       key={index}
-                      className="rounded-2xl border border-border bg-card/70 p-5 backdrop-blur"
+                      className="rounded-xl border border-border bg-card p-5"
                     >
                       <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-muted-foreground">
                         {String(index + 1).padStart(2, "0")}
@@ -545,7 +539,7 @@ export default function LearnTopicPage() {
                     return (
                       <div
                         key={index}
-                        className="rounded-2xl border border-border bg-card/70 p-5 backdrop-blur"
+                        className="rounded-xl border border-border bg-card p-5"
                       >
                         <div className="flex items-center justify-between gap-3">
                           <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-muted-foreground">
@@ -643,7 +637,7 @@ export default function LearnTopicPage() {
                     {topic.desmos.map((recipe, recipeIndex) => (
                       <div
                         key={recipeIndex}
-                        className="overflow-hidden rounded-2xl border border-violet-400/25 bg-gradient-to-br from-violet-500/[0.09] to-card/70 backdrop-blur"
+                        className="overflow-hidden rounded-xl border border-border bg-card"
                       >
                         <div className="border-b border-violet-400/15 px-5 py-4">
                           <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-violet-300">
@@ -881,7 +875,7 @@ export default function LearnTopicPage() {
 
             <aside className="hidden lg:block">
               <div className="sticky top-24 space-y-3">
-                <div className="rounded-2xl border border-border bg-card/70 p-4 backdrop-blur">
+                <div className="rounded-xl border border-border bg-card p-4">
                   <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground">
                     {copy.overview}
                   </p>
@@ -899,7 +893,7 @@ export default function LearnTopicPage() {
                   </nav>
                 </div>
 
-                <div className="rounded-2xl border border-border bg-card/70 p-4 backdrop-blur">
+                <div className="rounded-xl border border-border bg-card p-4">
                   <div className="flex items-center justify-between text-xs font-semibold text-muted-foreground">
                     <span>
                       {copy.score}: {correctCount}/{topic.practice.length}
@@ -938,13 +932,10 @@ export default function LearnTopicPage() {
                   </button>
                 </div>
 
-                <div className="rounded-2xl border border-violet-400/20 bg-violet-500/[0.07] p-4">
-                  <div className="flex items-center gap-2 text-violet-200">
-                    <Sparkles className="h-4 w-4" />
-                    <p className="text-xs font-bold uppercase tracking-[0.16em]">
-                      {language === "ru" ? "Совет" : "Tip"}
-                    </p>
-                  </div>
+                <div className="rounded-xl border border-border bg-card p-4">
+                  <p className="text-xs font-medium text-muted-foreground">
+                    {language === "ru" ? "Совет" : "Tip"}
+                  </p>
                   <p className="mt-2 text-xs leading-relaxed text-muted-foreground">
                     {language === "ru"
                       ? "Сначала пройди Desmos-разбор, потом решай практику с открытым калькулятором — так быстрее вырабатывается привычка."

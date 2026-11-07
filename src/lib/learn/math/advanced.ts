@@ -760,7 +760,7 @@ export const ADVANCED_TOPICS: Topic[] = [
     theory: [
       {
         heading: text("Simplify like fractions, with a memory", "Упрощайте как дроби, но помните об ограничениях"),
-        body: text("Factor numerator and denominator first, then cancel common factors. Cancelling does not erase the original restriction: if x − 3 was in the denominator, x ≠ 3 still holds even after simplification. The SAT loves the trap of a simplified expression that looks defined everywhere.", "Сначала факторизуйте числитель и знаменатель, затем сокращайте общие множители. Сокращение не стирает исходное ограничение: если x − 3 был в знаменателе, условие x ≠ 3 сохраняется даже после упрощения. На SAT любят ловушку — упрощённое выражение, которое выглядит определённым везде."),
+        body: text("Factor numerator and denominator first, then cancel common factors. Cancelling does not remove the original restriction: if x − 3 was in the denominator, x ≠ 3 still holds after simplification, even though the simplified expression looks defined everywhere.", "Сначала факторизуйте числитель и знаменатель, затем сокращайте общие множители. Сокращение не убирает исходное ограничение: если x − 3 был в знаменателе, условие x ≠ 3 сохраняется после упрощения, хотя упрощённое выражение выглядит определённым везде."),
         formulas: ["(x²-9)/(x-3) = x+3, x ≠ 3", "excluded: denominator = 0"],
       },
       {

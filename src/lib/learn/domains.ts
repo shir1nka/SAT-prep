@@ -20,8 +20,8 @@ export const SECTIONS: Record<
     shortTitle: { en: "English", ru: "English" },
     kicker: { en: "Reading & Writing", ru: "Reading & Writing" },
     summary: {
-      en: "Every Reading and Writing question type, rebuilt as a short lesson: what the test asks, how to read the passage, and how to eliminate the traps.",
-      ru: "Все типы вопросов Reading and Writing в коротких уроках: что спрашивает тест, как читать пассаж и как убирать ловушки.",
+      en: "Every Reading and Writing question type in short lessons: what the test asks, how to read the passage, and which traps to drop.",
+      ru: "Все типы вопросов Reading and Writing в коротких уроках: что спрашивает тест, как читать пассаж и какие ловушки убирать.",
     },
     accent: "amber",
     examWeight: { en: "2 modules · 66 questions", ru: "2 модуля · 66 вопросов" },
@@ -32,8 +32,8 @@ export const SECTIONS: Record<
     shortTitle: { en: "Math", ru: "Math" },
     kicker: { en: "Desmos-first", ru: "Desmos-first" },
     summary: {
-      en: "All four math domains with a Desmos playbook on every topic: type this, see the answer, move on in seconds.",
-      ru: "Все четыре домена математики с Desmos-разбором в каждой теме: ввёл выражение — увидел ответ — пошёл дальше.",
+      en: "All four math domains, with Desmos steps in each topic: what to type, what to click, what to read.",
+      ru: "Все четыре домена математики, в каждой теме — шаги с Desmos: что ввести, на что нажать, что прочитать.",
     },
     accent: "violet",
     examWeight: { en: "2 modules · 54 questions", ru: "2 модуля · 54 вопроса" },
@@ -48,8 +48,8 @@ export const DOMAINS: LearnDomain[] = [
     title: { en: "Information and Ideas", ru: "Информация и идеи" },
     shortTitle: { en: "Information", ru: "Информация" },
     summary: {
-      en: "Central ideas, details, evidence, and inferences — what the passage actually says.",
-      ru: "Главная мысль, детали, доказательства и выводы — что реально сказано в тексте.",
+      en: "Central ideas, details, evidence, and inferences. What the passage actually says.",
+      ru: "Главная мысль, детали, доказательства и выводы. Что реально сказано в тексте.",
     },
     accent: "sky",
   },
@@ -60,7 +60,7 @@ export const DOMAINS: LearnDomain[] = [
     title: { en: "Craft and Structure", ru: "Структура и стиль" },
     shortTitle: { en: "Craft", ru: "Структура" },
     summary: {
-      en: "Words in context, text structure, purpose, and cross-text connections.",
+      en: "Words in context, text structure, purpose, and links between texts.",
       ru: "Слова в контексте, структура текста, цель автора и связи между текстами.",
     },
     accent: "violet",
@@ -72,8 +72,8 @@ export const DOMAINS: LearnDomain[] = [
     title: { en: "Expression of Ideas", ru: "Выражение мыслей" },
     shortTitle: { en: "Expression", ru: "Выражение" },
     summary: {
-      en: "Transitions and rhetorical synthesis — make the paragraph do its job.",
-      ru: "Переходы и rhetorical synthesis — заставь абзац работать.",
+      en: "Transitions and rhetorical synthesis. Each paragraph should do its job.",
+      ru: "Переходы и rhetorical synthesis. Каждый абзац должен выполнять свою задачу.",
     },
     accent: "amber",
   },

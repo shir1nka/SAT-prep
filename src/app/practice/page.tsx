@@ -159,31 +159,31 @@ export default function PracticePage() {
           setupEyebrow: "SAT practice",
           setupTitle: "Выбери секцию, формат и сложность",
           setupDescription:
-            "Сначала выбираешь нужную часть SAT, потом режим, а затем уровень: легко, средне или сложно. Так практика и тесты становятся действительно под твой уровень.",
+            "Секция: English или математика. Формат: тренировка с объяснениями или тест с таймером. Сложность: легко, средне или сложно.",
           sectionTitle: "Секция SAT",
-          modeTitle: "Формат прохождения",
+          modeTitle: "Формат",
           difficultyTitle: "Сложность",
           readingWriting: "Reading & Writing",
           readingWritingDescription:
-            "Тексты, логика, грамматика и работа с аргументацией.",
+            "Тексты, грамматика и аргументация.",
           math: "Math",
           mathDescription:
-            "Алгебра, уравнения, графики, проценты, геометрия и прикладные задачи.",
+            "Алгебра, уравнения, графики, проценты, геометрия.",
           training: "Тренировка",
           trainingDescription:
             "Без таймера. После ответа сразу видно правильный вариант и объяснение.",
-          test: "Реальный тест",
+          test: "Тест с таймером",
           testDescription:
-            "Таймер, полный набор вопросов по выбранной секции и никакой помощи до финиша.",
+            "Полная секция по таймеру. Объяснения только в конце.",
           easy: "Легко",
           easyDescription:
-            "Больше прямых вопросов, меньше многошаговых ловушек и проще вход в темп.",
+            "Прямые вопросы, меньше шагов.",
           medium: "Средне",
           mediumDescription:
-            "Сбалансированный SAT-поток: нормальная сложность без перекоса в обе стороны.",
+            "Обычный уровень SAT.",
           hard: "Сложно",
           hardDescription:
-            "Самые жёсткие SAT-style задачи: плотные формулировки, тяжёлые отвлекающие варианты и многошаговые решения.",
+            "Плотные формулировки и длинные решения.",
           quickFeedback: "Мгновенная обратная связь",
           fullSection: "Полная секция SAT",
           noTimer: "Без таймера",
@@ -250,31 +250,31 @@ export default function PracticePage() {
           setupEyebrow: "SAT practice",
           setupTitle: "Choose a section, mode, and difficulty",
           setupDescription:
-            "Pick the SAT section you want, then choose the mode and the level: easy, medium, or hard. That way both practice and tests match the pressure you want.",
+            "Section: English or math. Mode: practice with explanations, or a timed test. Difficulty: easy, medium, or hard.",
           sectionTitle: "SAT section",
-          modeTitle: "Session mode",
+          modeTitle: "Mode",
           difficultyTitle: "Difficulty",
           readingWriting: "Reading & Writing",
           readingWritingDescription:
-            "Passages, grammar, rhetoric, and evidence-based reasoning.",
+            "Passages, grammar, and arguments.",
           math: "Math",
           mathDescription:
-            "Algebra, equations, graphs, percentages, geometry, and applied problem solving.",
+            "Algebra, equations, graphs, percentages, geometry.",
           training: "Training",
           trainingDescription:
-            "No timer. After each answer you can immediately see the correct choice and explanation.",
-          test: "Real test",
+            "No timer. After each answer you see the right choice and the explanation.",
+          test: "Timed test",
           testDescription:
-            "Timed, full section length, and no hints or explanations until you finish.",
+            "A full section on a timer. Explanations only at the end.",
           easy: "Easy",
           easyDescription:
-            "More direct questions, fewer traps, and a smoother way to build confidence.",
+            "Straightforward questions, fewer steps.",
           medium: "Medium",
           mediumDescription:
-            "A balanced SAT flow with normal pressure and no strong bias either way.",
+            "A normal SAT level.",
           hard: "Hard",
           hardDescription:
-            "The toughest SAT-style items with dense wording, sharper distractors, and longer multi-step reasoning.",
+            "Dense wording and longer solutions.",
           quickFeedback: "Instant feedback",
           fullSection: "Full SAT section",
           noTimer: "No timer",

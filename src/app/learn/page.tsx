@@ -10,7 +10,6 @@ import {
   CheckCircle2,
   GraduationCap,
   Layers3,
-  Sparkles,
   Target,
   Zap,
 } from "lucide-react";
@@ -52,9 +51,9 @@ export default function LearnPage() {
           open: "Открыть секцию",
           progress: "пройдено",
           domains: "домены",
-          desmosTitle: "Desmos Mastery",
+          desmosTitle: "Desmos в математике",
           desmosBody:
-            "Отдельный блок про калькулятор: как строить, находить пересечения, корни, таблицы, слайдеры и линию регрессии. С кнопкой «Открыть в Desmos» в каждом шаге.",
+            "Что ввести, на что нажать и что прочитать. Пересечения, корни, таблицы, слайдеры, регрессия и неравенства. Каждый шаг открывается в Desmos в один клик.",
           desmosCta: "Открыть Desmos-блок",
           bankTitle: `Банк вопросов · ${QUESTION_BANK_TOTAL}`,
           bankBody:
@@ -92,9 +91,9 @@ export default function LearnPage() {
           open: "Open section",
           progress: "complete",
           domains: "domains",
-          desmosTitle: "Desmos Mastery",
+          desmosTitle: "Desmos for math",
           desmosBody:
-            "A dedicated calculator track: graphing, intersections, roots, tables, sliders, and regression. Every step has an “Open in Desmos” button.",
+            "What to type, what to click, and what to read. Intersections, roots, tables, sliders, regression, and inequalities. Each step can be opened in Desmos with one click.",
           desmosCta: "Open the Desmos track",
           bankTitle: `Question bank · ${QUESTION_BANK_TOTAL}`,
           bankBody:
@@ -131,20 +130,10 @@ export default function LearnPage() {
     <div className="min-h-screen text-foreground">
       <SiteHeader />
 
-      <main className="relative overflow-hidden pb-24">
-        <div className="pointer-events-none absolute inset-0">
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_15%_0%,rgba(150,93,255,0.16),transparent_38%),radial-gradient(circle_at_85%_10%,rgba(56,189,248,0.10),transparent_35%)]" />
-          <div className="absolute inset-0 subtle-grid opacity-[0.16]" />
-        </div>
-
+      <main className="relative pb-24">
         <section className="relative mx-auto max-w-6xl px-4 pt-12 sm:px-6 lg:px-8 lg:pt-16">
-          <div className="rounded-[2rem] border border-border bg-card/80 p-7 backdrop-blur-xl sm:p-10">
-            <div className="inline-flex items-center gap-2 rounded-full border border-violet-400/25 bg-violet-500/10 px-3 py-1 text-[11px] font-bold uppercase tracking-[0.22em] text-violet-300">
-              <Sparkles className="h-3.5 w-3.5" />
-              {copy.kicker}
-            </div>
-
-            <h1 className="mt-5 max-w-3xl bg-gradient-to-r from-white via-violet-100 to-fuchsia-100 bg-clip-text text-4xl font-black leading-[1.02] tracking-tight text-transparent sm:text-5xl lg:text-6xl">
+          <div className="rounded-2xl border border-border bg-card p-7 sm:p-10">
+            <h1 className="mt-2 max-w-3xl text-4xl font-bold leading-[1.05] tracking-tight text-foreground sm:text-5xl">
               {copy.title}
             </h1>
             <p className="mt-5 max-w-2xl text-base leading-relaxed text-zinc-400 sm:text-lg">
@@ -161,7 +150,7 @@ export default function LearnPage() {
               ].map((item, i) => (
                 <div
                   key={item.label}
-                  className={`group flex items-center gap-3 rounded-2xl border border-border/80 bg-gradient-to-br ${item.grad} p-4 backdrop-blur transition-all duration-300 hover:-translate-y-0.5 hover:border-violet-400/30 hover:shadow-[0_12px_32px_rgba(168,85,247,0.18)]`}
+                  className={`group flex items-center gap-3 rounded-xl border border-border bg-secondary/40 p-4`}
                   style={{ animationDelay: `${i * 80}ms` }}
                 >
                   <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/10 ring-1 ring-white/10">
@@ -192,8 +181,7 @@ export default function LearnPage() {
                   key={sectionId}
                   href={`/learn/${sectionId}`}
                   className={cn(
-                    "group relative flex flex-col overflow-hidden rounded-[2rem] border border-border bg-card/80 p-7 backdrop-blur-xl transition-all hover:-translate-y-1",
-                    accent.glow
+                    "group relative flex flex-col overflow-hidden rounded-2xl border border-border bg-card p-7",
                   )}
                 >
                   <div className={cn("absolute inset-x-0 top-0 h-px", accent.bg)} />
@@ -286,7 +274,7 @@ export default function LearnPage() {
         <section className="relative mx-auto mt-6 grid max-w-6xl gap-5 px-4 sm:px-6 lg:grid-cols-[1.2fr_0.8fr] lg:px-8">
           <Link
             href="/learn/math/desmos"
-            className="group relative overflow-hidden rounded-[2rem] border border-violet-400/25 bg-gradient-to-br from-violet-600/20 via-card to-card p-7 transition-all hover:-translate-y-1 hover:border-violet-300/40"
+            className="group relative overflow-hidden rounded-2xl border border-border bg-card p-7"
           >
             <div className="flex items-center gap-3">
               <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-violet-500/20 text-violet-200">
@@ -319,7 +307,7 @@ export default function LearnPage() {
 
           <Link
             href="/learn/math/bank"
-            className="group relative overflow-hidden rounded-[2rem] border border-border bg-card/80 p-7 backdrop-blur-xl transition-all hover:-translate-y-1 hover:border-emerald-400/30"
+            className="group relative overflow-hidden rounded-2xl border border-border bg-card p-7"
           >
             <div className="flex items-center gap-3">
               <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-emerald-500/10 text-emerald-300">
@@ -336,12 +324,11 @@ export default function LearnPage() {
 
           <Link
             href="/learn/real"
-            className="group relative overflow-hidden rounded-[2rem] border border-emerald-400/25 bg-gradient-to-br from-emerald-600/20 via-card to-card p-7 backdrop-blur-xl transition-all hover:-translate-y-1 hover:border-emerald-300/50 hover:shadow-[0_20px_50px_rgba(16,185,129,0.18)] lg:col-span-2"
+            className="group relative overflow-hidden rounded-2xl border border-border bg-card p-7 lg:col-span-2"
           >
-            <div className="pointer-events-none absolute -right-10 -top-10 h-40 w-40 rounded-full bg-emerald-500/20 blur-3xl" />
             <div className="relative flex flex-wrap items-start justify-between gap-4">
               <div className="flex items-center gap-3">
-                <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-500 text-white shadow-[0_10px_28px_rgba(16,185,129,0.4)]">
+                <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-zinc-800 text-zinc-200">
                   <Beaker className="h-5 w-5" />
                 </span>
                 <div>
@@ -371,8 +358,8 @@ export default function LearnPage() {
         </section>
 
         <section className="relative mx-auto mt-10 max-w-6xl px-4 sm:px-6 lg:px-8">
-          <div className="rounded-[2rem] border border-border bg-card/60 p-7 backdrop-blur-xl">
-            <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-[0.22em] text-muted-foreground">
+          <div className="rounded-2xl border border-border bg-card p-7">
+            <div className="flex items-center gap-2 text-xs font-medium text-muted-foreground">
               <Zap className="h-4 w-4 text-amber-300" />
               {copy.howTitle}
             </div>
