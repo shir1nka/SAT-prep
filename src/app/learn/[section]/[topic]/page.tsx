@@ -24,6 +24,7 @@ import {
 
 import { DesmosProvider, OpenInDesmos } from "@/components/learn/Desmos";
 import { XpBar } from "@/components/learn/XpBar";
+import TopicDiagram from "@/components/learn/TopicDiagram";
 import MathText from "@/components/MathText";
 import SiteHeader from "@/components/SiteHeader";
 import { useLanguage } from "@/lib/language-context";
@@ -495,6 +496,7 @@ export default function LearnTopicPage() {
 
           <div className="relative mx-auto mt-6 grid max-w-6xl gap-6 px-4 sm:px-6 lg:grid-cols-[minmax(0,1fr)_260px] lg:px-8">
             <div className="space-y-8">
+              <TopicDiagram topicId={topic.id} section={sectionId} language={language} />
               <section id="theory" className="scroll-mt-24">
                 <div className="flex items-center gap-2">
                   <BookOpen className="h-5 w-5 text-violet-300" />
