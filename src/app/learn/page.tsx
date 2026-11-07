@@ -9,6 +9,7 @@ import {
   Calculator,
   CheckCircle2,
   GraduationCap,
+  Languages,
   Layers3,
   Lightbulb,
   MessageSquare,
@@ -356,6 +357,37 @@ export default function LearnPage() {
             <p className="mt-4 text-sm leading-relaxed text-muted-foreground">{copy.bankBody}</p>
             <div className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-emerald-200">
               {copy.bankCta}
+              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+            </div>
+          </Link>
+
+          <Link
+            href="/learn/terms"
+            className="group relative overflow-hidden rounded-[2rem] border border-amber-400/25 bg-gradient-to-br from-amber-600/20 via-card to-card p-7 backdrop-blur-xl transition-all hover:-translate-y-1 hover:border-amber-300/40 lg:col-span-2"
+          >
+            <div className="flex items-center gap-3">
+              <span className="animate-float-slow flex h-11 w-11 items-center justify-center rounded-2xl bg-amber-500/20 text-amber-200">
+                <Languages className="h-5 w-5" />
+              </span>
+              <div>
+                <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-amber-300">{language === "ru" ? "Термины SAT" : "SAT Terms"}</p>
+                <h3 className="text-2xl font-black text-foreground">{language === "ru" ? "Термин, перевод и обозначение" : "Term, translation, and notation"}</h3>
+              </div>
+            </div>
+            <p className="mt-4 max-w-xl text-sm leading-relaxed text-muted-foreground">
+              {language === "ru"
+                ? "Все ключевые термины English и Math: английский термин, перевод на русский, короткое обозначение (формула или аббревиатура) и объяснение на двух языках. Поиск по названию, переводу или формуле."
+                : "Every key English and math term: the English term, its Russian translation, a short notation (formula or abbreviation), and a meaning in both languages. Search by name, translation, or formula."}
+            </p>
+            <div className="mt-5 flex flex-wrap gap-2 text-[11px] font-semibold text-amber-200">
+              {["slope", "intercept", "inference", "rhetoric", "Desmos", "median"].map((item) => (
+                <span key={item} className="rounded-full border border-amber-400/25 bg-amber-500/10 px-2.5 py-1">
+                  {item}
+                </span>
+              ))}
+            </div>
+            <div className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-amber-200">
+              {language === "ru" ? "Открыть термины" : "Open terms"}
               <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
             </div>
           </Link>
